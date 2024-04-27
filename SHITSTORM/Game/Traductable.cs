@@ -1,9 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 namespace _UTIL_
 {
+    public enum Languages : byte
+    {
+        English,
+        French,
+        _last_,
+    }
+
+    [Serializable]
+    public struct Traductions
+    {
+        public string[] values;
+    }
+
     public class Traductable : MonoBehaviour
     {
         static readonly HashSet<Traductable> selves = new();
