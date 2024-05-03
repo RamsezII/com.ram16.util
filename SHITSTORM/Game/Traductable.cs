@@ -15,20 +15,24 @@ namespace _UTIL_
     [Serializable]
     public struct Traductions
     {
-        public string[] values;
+        public string english, french;
     }
 
     public class Traductable : MonoBehaviour
     {
         static readonly HashSet<Traductable> selves = new();
-        public static bool fran_b;
+        public static Languages language;
 
-        [SerializeField] string francais, english;
+        [Obsolete, SerializeField] string francais, english;
+        [SerializeField] Traductions traductions;
 
         //----------------------------------------------------------------------------------------------------------
 
         private void Awake()
         {
+            if (!string.IsNullOrWhiteSpace(francais) || !string.IsNullOrEmpty(english))
+                traductions = new Traductions { english = english, french = francais };
+
             selves.Add(this);
             Refresh();
         }
@@ -37,31 +41,43 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public static void Toggle(in bool francais_b)
+        public static Languages GetSystemLanguage() => Application.systemLanguage switch
         {
-            fran_b = francais_b;
+            SystemLanguage.French => Languages.French,
+            _ => Languages.English,
+        };
+
+        [Obsolete]
+        public static void Toggle(in bool fran_b) => SetLanguage(fran_b ? Languages.French : Languages.English);
+        public static void SetLanguage(in Languages language)
+        {
+            Traductable.language = language;
             foreach (Traductable self in selves)
                 self.Refresh();
         }
 
         void Refresh()
         {
-            string text = fran_b ? francais : english;
+            string text = language switch
+            {
+                Languages.English => traductions.english,
+                Languages.French => traductions.french,
+                _ => throw new ArgumentOutOfRangeException(),
+            };
+
             foreach (TextMeshProUGUI tmp in GetComponentsInChildren<TextMeshProUGUI>(true))
                 tmp.text = text;
         }
 
-        public void SetTrads(in string text)
+        public void SetTrads(in Traductions traductions)
         {
-            francais = english = text;
+            this.traductions = traductions;
             Refresh();
         }
 
-        public void SetTrads(in string fr, in string en)
-        {
-            francais = fr;
-            english = en;
-            Refresh();
-        }
+        public void SetTrad(in string text) => SetTrads(new Traductions { english = text, french = text });
+
+        [Obsolete]
+        public void SetTrads_old(in string fr, in string en) => SetTrads(new Traductions { english = en, french = fr });
     }
 }

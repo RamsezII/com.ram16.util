@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace _UTIL_
 {
+    [Obsolete]
     public static partial class Typing
     {
         //http://digitalnativestudios.com/textmeshpro/docs/rich-text/
