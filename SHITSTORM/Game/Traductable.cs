@@ -72,6 +72,8 @@ namespace _UTIL_
         public void SetTrads(in Traductions traductions)
         {
             this.traductions = traductions;
+            francais = traductions.french;
+            english = traductions.english;
             Refresh();
         }
 
