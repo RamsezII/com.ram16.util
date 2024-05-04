@@ -47,8 +47,6 @@ namespace _UTIL_
             _ => Languages.English,
         };
 
-        [Obsolete]
-        public static void Toggle(in bool fran_b) => SetLanguage(fran_b ? Languages.French : Languages.English);
         public static void SetLanguage(in Languages language)
         {
             Traductable.language = language;
