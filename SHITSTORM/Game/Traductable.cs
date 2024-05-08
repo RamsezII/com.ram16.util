@@ -63,6 +63,9 @@ namespace _UTIL_
                 _ => throw new ArgumentOutOfRangeException(),
             };
 
+            if (string.IsNullOrWhiteSpace(text))
+                text = traductions.english;
+
             foreach (TextMeshProUGUI tmp in GetComponentsInChildren<TextMeshProUGUI>(true))
                 tmp.text = text;
         }
@@ -70,8 +73,6 @@ namespace _UTIL_
         public void SetTrads(in Traductions traductions)
         {
             this.traductions = traductions;
-            francais = traductions.french;
-            english = traductions.english;
             Refresh();
         }
 
