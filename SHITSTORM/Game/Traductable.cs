@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -47,6 +47,16 @@ namespace _UTIL_
             _ => Languages.English,
         };
 
+        public IEnumerable<TextMeshProUGUI> AllTmps()
+        {
+            if (TryGetComponent(out TextMeshProUGUI tmp))
+                yield return tmp;
+            else
+                for (int i = 0; i < transform.childCount; i++)
+                    if (transform.GetChild(i).TryGetComponent(out tmp))
+                        yield return tmp;
+        }
+
         public static void SetLanguage(in Languages language)
         {
             Traductable.language = language;
@@ -66,7 +76,7 @@ namespace _UTIL_
             if (string.IsNullOrWhiteSpace(text))
                 text = traductions.english;
 
-            foreach (TextMeshProUGUI tmp in GetComponentsInChildren<TextMeshProUGUI>(true))
+            foreach (TextMeshProUGUI tmp in AllTmps())
                 tmp.text = text;
         }
 
