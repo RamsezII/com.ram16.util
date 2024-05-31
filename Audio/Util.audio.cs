@@ -10,4 +10,10 @@ public static partial class Util
         value = Mathf.Pow(10, value / 20);
         return res;
     }
+
+    public static void PlayRandom(this AudioSource source, in AudioClip[] clips)
+    {
+        source.clip = clips[Random.Range(0, clips.Length)];
+        source.Play();
+    }
 }

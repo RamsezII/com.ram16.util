@@ -69,7 +69,14 @@ public abstract class JSon
         else
         {
             if (logError)
-                Debug.LogError("can not read or find file at path: " + filepath);
+            {
+                string message = $"can not read or find file at path: {filepath}";
+                if (force)
+                    Debug.LogWarning(message);
+                else
+                    Debug.LogError(message);
+            }
+
             if (force)
                 json.Save(filepath);
             return false;

@@ -5,35 +5,25 @@ namespace _UTIL_
     public class Disposable : IDisposable
     {
         public Action onDispose;
-        bool disposed;
-
-        //----------------------------------------------------------------------------------------------------------
-
-        public Disposable(in Action onDispose)
-        {
-            this.onDispose = onDispose;
-            disposed = false;
-        }
-
-        //----------------------------------------------------------------------------------------------------------
-
-        public bool Disposed()
-        {
-            lock (this)
-                return disposed;
-        }
+        readonly ThreadSafe<bool> disposed = new();
 
         //----------------------------------------------------------------------------------------------------------
 
         public void Dispose()
         {
-            lock (this)
-                if (!disposed)
-                {
-                    disposed = true;
-                    onDispose?.Invoke();
-                    onDispose = null;
-                }
+            lock (disposed)
+            {
+                if (disposed._value)
+                    return;
+                disposed._value = true;
+            }
+            OnDispose();
+            onDispose?.Invoke();
+            onDispose = null;
+        }
+
+        protected virtual void OnDispose()
+        {
         }
     }
 }
