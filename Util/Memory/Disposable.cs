@@ -5,7 +5,7 @@ namespace _UTIL_
     public class Disposable : IDisposable
     {
         public Action onDispose;
-        readonly ThreadSafe<bool> disposed = new();
+        public readonly ThreadSafe<bool> disposed = new();
 
         //----------------------------------------------------------------------------------------------------------
 
