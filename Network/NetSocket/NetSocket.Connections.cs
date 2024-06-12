@@ -24,8 +24,8 @@ namespace _UTIL_
         public NetConnection ToConnection(in BinaryReader reader, in bool keepAlive)
         {
             IPEndPoint 
-                localEnd = reader.ReadIpEnd(),
-                publicEnd = reader.ReadIpEnd(),
+                localEnd = reader.ReadIPEnd(),
+                publicEnd = reader.ReadIPEnd(),
                 localizedEnd;
 
             if (selfConn.publicEnd == null || publicEnd.Address.Equals(selfConn.publicEnd.Address))

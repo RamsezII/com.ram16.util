@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Text;
 using UnityEngine;
@@ -13,6 +14,21 @@ public static partial class Util
         ushort pos = (ushort)writer.BaseStream.Position;
         writer.BaseStream.Position = 0;
         return writer.GetBuffer()[..pos];
+    }
+
+    public static void LengthPrefixedWrite(this BinaryWriter writer, in Action<BinaryWriter> onWriter)
+    {
+        lock (writer.BaseStream)
+        {
+            ushort pos1 = (ushort)writer.BaseStream.Position;
+            writer.Write((ushort)0);
+            onWriter(writer);
+            ushort pos2 = (ushort)writer.BaseStream.Position;
+            ushort length = (ushort)(pos2 - pos1 - sizeof(ushort));
+            writer.BaseStream.Position = pos1;
+            writer.Write(length);
+            writer.BaseStream.Position = pos2;
+        }
     }
 
     public static void StartPrefixedWrite(this BinaryWriter writer, out ushort prefixePos)

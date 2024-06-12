@@ -4,7 +4,6 @@ using UnityEngine;
 
 public static partial class Util_net
 {
-
     public static bool TryDownloadFile(this BinaryReader reader, in string savePath, in bool log, out FileInfo savedFile, in Action<string> onProgression)
     {
         uint fileSize = reader.ReadUInt32(), remaining = fileSize;

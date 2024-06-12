@@ -4,11 +4,10 @@ using System.IO;
 public static partial class Util
 {
     public static readonly string
-        APP_PATH = Directory.GetCurrentDirectory(),
-        HOME_PATH = Path.Combine(APP_PATH, "Home");
+        app_path = Directory.GetCurrentDirectory(),
+        home_path = Path.Combine(app_path, "Home");
 
-    public readonly static DirectoryInfo APP_DIR = new(APP_PATH);
-    public static DirectoryInfo HOME_DIR => HOME_PATH.GetDir(true);
+    public static DirectoryInfo HOME_DIR => home_path.GetDir(true);
 
     //----------------------------------------------------------------------------------------------------------
 

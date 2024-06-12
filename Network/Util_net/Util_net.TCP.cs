@@ -3,7 +3,6 @@ using System.Net.Sockets;
 using System.Text;
 using System;
 using UnityEngine;
-using System.Threading.Tasks;
 
 public static partial class Util_net
 {
@@ -11,9 +10,8 @@ public static partial class Util_net
 
     //----------------------------------------------------------------------------------------------------------
 
-    public static void TryOpenParagonTCP(Action<TcpClient, BinaryWriter, BinaryReader> onCommunication, bool logs = true, Action onError = null) => TryOpenSocketTCP_async(DOMAIN_3VE, PORT_PARAGON, onCommunication, logs, onError);
-    public static void TryOpenSocketTCP_async(string host, ushort port, Action<TcpClient, BinaryWriter, BinaryReader> onCommunication, bool logs = true, Action onError = null) => Task.Run(() => TryOpenSocketTCP_sync(host, port, onCommunication, logs, onError));
-    public static void TryOpenSocketTCP_sync(in string host, in ushort port, in Action<TcpClient, BinaryWriter, BinaryReader> onCommunication, bool log = true, in Action onError = null)
+    public static void TryTCP_paragon(Action<TcpClient, BinaryWriter, BinaryReader> onCommunication, bool logs = true, Action onError = null) => TryTCP(DOMAIN_3VE, PORT_PARAGON, onCommunication, logs, onError);
+    public static void TryTCP(in string host, in ushort port, in Action<TcpClient, BinaryWriter, BinaryReader> onCommunication, bool log = true, in Action onError = null)
     {
         string endPoint = $"{{ {host}:{port} }}";
 

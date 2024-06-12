@@ -49,5 +49,5 @@ public static partial class Util
 
     public static Quaternion ReadQ_4f32(this BinaryReader reader) => new Quaternion(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()).normalized;
 
-    public static IPEndPoint ReadIpEnd(this BinaryReader reader) => new(reader.ReadUInt32(), reader.ReadUInt16());
+    public static IPEndPoint ReadIPEnd(this BinaryReader reader) => new(reader.ReadUInt32(), reader.ReadUInt16());
 }

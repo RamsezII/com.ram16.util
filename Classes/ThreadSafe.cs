@@ -1,7 +1,9 @@
 ﻿using _UTIL_;
+using System;
 
 namespace _UTIL_
 {
+    [Serializable]
     public class ThreadSafe<T>
     {
         public T _value;
