@@ -6,8 +6,7 @@ namespace _UTIL_
     public class OnValue<T>
     {
         public bool changed;
-        public T _value;
-        public T old;
+        public T _value, old;
         public Action<T> onChange, onUpdate, afterChange;
 
         //------------------------------------------------------------------------------------------------------------------------------
@@ -34,7 +33,6 @@ namespace _UTIL_
                 lock (this)
                     return _value;
             }
-
             set
             {
                 lock (this)
@@ -57,23 +55,7 @@ namespace _UTIL_
         [Obsolete("Use " + nameof(Value) + " instead")]
         public virtual bool Update(in T value)
         {
-            if (value == null)
-                changed = _value != null;
-            else if (_value == null)
-                changed = true;
-            else
-                changed = !value.Equals(_value);
-
-            if (changed)
-                onChange?.Invoke(value);
-
-            onUpdate?.Invoke(value);
-            old = _value;
-            _value = value;
-
-            if (changed)
-                afterChange?.Invoke(value);
-
+            Value = value;
             return changed;
         }
 

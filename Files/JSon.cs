@@ -16,7 +16,7 @@ public abstract class JSon
     public void Save(in string filepath, in bool log, in FileAttributes attributes = FileAttributes.Normal)
     {
         OnSave();
-        Save(filepath, JsonUtility.ToJson(this, true), false, attributes);
+        Save(filepath, JsonUtility.ToJson(this, true), log, attributes);
     }
 
     public static void Save(in string filepath, in string text, in bool log, in FileAttributes attributes)

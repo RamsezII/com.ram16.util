@@ -6,6 +6,7 @@ namespace _UTIL_
     {
         public Action onDispose;
         public readonly ThreadSafe<bool> disposed = new();
+        public bool Disposed => disposed.Value;
 
         //----------------------------------------------------------------------------------------------------------
 
