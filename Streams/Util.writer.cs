@@ -16,18 +16,29 @@ public static partial class Util
         return writer.GetBuffer()[..pos];
     }
 
-    public static void LengthPrefixedWrite(this BinaryWriter writer, in Action<BinaryWriter> onWriter)
+    public static bool LengthPrefixedWrite(this BinaryWriter writer, in Action<BinaryWriter> onWriter)
     {
-        lock (writer.BaseStream)
+        ushort len1 = (ushort)writer.BaseStream.Length;
+        ushort pos1 = (ushort)writer.BaseStream.Position;
+        writer.Write((ushort)0);
+
+        onWriter(writer);
+
+        ushort pos2 = (ushort)writer.BaseStream.Position;
+        ushort length = (ushort)(pos2 - pos1 - sizeof(ushort));
+
+        if (length == 0)
         {
-            ushort pos1 = (ushort)writer.BaseStream.Position;
-            writer.Write((ushort)0);
-            onWriter(writer);
-            ushort pos2 = (ushort)writer.BaseStream.Position;
-            ushort length = (ushort)(pos2 - pos1 - sizeof(ushort));
+            writer.BaseStream.Position = pos1;
+            writer.BaseStream.SetLength(len1);
+            return false;
+        }
+        else
+        {
             writer.BaseStream.Position = pos1;
             writer.Write(length);
             writer.BaseStream.Position = pos2;
+            return true;
         }
     }
 
