@@ -29,7 +29,8 @@ public abstract class JSon
         File.WriteAllText(filepath, text);
         File.SetAttributes(filepath, attributes);
 
-        Debug.Log($"{nameof(JSon)}.{nameof(Save)}: {filepath}".ToSubLog());
+        if (log)
+            Debug.Log($"{nameof(JSon)}.{nameof(Save)}: {filepath}".ToSubLog());
     }
 
     public virtual void OnRead()
