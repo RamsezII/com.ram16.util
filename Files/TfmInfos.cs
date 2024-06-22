@@ -11,14 +11,7 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public TfmInfos(in string path, in Vector3 position, in Vector3 eulers, in Vector3 scale)
-        {
-            this.path = path;
-            this.position = position;
-            this.eulers = eulers;
-            this.scale = scale;
-        }
-
+        public TfmInfos(in Transform transform) : this(transform, transform.root) { }
         public TfmInfos(in Transform transform, in Transform root)
         {
             path = transform.GetPath(root);
@@ -26,14 +19,22 @@ namespace _UTIL_
             eulers = transform.localEulerAngles;
             scale = transform.localScale;
         }
-        
+
         //----------------------------------------------------------------------------------------------------------
 
-        public Transform Apply(in Transform root)
+        public readonly Transform TryForceFindTransform(in Transform root, in bool logError = false)
         {
-            Transform transform = root.ForceFind(path);
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                if (logError)
+                    Debug.LogError($"{GetType().FullName}.{nameof(TryForceFindTransform)}() {nameof(path)} is null or empty.");
+                return null;
+            }
+
+            Transform transform = root == null ? path.ForceFindTransform() : root.ForceFind(path);
             transform.SetLocalPositionAndRotation(position, Quaternion.Euler(eulers));
             transform.localScale = scale;
+
             return transform;
         }
     }

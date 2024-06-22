@@ -35,40 +35,38 @@ public static partial class Util
             Destroy(T.gameObject);
     }
 
-    public static Transform ForceFind(this Transform parent, in string path)
+    public static Transform ForceFindTransform(this string path)
     {
-        Transform tfm = parent.Find(path);
-        if (tfm == null)
-            return ForceFind(parent, path.Split('/'));
+        string[] splits = path.Split('/');
+        Transform root;
+
+        GameObject go = GameObject.Find(splits[0]);
+        if (go == null)
+            root = new GameObject(splits[0]).transform;
         else
-            return tfm;
+            root = go.transform;
+
+        if (splits.Length == 1)
+            return root;
+
+        splits = splits[1..];
+        return ForceFind(root, splits);
     }
 
-    static Transform ForceFind(this Transform parent, in string[] pathSplits) => ForceFind(parent, 0, pathSplits);
-    static Transform ForceFind(this Transform parent, int depth, in string[] pathSplits)
+    public static Transform ForceFind(this Transform root, params string[] splits)
     {
-        Transform child = null;
+        Transform tfm = root.Find(splits[0]);
 
-        while (depth < pathSplits.Length)
+        if (tfm == null)
         {
-            child = parent.Find(pathSplits[depth]);
-
-            if (child == null)
-                while (depth < pathSplits.Length)
-                {
-                    child = new GameObject(pathSplits[depth]).transform;
-                    child.SetParent(parent, false);
-                    parent = child;
-                    ++depth;
-                }
-            else
-            {
-                parent = child;
-                ++depth;
-            }
+            tfm = new GameObject(splits[0]).transform;
+            tfm.SetParent(root, false);
         }
 
-        return child;
+        if (splits.Length == 1)
+            return tfm;
+        else
+            return ForceFind(tfm, splits[1..]);
     }
 
     public static void DestroyAllByType<ComponentType>(this GameObject gameObject) where ComponentType : Component

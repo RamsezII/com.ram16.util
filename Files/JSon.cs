@@ -53,10 +53,10 @@ public abstract class JSon
     public static bool TryRead<T>(out T json, in string filepath, in bool force, in bool log) where T : JSon
     {
         json = null;
-        return Read(ref json, filepath, force, log, false);
+        return Read(ref json, filepath, force, log);
     }
 
-    public static bool Read<T>(ref T json, in string filepath, in bool force, in bool log, in bool logError) where T : JSon
+    public static bool Read<T>(ref T json, in string filepath, in bool force, in bool log) where T : JSon
     {
         if (File.Exists(filepath))
         {
@@ -68,17 +68,10 @@ public abstract class JSon
         }
         else
         {
-            if (logError)
-            {
-                string message = $"can not read or find file at path: {filepath}";
-                if (force)
-                    Debug.LogWarning(message);
-                else
-                    Debug.LogError(message);
-            }
-
             if (force)
                 json.Save(filepath, true);
+            else
+                Debug.LogWarning($"can not read or find file at path: {filepath}");
             return false;
         }
     }
