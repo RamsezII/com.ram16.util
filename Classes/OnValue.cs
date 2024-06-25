@@ -33,29 +33,23 @@ namespace _UTIL_
                 lock (this)
                     return _value;
             }
-            set
-            {
-                lock (this)
-                {
-                    changed = !Util.Equals2(value, _value);
-
-                    if (changed)
-                        onChange?.Invoke(value);
-
-                    onUpdate?.Invoke(value);
-                    old = _value;
-                    _value = value;
-
-                    if (changed)
-                        afterChange?.Invoke(value);
-                }
-            }
         }
 
-        [Obsolete("Use " + nameof(Value) + " instead")]
         public virtual bool Update(in T value)
         {
-            Value = value;
+            lock (this)
+            {
+                changed = !Util.Equals2(value, _value);
+
+                if (changed)
+                    onChange?.Invoke(value);
+
+                onUpdate?.Invoke(value);
+                old = _value;
+                _value = value;
+            }
+            if (changed)
+                afterChange?.Invoke(value);
             return changed;
         }
 
