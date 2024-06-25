@@ -68,18 +68,5 @@
         player = 1 << LayerBits.player,
         player_remote = 1 << LayerBits.player_remote,
         player_trigger = 1 << LayerBits.player_trigger,
-
-        _all_ = (1 << 32) - 1,
-
-        level = Default | Water | phs_art | vsl_art | art | stairs | wall | cover | climb | ground | terrain | grav | projectile | player,
-        physic = Default | phs_art | art | stairs | ground | terrain | vehicle,
-        climbs = Default | phs_art | wall | cover | climb,
-        camera_clip = Default | vsl_art | art | stairs | wall | cover | climb | ground | terrain,
-        camera_aim = camera_clip | ragdoll_phs | ragdoll_vsl,
-        ground_IK = Default | vsl_art | art | ground | terrain | grav,
-        bullet_mask = art | climb | cover | Default | grav | ground | projectile | ragdoll_phs | ragdoll_vsl | terrain | vsl_art | wall,
-        explosion_mask = Default | phs_art | intr | weapon | projectile | ragdoll_phs | ragdoll_vsl | vehicle,
-        player_hide = Default | phs_art | vsl_art | art | stairs | wall | cover | climb | ground | terrain | grav | vehicle,
-        wheels = Default | phs_art | vsl_art | art | stairs | wall | cover | climb | ground | terrain | grav | vehicle,
     }
 }
