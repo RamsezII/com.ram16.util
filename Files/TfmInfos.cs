@@ -1,10 +1,11 @@
 ﻿using System;
+using System.IO;
 using UnityEngine;
 
 namespace _UTIL_
 {
     [Serializable]
-    public struct TfmInfos
+    public struct TfmInfos : IBytes
     {
         public string path;
         public Vector3 position, eulers, scale;
@@ -36,6 +37,22 @@ namespace _UTIL_
             transform.localScale = scale;
 
             return transform;
+        }
+
+        public readonly void WriteBytes(in BinaryWriter writer)
+        {
+            writer.Write(path);
+            writer.WriteV3_3f32(position);
+            writer.WriteV3_3f16(eulers);
+            writer.WriteV3_3f16(scale);
+        }
+
+        public void ReadBytes(in BinaryReader reader)
+        {
+            path = reader.ReadString();
+            position = reader.ReadV3_3f32();
+            eulers = reader.ReadV3_3f16();
+            scale = reader.ReadV3_3f16();
         }
     }
 }

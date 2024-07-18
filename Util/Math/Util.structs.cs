@@ -18,7 +18,7 @@ namespace _UTIL_
             this.rot = rot;
         }
 
-        public void Deconstruct(out Vector3 pos, out Quaternion rot)
+        public readonly void Deconstruct(out Vector3 pos, out Quaternion rot)
         {
             pos = this.pos;
             rot = this.rot;
@@ -40,7 +40,7 @@ namespace _UTIL_
             Quaternion.SlerpUnclamped(a.rot, b.rot, lerp)
             );
 
-        public Vector3 TransformPoint(in Vector3 pos) => this.pos + rot * pos;
+        public readonly Vector3 TransformPoint(in Vector3 pos) => this.pos + rot * pos;
     }
 
     [Serializable]
@@ -97,13 +97,13 @@ namespace _UTIL_
             Vector3.LerpUnclamped(a.eul, b.eul, lerp)
             );
 
-        readonly void IBytes.WriteBytes(in BinaryWriter writer)
+        public readonly void WriteBytes(in BinaryWriter writer)
         {
             writer.WriteV3_3f32(pos);
             writer.WriteV3_3f16(eul);
         }
 
-        void IBytes.ReadBytes(in BinaryReader reader)
+        public void ReadBytes(in BinaryReader reader)
         {
             pos = reader.ReadV3_3f32();
             eul = reader.ReadV3_3f16();
