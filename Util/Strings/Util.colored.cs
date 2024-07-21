@@ -13,7 +13,7 @@ public static partial class Util
         if (UnityEditor.EditorGUIUtility.isProSkin)
             sublogColor = "#CCCCCCCC";
         else
-            sublogColor = "#EAEAEAEA";
+            sublogColor = "#EEEEEEEE";
     }
 
     //--------------------------------------------------------------------------------------------------------------
