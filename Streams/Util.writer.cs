@@ -86,7 +86,7 @@ public static partial class Util
         }
     }
 
-    public static void Writef16(this BinaryWriter writer, in float value) => writer.Write(Mathf.FloatToHalf(value));
+    public static void Write_f16(this BinaryWriter writer, in float value) => writer.Write(Mathf.FloatToHalf(value));
 
     public static void WriteV3_3f32(this BinaryWriter writer, in Vector3 value)
     {
@@ -98,7 +98,7 @@ public static partial class Util
     public static void WriteV3_3f16(this BinaryWriter writer, in Vector3 value)
     {
         for (int i = 0; i < 3; ++i)
-            writer.Writef16(value[i]);
+            writer.Write_f16(value[i]);
     }
 
     public static void WriteQ_3u8(this BinaryWriter writer, in Quaternion value)
@@ -111,10 +111,10 @@ public static partial class Util
 
     public static void WriteQ_4f16(this BinaryWriter writer, in Quaternion value)
     {
-        writer.Writef16(value.x);
-        writer.Writef16(value.y);
-        writer.Writef16(value.z);
-        writer.Writef16(value.w);
+        writer.Write_f16(value.x);
+        writer.Write_f16(value.y);
+        writer.Write_f16(value.z);
+        writer.Write_f16(value.w);
     }
 
     public static void WriteQ_4f32(this BinaryWriter writer, in Quaternion value)

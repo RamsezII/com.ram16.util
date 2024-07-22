@@ -31,7 +31,7 @@ public static partial class Util
 
     public static bool ReadBool(this BinaryReader reader) => reader.ReadByte() != 0;
 
-    public static float Readf16(this BinaryReader reader) => Mathf.HalfToFloat(reader.ReadUInt16());
+    public static float Read_f16(this BinaryReader reader) => Mathf.HalfToFloat(reader.ReadUInt16());
 
     public static Vector3 ReadV3_3f32(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
 
@@ -39,13 +39,13 @@ public static partial class Util
     {
         Vector3 v3 = new();
         for (int i = 0; i < 3; ++i)
-            v3[i] = reader.Readf16();
+            v3[i] = reader.Read_f16();
         return v3;
     }
 
     public static Quaternion ReadQ_3u8(this BinaryReader reader) => Quaternion.Euler(360f / byte.MaxValue * new Vector3(reader.ReadByte(), reader.ReadByte(), reader.ReadByte())).normalized;
 
-    public static Quaternion ReadQ_4f16(this BinaryReader reader) => new Quaternion(reader.Readf16(), reader.Readf16(), reader.Readf16(), reader.Readf16()).normalized;
+    public static Quaternion ReadQ_4f16(this BinaryReader reader) => new Quaternion(reader.Read_f16(), reader.Read_f16(), reader.Read_f16(), reader.Read_f16()).normalized;
 
     public static Quaternion ReadQ_4f32(this BinaryReader reader) => new Quaternion(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()).normalized;
 
