@@ -12,11 +12,14 @@ public class JSonArray<T> : JSon where T : IBytes
     public override void WriteBytes(in BinaryWriter writer)
     {
         base.WriteBytes(writer);
-
-        writer.Write((ushort)array.Length);
-
-        for (int i = 0; i < array.Length; ++i)
-            array[i].WriteBytes(writer);
+        if (array == null)
+            writer.Write((ushort)0);
+        else
+        {
+            writer.Write((ushort)array.Length);
+            for (int i = 0; i < array.Length; ++i)
+                array[i].WriteBytes(writer);
+        }
     }
 
     public override void ReadBytes(in BinaryReader reader)

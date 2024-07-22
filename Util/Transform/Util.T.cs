@@ -2,8 +2,7 @@
 
 public static partial class Util
 {
-    public static string GetPath(this Transform transform) => GetPath(transform, transform.root);
-    public static string GetPath(this Transform transform, in Transform root)
+    public static string GetPath(this Transform transform, in Transform root = null)
     {
         string res = transform.name;
 
