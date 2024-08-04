@@ -12,13 +12,20 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public TfmInfos(in Transform transform) : this(transform, transform.root) { }
-        public TfmInfos(in Transform transform, in Transform root)
+        public TfmInfos(in Transform transform) : this(transform, transform.root)
         {
-            path = transform.GetPath(root);
-            position = transform.localPosition;
-            eulers = transform.localEulerAngles;
-            scale = transform.localScale;
+        }
+
+        public TfmInfos(in Transform transform, in Transform root) : this(transform.GetPath(root), transform.localPosition, transform.localEulerAngles, transform.localScale)
+        {
+        }
+
+        public TfmInfos(string path, Vector3 position, Vector3 eulers, Vector3 scale)
+        {
+            this.path = path;
+            this.position = position;
+            this.eulers = eulers;
+            this.scale = scale;
         }
 
         //----------------------------------------------------------------------------------------------------------
