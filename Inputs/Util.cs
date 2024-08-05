@@ -18,7 +18,7 @@ public static partial class Util
         _ => throw new System.NotImplementedException($"invalid button state \"{state}\""),
     };
 
-    public static Vector2 GetZqsd(this Keyboard device)
+    public static Vector2 GetZqsd(this Keyboard device, in bool clamp = true)
     {
         Vector2 value = Vector2.zero;
         if (device.wKey.isPressed)
@@ -29,6 +29,8 @@ public static partial class Util
             value.y--;
         if (device.aKey.isPressed)
             value.x--;
+        if (clamp)
+            value = Vector2.ClampMagnitude(value, 1);
         return value;
     }
 
