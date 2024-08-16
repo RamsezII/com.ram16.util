@@ -46,11 +46,13 @@ public static partial class Util_net
     public static void LogIpConfig()
     {
         string hostname = Dns.GetHostName();
-        StringBuilder log = new($"host name: {hostname}\n");
+        StringBuilder log = new();
+
+        log.AppendLine($"\"{hostname}\"");
 
         foreach (IPAddress ip in Dns.GetHostEntry(hostname).AddressList)
             if (ip.AddressFamily == AddressFamily.InterNetwork)
-                log.Append($"local ip: {ip}\n");
+                log.AppendLine($"{ip} ({ip.AddressFamily})");
 
         Debug.Log(log.ToString()[..^1]);
     }

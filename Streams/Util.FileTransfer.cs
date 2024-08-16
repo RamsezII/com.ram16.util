@@ -13,7 +13,7 @@ public static partial class Util_net
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
 
-            onProgression?.Invoke($"downloading: {savePath.Bold()} ({remaining.FileSizeLog()})".ToSubLog());
+            onProgression?.Invoke($"downloading: {savePath} ({remaining.FileSizeLog()})".ToSubLog());
 
             using FileStream fs = new(savePath, FileMode.Create);
             byte[] buffer = new byte[TCP_CHUNK];
@@ -31,13 +31,13 @@ public static partial class Util_net
                     break;
                 }
 
-                onProgression?.Invoke($"downloading: {savePath.Bold()} ({(1 - (float)remaining / fileSize).PercentLog()})".ToSubLog());
+                onProgression?.Invoke($"downloading: {savePath} ({(1 - (float)remaining / fileSize).PercentLog()})".ToSubLog());
             }
             fs.Close();
 
             onProgression?.Invoke(null);
             if (log)
-                Debug.Log($"saved downloaded file: {savePath.Bold()}".ToSubLog());
+                Debug.Log($"downloaded: {savePath}".ToSubLog());
 
             savedFile = new(savePath);
             return true;
@@ -56,7 +56,7 @@ public static partial class Util_net
 
         if (remaining > 0)
         {
-            onProgression?.Invoke($"uploading: {file.FullName.Bold()} ({remaining.FileSizeLog()})".ToSubLog());
+            onProgression?.Invoke($"uploading: {file.FullName} ({remaining.FileSizeLog()})".ToSubLog());
 
             using FileStream fs = file.OpenRead();
             byte[] buffer = new byte[TCP_CHUNK];
@@ -68,13 +68,13 @@ public static partial class Util_net
                 remaining -= actualLength;
                 writer.Write(buffer, 0, actualLength);
 
-                onProgression?.Invoke($"uploading: {file.FullName.Bold()} ({(1 - (float)remaining / fileSize).PercentLog()})".ToSubLog());
+                onProgression?.Invoke($"uploading: {file.FullName} ({(1 - (float)remaining / fileSize).PercentLog()})".ToSubLog());
             }
             fs.Close();
 
             onProgression?.Invoke(null);
             if (log)
-                Debug.Log($"uploaded: {file.FullName.Bold()}".ToSubLog());
+                Debug.Log($"uploaded: {file.FullName}".ToSubLog());
         }
     }
 }

@@ -18,7 +18,7 @@ public static partial class Util
 
     //--------------------------------------------------------------------------------------------------------------
 
-    public static string SetColor(this string text, in Colors color) => $"<color={color}>{text}</color>";
+    public static string SetColor(this string text, in Colors color) => $"<color=#{(uint)color:X8}>{text}</color>";
     public static string SetColor(this string text, in string value) => $"<color={value}>{text}</color>";
     public static string ToSubLog(this object o) => ToSubLog(o.ToString());
     public static string ToSubLog(this string text) => text.SetAttribute(TextB.italic).SetAttribute(TextB.color, sublogColor);
