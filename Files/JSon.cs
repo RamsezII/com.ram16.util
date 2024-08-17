@@ -30,7 +30,7 @@ public abstract class JSon
         File.SetAttributes(filepath, attributes);
 
         if (log)
-            Debug.Log($"{nameof(JSon)}.{nameof(Save)}: {filepath}".ToSubLog());
+            Debug.Log($"{typeof(JSon).FullName}.{nameof(Save)}(\"{filepath}\")".ToSubLog());
     }
 
     public virtual void OnRead()
@@ -58,18 +58,18 @@ public abstract class JSon
             json = JsonUtility.FromJson<T>(File.ReadAllText(filepath));
             json.OnRead();
             if (log)
-                Debug.Log($"{nameof(JSon)}.{nameof(Read)}: {filepath}".ToSubLog());
+                Debug.Log($"{typeof(JSon).FullName}.{nameof(Read)}(\"{filepath}\")".ToSubLog());
             return true;
         }
         else
         {
             if (force)
             {
-                Debug.Log($"Creating new file at path: {filepath}".ToSubLog());
+                Debug.Log($"Creating new file at path: \"{filepath}\"".ToSubLog());
                 json.Save(filepath, true);
             }
             else
-                Debug.LogWarning($"can not read or find file at path: {filepath}");
+                Debug.LogWarning($"can not read or find file at path: \"{filepath}\"");
             return false;
         }
     }
