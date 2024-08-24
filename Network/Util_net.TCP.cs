@@ -10,12 +10,13 @@ public static partial class Util_net
 
     //----------------------------------------------------------------------------------------------------------
 
-    public static void TryTCP_paragon(Action<TcpClient, BinaryWriter, BinaryReader> onCommunication, Action onError = null) => TryTCP(DOMAIN_3VE, PORT_PARAGON, onCommunication, onError);
-    public static void TryTCP(in string host, in ushort port, in Action<TcpClient, BinaryWriter, BinaryReader> onCommunication, in Action onError = null)
+    public static void TryTCP_paragon(Action onError, Action<TcpClient, BinaryWriter, BinaryReader> onCommunication) => TryTCP(DOMAIN_3VE, PORT_PARAGON, true, onError, onCommunication);
+    public static void TryTCP(in string host, in ushort port, in bool log, in Action onError, in Action<TcpClient, BinaryWriter, BinaryReader> onCommunication)
     {
         string endPoint = $"{{ {host}:{port} }}";
 
-        Debug.Log($"TCP connecting to: {endPoint}".ToSubLog());
+        if (log)
+            Debug.Log($"TCP connecting to: {endPoint}".ToSubLog());
 
         try
         {
@@ -29,13 +30,17 @@ public static partial class Util_net
                 using BinaryReader reader = new(stream, Encoding.UTF8);
 
                 double t2 = Util.TotalMilliseconds - t1;
-                Debug.Log($"TCP connected to: {endPoint} ({t2.MillisecondsLog()})".ToSubLog());
+
+                if (log)
+                    Debug.Log($"TCP connected to: {endPoint} ({t2.MillisecondsLog()})".ToSubLog());
 
                 t1 = Util.TotalMilliseconds;
                 onCommunication(socket, writer, reader);
 
                 t2 = Util.TotalMilliseconds - t1;
-                Debug.Log($"TCP closing: {endPoint} ({t2.MillisecondsLog()})".ToSubLog());
+
+                if (log)
+                    Debug.Log($"TCP closing: {endPoint} ({t2.MillisecondsLog()})".ToSubLog());
 
                 return;
             }
