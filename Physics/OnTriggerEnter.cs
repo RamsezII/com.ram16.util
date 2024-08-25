@@ -9,8 +9,10 @@ namespace _UTIL_
 #if UNITY_EDITOR
         [Header("~@ Editor @~")]
         [SerializeField] List<Collider> colliders;
+        [SerializeField] List<Collider2D> colliders2D;
 #endif
         public Action<Collider> onTriggerEnter;
+        public Action<Collider2D> onTriggerEnter2;
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -18,6 +20,7 @@ namespace _UTIL_
         private void Awake()
         {
             colliders = new();
+            colliders2D = new();
         }
 #endif
 
@@ -31,10 +34,19 @@ namespace _UTIL_
             onTriggerEnter?.Invoke(other);
         }
 
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+#if UNITY_EDITOR
+            colliders2D.Add(collision);
+#endif
+            onTriggerEnter2?.Invoke(collision);
+        }
+
         //--------------------------------------------------------------------------------------------------------------
 
 #if UNITY_EDITOR
         private void OnTriggerExit(Collider other) => colliders.Remove(other);
+        private void OnTriggerExit2D(Collider2D other) => colliders2D.Remove(other);
 #endif
     }
 }
