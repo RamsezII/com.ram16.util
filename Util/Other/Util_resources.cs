@@ -2,11 +2,7 @@
 
 public static partial class Util
 {
-    public static T LoadResourceByType<T>() where T : Object
-    {
-        return Resources.Load<T>(typeof(T).FullName);
-    }
-
+    public static T LoadResourceByType<T>() where T : Object => Resources.Load<T>(typeof(T).FullName);
     public static T InstantiateOrCreate<T>() where T : MonoBehaviour
     {
         string name = typeof(T).FullName;
@@ -15,10 +11,16 @@ public static partial class Util
         {
             T resource = Resources.Load<T>(name);
             if (resource != null)
+            {
+                Debug.Log($"{nameof(Object.Instantiate)}({name})".ToSubLog());
                 clone = Object.Instantiate(resource);
+            }
         }
         if (clone == null)
+        {
+            Debug.Log($"new {name}()".ToSubLog());
             clone = new GameObject(name).AddComponent<T>();
+        }
         return clone;
     }
 }

@@ -31,7 +31,7 @@ namespace _UTIL_
         {
             IOnStateMachine iUser = animator.GetComponentInParent<IOnStateMachine>();
             if (iUser == null)
-                Debug.LogError($" {animator} : {nameof(IOnStateMachine)} not found ({animator.transform.GetPath()})");
+                Debug.LogError($"{typeof(IOnStateMachine).FullName} not found on: {animator.transform.GetPath()}");
             else
                 iUser.OnStateMachine(stateInfo, layerIndex, onEnter);
         }

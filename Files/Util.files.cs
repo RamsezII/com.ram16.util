@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using UnityEngine;
 
 public static partial class Util
 {
@@ -16,8 +17,11 @@ public static partial class Util
     public static DirectoryInfo GetDir(this string path, in bool force = true)
     {
         DirectoryInfo dir = new(path);
-        if (!dir.Exists)
+        if (force && !dir.Exists)
+        {
             dir.Create();
+            Debug.Log($"Created directory at: \"{dir.FullName}\"".ToSubLog());
+        }
         return dir;
     }
 

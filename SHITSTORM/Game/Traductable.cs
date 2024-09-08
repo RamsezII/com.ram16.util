@@ -16,6 +16,12 @@ namespace _UTIL_
     public struct Traductions
     {
         public string english, french;
+        public readonly string Auto => Traductable.language switch
+        {
+            Languages.English => english,
+            Languages.French => french,
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
 
     public class Traductable : MonoBehaviour
@@ -66,12 +72,7 @@ namespace _UTIL_
 
         void Refresh()
         {
-            string text = language switch
-            {
-                Languages.English => traductions.english,
-                Languages.French => traductions.french,
-                _ => throw new ArgumentOutOfRangeException(),
-            };
+            string text = traductions.Auto;
 
             if (string.IsNullOrWhiteSpace(text))
                 text = traductions.english;
