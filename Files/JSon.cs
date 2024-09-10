@@ -13,7 +13,7 @@ public abstract class JSon
     public string ToJson() => JsonUtility.ToJson(this, true);
     protected virtual void OnApply() { }
     protected virtual void OnSave() => OnApply();
-    public void Save(in string filepath, in bool log = true, in FileAttributes attributes = FileAttributes.Normal)
+    public void Save(in string filepath, in bool log, in FileAttributes attributes = FileAttributes.Normal)
     {
         OnSave();
         Save(filepath, JsonUtility.ToJson(this, true), log, attributes);

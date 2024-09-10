@@ -1,5 +1,9 @@
+using UnityEngine;
+
 public static partial class Util
 {
+    public static bool HasFlag(this ref LayerMask mask, in int layer) => (mask & (1 << layer)) > 0;
+
     public static bool PullFlags<T>(this ref T mask, in object flags, in bool all = true) where T : struct
     {
         int _mask = (int)(object)mask;
