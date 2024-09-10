@@ -9,7 +9,7 @@ public static partial class Util
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void InitColors()
     {
-        Debug.Log($"{nameof(UnityEditor.EditorGUIUtility.isProSkin)}: {UnityEditor.EditorGUIUtility.isProSkin}");
+        Debug.Log($"{nameof(UnityEditor.EditorGUIUtility.isProSkin)}: {UnityEditor.EditorGUIUtility.isProSkin}".ToSubLog());
         if (UnityEditor.EditorGUIUtility.isProSkin)
             sublogColor = "#CCCCCCCC";
         else
