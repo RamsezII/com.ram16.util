@@ -3,7 +3,7 @@
 public static partial class Util
 {
     public static T LoadResourceByType<T>() where T : Object => Resources.Load<T>(typeof(T).FullName);
-    public static T InstantiateOrCreate<T>() where T : MonoBehaviour
+    public static T InstantiateOrCreateIfAbsent<T>() where T : MonoBehaviour
     {
         string name = typeof(T).FullName;
         T clone = Object.FindObjectOfType<T>();
