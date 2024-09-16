@@ -14,7 +14,7 @@ namespace _UTIL_
 
         public SphereColliderInfos(in SphereCollider cld)
         {
-            path = cld.transform.GetPath();
+            path = cld.transform.GetPath(false);
             center = cld.center;
             radius = cld.radius;
         }
@@ -39,7 +39,7 @@ namespace _UTIL_
 
         public CapsuleColliderInfos(in CapsuleCollider cld)
         {
-            path = cld.transform.GetPath();
+            path = cld.transform.GetPath(false);
             center = cld.center;
             euler = cld.transform.localEulerAngles;
             radius = cld.radius;
@@ -67,7 +67,7 @@ namespace _UTIL_
 
         public BoxColliderInfos(in BoxCollider cld)
         {
-            path = cld.transform.GetPath();
+            path = cld.transform.GetPath(false);
             center = cld.center;
             euler = cld.transform.localEulerAngles;
             size = cld.size;

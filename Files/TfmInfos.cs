@@ -16,7 +16,7 @@ namespace _UTIL_
         {
         }
 
-        public TfmInfos(in Transform transform, in Transform root) : this(transform.GetPath(root), transform.localPosition, transform.localEulerAngles, transform.localScale)
+        public TfmInfos(in Transform transform, in Transform root) : this(transform.GetRelativePath(root), transform.localPosition, transform.localEulerAngles, transform.localScale)
         {
         }
 

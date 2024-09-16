@@ -14,7 +14,7 @@ namespace _UTIL_
         public virtual void OnSave()
         {
             if (tfm != null)
-                path = tfm.GetPath();
+                path = tfm.GetPath(false);
         }
 
         public virtual void OnRead(in Transform root)

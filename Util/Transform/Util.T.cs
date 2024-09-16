@@ -2,7 +2,20 @@
 
 public static partial class Util
 {
-    public static string GetPath(this Transform transform, in Transform root = null)
+    public static string GetPath(this Transform transform, in bool includeRoot)
+    {
+        string res = transform.name;
+
+        while (transform.parent && (includeRoot || (transform.parent != transform.root)))
+        {
+            transform = transform.parent;
+            res = transform.name + "/" + res;
+        }
+
+        return res;
+    }
+
+    public static string GetRelativePath(this Transform transform, in Transform root)
     {
         string res = transform.name;
 
@@ -52,7 +65,8 @@ public static partial class Util
         return ForceFind(root, splits);
     }
 
-    public static Transform ForceFind(this Transform root, params string[] splits)
+    public static Transform ForceFind(this Transform root, in string path) => ForceFind(root, path.Split('/'));
+    static Transform ForceFind(this Transform root, params string[] splits)
     {
         Transform tfm = root.Find(splits[0]);
 
