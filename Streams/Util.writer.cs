@@ -76,7 +76,7 @@ public static partial class Util
     {
         if (netEnd == null)
         {
-            Debug.LogWarning("(intern) trying to write null netEnd");
+            Debug.LogWarning("trying to write null netEnd");
             writer.Write(new IPEndPoint(IPAddress.None, 0));
         }
         else

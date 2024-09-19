@@ -2,6 +2,8 @@
 
 public static partial class Util
 {
+    public static string GetRootedPath(this Transform transform) => GetPath(transform, true);
+    public static string GetUnrootedPath(this Transform transform) => GetPath(transform, false);
     public static string GetPath(this Transform transform, in bool includeRoot)
     {
         string res = transform.name;
