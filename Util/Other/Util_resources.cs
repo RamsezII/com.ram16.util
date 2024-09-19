@@ -23,4 +23,21 @@ public static partial class Util
         }
         return clone;
     }
+
+    public static T InstantiateOrCreate<T>() where T : MonoBehaviour
+    {
+        string name = typeof(T).FullName;
+        T resource = Resources.Load<T>(name);
+
+        if (resource == null)
+        {
+            Debug.Log($"new {name}()".ToSubLog());
+            return new GameObject(name).AddComponent<T>();
+        }
+        else
+        {
+            Debug.Log($"{nameof(Object.Instantiate)}({name})".ToSubLog());
+            return Object.Instantiate(resource);
+        }
+    }
 }
