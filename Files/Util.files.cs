@@ -9,6 +9,7 @@ public static partial class Util
         home_path = Path.Combine(app_path, "Home");
 
     public static DirectoryInfo HOME_DIR => home_path.GetDir(true);
+    public static DirectoryInfo STREAM_DIR => Application.streamingAssetsPath.GetDir(true);
 
     //----------------------------------------------------------------------------------------------------------
 
@@ -31,4 +32,6 @@ public static partial class Util
             Directory.CreateDirectory(path);
         return path;
     }
+
+    public static string ToSafePath(this string path) => path.Replace('+', '_').Replace(".", string.Empty);
 }

@@ -1,10 +1,12 @@
 ﻿using System.IO;
+using UnityEngine;
 
 namespace _UTIL_
 {
     public abstract class SettingsFile : JSon
     {
-        public string FILE_PATH => Path.Combine(Util.HOME_DIR.FullName, GetType().FullName + json);
+        public DirectoryInfo FILE_DIR => Path.Combine(Application.streamingAssetsPath, typeof(SettingsFile).FullName).GetDir(true);
+        public string FILE_PATH => Path.Combine(FILE_DIR.FullName, GetType().FullName).ToSafePath() + json;
 
         //--------------------------------------------------------------------------------------------------------------
 

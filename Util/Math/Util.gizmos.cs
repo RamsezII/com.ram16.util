@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-using UnityEngine;
+﻿using UnityEngine;
 
 public static partial class Util
 {
@@ -22,4 +21,3 @@ public static partial class Util
         Debug.DrawRay(position, rotation * Vector3.forward * scale, Color.blue, timer);
     }
 }
-#endif

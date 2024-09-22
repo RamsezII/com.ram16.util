@@ -2,19 +2,19 @@
 
 public static partial class Util
 {
-    static string sublogColor = "#BBBBBBBB";
+    static string sublogColor = "#EEEEEE";
 
     //--------------------------------------------------------------------------------------------------------------
 
+#if UNITY_EDITOR
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    static void InitColors()
+    static void OnBeforeSceneLoad_LogColors()
     {
-        Debug.Log($"{nameof(UnityEditor.EditorGUIUtility.isProSkin)}: {UnityEditor.EditorGUIUtility.isProSkin}".ToSubLog());
         if (UnityEditor.EditorGUIUtility.isProSkin)
-            sublogColor = "#CCCCCCCC";
-        else
-            sublogColor = "#EEEEEEEE";
+            sublogColor = "#CCCCCC";
+        Debug.Log($"{nameof(UnityEditor.EditorGUIUtility.isProSkin)}: {UnityEditor.EditorGUIUtility.isProSkin}".ToSubLog());
     }
+#endif
 
     //--------------------------------------------------------------------------------------------------------------
 
