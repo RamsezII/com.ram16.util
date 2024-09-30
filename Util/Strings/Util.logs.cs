@@ -1,7 +1,18 @@
 ﻿using System;
+using System.Collections;
+using System.Text;
 
 public static partial class Util
 {
+    public static string ToLog(this IEnumerable enumerable)
+    {
+        StringBuilder log = new("{ ");
+        foreach (object item in enumerable)
+            log.Append(item).Append(", ");
+        log.Append("}");
+        return log.ToString();
+    }
+
     public static string TrimMessage(this Exception e) => e.Message.TrimEnd('\n', '\r', '\0');
     public static string FileSizeLog(this in uint fileSize) => ((long)fileSize).FileSizeLog();
     public static string FileSizeLog(this in long fileSize)
