@@ -9,11 +9,11 @@ namespace _UTIL_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public void Update(in float nowTime, in float nextTime, in T value)
+        public void Update(in float time, in float lerpTime, in T value)
         {
-            valueA = GetLerp(nowTime);
-            timeA = nowTime;
-            timeB = nextTime;
+            valueA = GetLerp(time);
+            timeA = time;
+            timeB = time + lerpTime;
             valueB = value;
         }
 
