@@ -26,12 +26,5 @@ public static partial class Util
         return dir;
     }
 
-    public static string Checked(this string path)
-    {
-        if (!Directory.Exists(path))
-            Directory.CreateDirectory(path);
-        return path;
-    }
-
-    public static string ToSafePath(this string path) => path.Replace('+', '_').Replace(".", string.Empty);
+    public static string TypeToPath(this Type type) => type.FullName.Replace('+', '_').Replace(".", string.Empty);
 }

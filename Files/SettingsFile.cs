@@ -5,8 +5,7 @@ namespace _UTIL_
 {
     public abstract class SettingsFile : JSon
     {
-        public DirectoryInfo FILE_DIR => Path.Combine(Application.streamingAssetsPath, typeof(SettingsFile).FullName).GetDir(true);
-        public string FILE_PATH => Path.Combine(FILE_DIR.FullName, GetType().FullName).ToSafePath() + json;
+        public string FILE_PATH => Path.Combine(Path.Combine(Application.streamingAssetsPath, typeof(SettingsFile).TypeToPath()).GetDir(true).FullName, GetType().TypeToPath()) + json;
 
         //--------------------------------------------------------------------------------------------------------------
 
