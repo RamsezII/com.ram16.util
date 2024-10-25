@@ -12,14 +12,14 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public IKSolver(in Transform a, in Transform b, in Transform c, in Quaternion ikRot)
+        public IKSolver(in Transform a, in Transform b, in Transform c, in Quaternion initRot)
         {
             this.a = a;
             this.b = b;
             this.c = c;
 
-            IK2A = Quaternion.Inverse(Quaternion.LookRotation(b.position - a.position, ikRot * Vector3.up)) * a.rotation;
-            IK2B = Quaternion.Inverse(Quaternion.LookRotation(c.position - b.position, ikRot * Vector3.up)) * b.rotation;
+            IK2A = Quaternion.Inverse(Quaternion.LookRotation(b.position - a.position, initRot * Vector3.up)) * a.rotation;
+            IK2B = Quaternion.Inverse(Quaternion.LookRotation(c.position - b.position, initRot * Vector3.up)) * b.rotation;
         }
 
         //----------------------------------------------------------------------------------------------------------
