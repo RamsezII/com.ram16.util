@@ -61,7 +61,7 @@ namespace _UTIL_
 
         public bool SmoothDamp(in float up, in float down, in float limit, in float deltaTime) => Update(Util_smooths.NO_SMOOTH ? target : Mathf.SmoothDamp(_value, target, ref velocity, target > _value ? up : down, limit, deltaTime));
 
-        public bool SmoothDampAngle(in float damp, in float deltaTime) => Update(Util_smooths.NO_SMOOTH ? target : Mathf.SmoothDampAngle(_value, target, ref velocity, damp, Mathf.Infinity, deltaTime));
+        public bool SmoothDampAngle(in float damp, in float deltaTime, in float maxSpeed = Mathf.Infinity) => Update(Util_smooths.NO_SMOOTH ? target : Mathf.SmoothDampAngle(_value, target, ref velocity, damp, maxSpeed, deltaTime));
     }
 
     public abstract class SmoothVector<T> : Smooth<T> where T : struct
