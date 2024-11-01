@@ -56,7 +56,6 @@ namespace _UTIL_
         public virtual void ForceUpdate(in T value)
         {
             changed = true;
-
             onChange?.Invoke(value);
             onUpdate?.Invoke(value);
             old = _value;
