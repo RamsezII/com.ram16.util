@@ -26,11 +26,13 @@ namespace _UTIL_
 
     public class Traductable : MonoBehaviour
     {
-        static readonly HashSet<Traductable> selves = new();
+        static readonly HashSet<Traductable> instances = new();
         public static Languages language;
 
-        [Obsolete, SerializeField] string english, francais;
+        [SerializeField] bool autoSize;
         [SerializeField] Traductions traductions;
+        [Obsolete, SerializeField] string english, francais;
+        Action<Traductable> onChange;
 
         //----------------------------------------------------------------------------------------------------------
 
@@ -49,11 +51,9 @@ namespace _UTIL_
             if (!string.IsNullOrWhiteSpace(francais) || !string.IsNullOrEmpty(english))
                 traductions = new Traductions { english = english, french = francais };
 
-            selves.Add(this);
+            instances.Add(this);
             Refresh();
         }
-
-        private void OnDestroy() => selves.Remove(this);
 
         //----------------------------------------------------------------------------------------------------------
 
@@ -76,9 +76,19 @@ namespace _UTIL_
         public static void SetLanguage(in Languages language)
         {
             Traductable.language = language;
-            foreach (Traductable self in selves)
+            foreach (Traductable self in instances)
                 self.Refresh();
         }
+
+        //----------------------------------------------------------------------------------------------------------
+
+        public void AddListener(in Action<Traductable> action)
+        {
+            onChange += action;
+            action(this);
+        }
+
+        public void RemoveListener(in Action<Traductable> action) => onChange -= action;
 
         void Refresh()
         {
@@ -88,7 +98,13 @@ namespace _UTIL_
                 text = traductions.english;
 
             foreach (TextMeshProUGUI tmp in AllTmps())
+            {
                 tmp.text = text;
+                if (autoSize)
+                    tmp.AutoSize();
+            }
+
+            onChange?.Invoke(this);
         }
 
         public void SetTrads(in Traductions traductions)
@@ -101,5 +117,9 @@ namespace _UTIL_
 
         [Obsolete]
         public void SetTrads_old(in string fr, in string en) => SetTrads(new Traductions { english = en, french = fr });
+
+        //----------------------------------------------------------------------------------------------------------
+
+        private void OnDestroy() => instances.Remove(this);
     }
 }
