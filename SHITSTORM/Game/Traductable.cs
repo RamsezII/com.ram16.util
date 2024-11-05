@@ -29,8 +29,15 @@ namespace _UTIL_
         static readonly HashSet<Traductable> selves = new();
         public static Languages language;
 
-        [Obsolete, SerializeField] string francais, english;
+        [Obsolete, SerializeField] string english, francais;
         [SerializeField] Traductions traductions;
+
+        //----------------------------------------------------------------------------------------------------------
+
+#if UNITY_EDITOR
+        [ContextMenu(nameof(InvertTrads))]
+        void InvertTrads() => (traductions.french, traductions.english) = (traductions.english, traductions.french);
+#endif
 
         //----------------------------------------------------------------------------------------------------------
 
