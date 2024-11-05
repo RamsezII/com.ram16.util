@@ -37,6 +37,9 @@ namespace _UTIL_
 #if UNITY_EDITOR
         [ContextMenu(nameof(InvertTrads))]
         void InvertTrads() => (traductions.french, traductions.english) = (traductions.english, traductions.french);
+
+        [ContextMenu(nameof(ApplyTrads))]
+        void ApplyTrads() => SetTrads(traductions);
 #endif
 
         //----------------------------------------------------------------------------------------------------------
