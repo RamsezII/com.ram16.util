@@ -1,11 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static partial class Util
 {
-    [Obsolete]
-    public static float GetNormlizedTime(this Animator animator, in int layerIndex = 0) => GetNormlizedTime01(animator, layerIndex);
-    public static float GetNormlizedTime01(this Animator animator, in int layerIndex = 0) => Mathf.Clamp01(animator.GetStateInfo(layerIndex).normalizedTime);
+    public static float GetNormlizedTime(this Animator animator, in int layerIndex = 0) => animator.GetStateInfo(layerIndex).normalizedTime;
+
+    public static float GetNormlizedTimeClamped(this Animator animator, in int layerIndex = 0) => Mathf.Clamp01(GetNormlizedTime(animator, layerIndex));
 
     public static AnimatorStateInfo GetStateInfo(this Animator animator, in int layerIndex) => animator.IsInTransition(layerIndex) ? animator.GetNextAnimatorStateInfo(layerIndex) : animator.GetCurrentAnimatorStateInfo(layerIndex);
 
