@@ -24,7 +24,9 @@ public static partial class Util
         else
         {
             Debug.Log($"{nameof(Object.Instantiate)}({name})".ToSubLog());
-            return Object.Instantiate(resource);
+            T clone = Object.Instantiate(resource);
+            clone.name = name;
+            return clone;
         }
     }
 }

@@ -21,6 +21,17 @@ namespace _UTIL_
             AutoUse();
         }
 
+        public void ToggleUser(in IUserGroup user, in bool toggle)
+        {
+            if (group.Contains(user))
+            {
+                if (!toggle)
+                    Remove(user);
+            }
+            else if (toggle)
+                Add(user);
+        }
+
         public void ToggleUser(in IUserGroup user)
         {
             if (group.Contains(user))
