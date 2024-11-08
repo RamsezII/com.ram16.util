@@ -53,6 +53,7 @@ namespace _UTIL_
             return changed;
         }
 
+        public virtual void ForceUpdate() => ForceUpdate(Value);
         public virtual void ForceUpdate(in T value)
         {
             changed = true;
