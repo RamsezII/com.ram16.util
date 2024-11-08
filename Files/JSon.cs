@@ -67,6 +67,7 @@ public abstract class JSon
             {
                 Debug.Log($"Creating new file at path: \"{filepath}\"".ToSubLog());
                 json.Save(filepath, true);
+                json.OnRead();
             }
             else
                 Debug.LogWarning($"can not read or find file at path: \"{filepath}\"");
