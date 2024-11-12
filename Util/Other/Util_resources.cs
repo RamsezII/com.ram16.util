@@ -11,25 +11,26 @@ public static partial class Util
         return clone;
     }
 
-    public static T InstantiateOrCreate<T>(in Transform parent = null) where T : MonoBehaviour
+    public static T InstantiateOrCreate<T>(in Transform parent = null) where T : Component => (T)InstantiateOrCreate(typeof(T), parent);
+    public static Component InstantiateOrCreate(in System.Type type, in Transform parent = null)
     {
-        string name = typeof(T).FullName;
-        T resource = Resources.Load<T>(name);
-        T clone;
+        string name = type.FullName;
+        Component resource = (Component)Resources.Load(name, type);
+        Component clone;
 
-        if (resource == null)
-        {
-            Debug.Log($"new {name}()".ToSubLog());
-            if (parent == null)
-                clone = new GameObject(name).AddComponent<T>();
-            else
-                clone = parent.ForceFind(name).gameObject.AddComponent<T>();
-        }
-        else
+        if (resource != null)
         {
             Debug.Log($"{nameof(Object.Instantiate)}({name})".ToSubLog());
             clone = Object.Instantiate(resource, parent);
             clone.name = name;
+        }
+        else
+        {
+            Debug.Log($"new {name}()".ToSubLog());
+            if (parent == null)
+                clone = new GameObject(name).AddComponent(type);
+            else
+                clone = parent.ForceFind(name).gameObject.AddComponent(type);
         }
 
         return clone;
