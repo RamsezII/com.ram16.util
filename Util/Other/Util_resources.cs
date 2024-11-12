@@ -11,22 +11,27 @@ public static partial class Util
         return clone;
     }
 
-    public static T InstantiateOrCreate<T>() where T : MonoBehaviour
+    public static T InstantiateOrCreate<T>(in Transform parent = null) where T : MonoBehaviour
     {
         string name = typeof(T).FullName;
         T resource = Resources.Load<T>(name);
+        T clone;
 
         if (resource == null)
         {
             Debug.Log($"new {name}()".ToSubLog());
-            return new GameObject(name).AddComponent<T>();
+            if (parent == null)
+                clone = new GameObject(name).AddComponent<T>();
+            else
+                clone = parent.ForceFind(name).gameObject.AddComponent<T>();
         }
         else
         {
             Debug.Log($"{nameof(Object.Instantiate)}({name})".ToSubLog());
-            T clone = Object.Instantiate(resource);
+            clone = Object.Instantiate(resource, parent);
             clone.name = name;
-            return clone;
         }
+
+        return clone;
     }
 }
