@@ -26,5 +26,6 @@ public static partial class Util
         return dir;
     }
 
-    public static string TypeToPath(this Type type) => type.FullName.Replace('+', '_').Replace(".", string.Empty);
+    public static string TypeToExtension(this Type type) => type.FullName.Replace(".", string.Empty).Replace('+', '_');
+    public static string TypeToPath(this Type type) => type.FullName.Replace('.', Path.PathSeparator).Replace('+', '_');
 }
