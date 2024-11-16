@@ -56,4 +56,22 @@ partial class Util
 
         return type != null;
     }
+
+    public static bool TryGetType<T>(this string typeName, out Type type) where T : class
+    {
+        type = Type.GetType(typeName);
+
+        if (type == null)
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                type = assembly.GetType(typeName);
+                if (type != null)
+                    break;
+            }
+
+        if (type != null && type.IsSubclassOf(typeof(T)))
+            return true;
+
+        return false;
+    }
 }
