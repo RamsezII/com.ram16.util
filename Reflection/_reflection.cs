@@ -42,35 +42,44 @@ partial class Util
         return derivedTypes;
     }
 
+    static bool CheckType(this Type type) => type != null && !type.IsAbstract;
+    static bool CheckType<T>(this Type type) where T : class => CheckType(type) && type.IsSubclassOf(typeof(T));
+
     public static bool TryGetType(this string typeName, out Type type)
     {
         type = Type.GetType(typeName);
+        if (CheckType(type))
+            return true;
 
-        if (type == null)
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                type = assembly.GetType(typeName);
-                if (type != null)
-                    break;
-            }
+        foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            type = assembly.GetType(typeName);
+            if (CheckType(type))
+                return true;
+        }
 
-        return type != null;
+        return false;
+    }
+
+    public static Type GetTypeOrNull(this string typeName)
+    {
+        if (TryGetType(typeName, out Type type))
+            return type;
+        return null;
     }
 
     public static bool TryGetType<T>(this string typeName, out Type type) where T : class
     {
         type = Type.GetType(typeName);
-
-        if (type == null)
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                type = assembly.GetType(typeName);
-                if (type != null)
-                    break;
-            }
-
-        if (type != null && type.IsSubclassOf(typeof(T)))
+        if (CheckType<T>(type))
             return true;
+
+        foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            type = assembly.GetType(typeName);
+            if (CheckType<T>(type))
+                return true;
+        }
 
         return false;
     }

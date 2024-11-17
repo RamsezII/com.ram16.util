@@ -7,13 +7,21 @@ namespace _UTIL_
     {
         public bool changed;
         public T _value, old;
-        public Action<T> onChange, onUpdate, afterChange;
+        protected Action<T> onChange;
+        public Action<T> onUpdate, afterChange;
 
         //------------------------------------------------------------------------------------------------------------------------------
 
         public OnValue(in T init = default) => _value = old = init;
 
         //------------------------------------------------------------------------------------------------------------------------------
+
+        public void AddOnChange(in Action<T> action)
+        {
+            onChange += action;
+            if (changed)
+                action(Value);
+        }
 
         public bool PullChanged()
         {
