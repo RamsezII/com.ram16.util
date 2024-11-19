@@ -8,7 +8,7 @@ namespace _UTIL_
         public bool changed;
         public T _value, old;
         protected Action<T> onChange;
-        public Action<T> onUpdate, afterChange;
+        [Obsolete] public Action<T> onUpdate;
 
         //------------------------------------------------------------------------------------------------------------------------------
 
@@ -19,8 +19,7 @@ namespace _UTIL_
         public void AddOnChange(in Action<T> action)
         {
             onChange += action;
-            if (changed)
-                action(Value);
+            action(Value);
         }
 
         public bool PullChanged()
@@ -48,16 +47,12 @@ namespace _UTIL_
             lock (this)
             {
                 changed = !Util.Equals2(value, _value);
-
-                if (changed)
-                    onChange?.Invoke(value);
-
                 onUpdate?.Invoke(value);
                 old = _value;
                 _value = value;
             }
             if (changed)
-                afterChange?.Invoke(value);
+                onChange?.Invoke(value);
             return changed;
         }
 
