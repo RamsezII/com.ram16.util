@@ -7,8 +7,10 @@ namespace _UTIL_
     {
         public bool changed;
         public T _value, old;
-        protected Action<T> onChange;
+        public Action<T> onChange;
         [Obsolete] public Action<T> onUpdate;
+        public OnProcessor processor;
+        public delegate void OnProcessor(ref T value);
 
         //------------------------------------------------------------------------------------------------------------------------------
 
@@ -16,10 +18,18 @@ namespace _UTIL_
 
         //------------------------------------------------------------------------------------------------------------------------------
 
-        public void AddOnChange(in Action<T> action)
+        public void AddListener(in Action<T> action)
         {
             onChange += action;
             action(Value);
+        }
+
+        public void AddProcessor(in OnProcessor processor)
+        {
+            this.processor += processor;
+            T value = _value;
+            processor(ref value);
+            Update(value);
         }
 
         public bool PullChanged()
@@ -42,8 +52,9 @@ namespace _UTIL_
             }
         }
 
-        public virtual bool Update(in T value)
+        public virtual bool Update(T value)
         {
+            processor?.Invoke(ref value);
             lock (this)
             {
                 changed = !Util.Equals2(value, _value);
@@ -57,9 +68,10 @@ namespace _UTIL_
         }
 
         public virtual void ForceUpdate() => ForceUpdate(Value);
-        public virtual void ForceUpdate(in T value)
+        public virtual void ForceUpdate(T value)
         {
             changed = true;
+            processor?.Invoke(ref value);
             onChange?.Invoke(value);
             onUpdate?.Invoke(value);
             old = _value;

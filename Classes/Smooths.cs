@@ -19,13 +19,13 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public override void ForceUpdate(in T value)
+        public override void ForceUpdate(T value)
         {
             base.ForceUpdate(value);
             target = value;
         }
 
-        public virtual void Reset(in T value)
+        public virtual void Reset(T value)
         {
             ForceUpdate(value);
             velocity = delta = default;
@@ -43,13 +43,13 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public override bool Update(in float value)
+        public override bool Update(float value)
         {
-            delta = value - base._value;
+            delta = value - _value;
             return base.Update(value);
         }
 
-        public override void ForceUpdate(in float value)
+        public override void ForceUpdate(float value)
         {
             delta = default;
             base.ForceUpdate(value);
@@ -84,15 +84,15 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public override bool Update(in Vector2 value)
+        public override bool Update(Vector2 value)
         {
-            delta = value - this._value;
+            delta = value - _value;
             return base.Update(value);
         }
 
-        public override void ForceUpdate(in Vector2 value)
+        public override void ForceUpdate(Vector2 value)
         {
-            delta = value - this._value;
+            delta = value - _value;
             base.ForceUpdate(value);
         }
 
@@ -122,15 +122,15 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public override bool Update(in Vector3 value)
+        public override bool Update(Vector3 value)
         {
             delta = value - this._value;
             return base.Update(value);
         }
 
-        public override void ForceUpdate(in Vector3 value)
+        public override void ForceUpdate(Vector3 value)
         {
-            delta = value - this._value;
+            delta = value - _value;
             base.ForceUpdate(value);
         }
 
