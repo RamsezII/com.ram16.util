@@ -18,18 +18,13 @@ namespace _UTIL_
 
         //------------------------------------------------------------------------------------------------------------------------------
 
-        public void AddListener(in Action<T> action)
+        public T Value
         {
-            onChange += action;
-            action(Value);
-        }
-
-        public void AddProcessor(in OnProcessor processor)
-        {
-            this.processor += processor;
-            T value = _value;
-            processor(ref value);
-            Update(value);
+            get
+            {
+                lock (this)
+                    return _value;
+            }
         }
 
         public bool PullChanged()
@@ -43,13 +38,18 @@ namespace _UTIL_
                 return false;
         }
 
-        public T Value
+        public void AddListener(in Action<T> action)
         {
-            get
-            {
-                lock (this)
-                    return _value;
-            }
+            onChange += action;
+            action(Value);
+        }
+
+        public void AddProcessor(in OnProcessor processor)
+        {
+            this.processor += processor;
+            T value = _value;
+            processor(ref value);
+            Update(value);
         }
 
         public virtual bool Update(T value)
