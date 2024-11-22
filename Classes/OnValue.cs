@@ -39,6 +39,7 @@ namespace _UTIL_
 
         public void AddListener(in Action<T> action)
         {
+            onChange -= action;
             onChange += action;
             action(Value);
         }
