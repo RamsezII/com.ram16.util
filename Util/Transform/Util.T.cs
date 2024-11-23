@@ -2,8 +2,6 @@
 
 public static partial class Util
 {
-    public static string GetRootedPath(this Transform transform) => GetPath(transform, true);
-    public static string GetUnrootedPath(this Transform transform) => GetPath(transform, false);
     public static string GetPath(this Transform transform, in bool includeRoot)
     {
         string res = transform.name;
@@ -47,6 +45,27 @@ public static partial class Util
         Transform T = transform.Find(path);
         if (T != null)
             Destroy(T.gameObject);
+    }
+
+    public static bool TryFindTransform(this string path, out Transform transform)
+    {
+        string[] splits = path.Split('/');
+
+        GameObject root = GameObject.Find(splits[0]);
+        if (root == null)
+        {
+            transform = null;
+            return false;
+        }
+        else
+            transform = root.transform;
+
+        if (splits.Length == 1)
+            return true;
+
+        transform = transform.Find(string.Join('/', splits[1..]));
+
+        return transform != null;
     }
 
     public static Transform ForceFindTransform(this string path)
