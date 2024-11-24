@@ -17,4 +17,6 @@ public static partial class Util
             angle -= 360f;
         return angle * axis;
     }
+
+    public static Quaternion RotateTowards(this in Quaternion rotation, in Vector3 from, in Vector3 to) => Quaternion.FromToRotation(rotation * from, to) * rotation;
 }
