@@ -37,6 +37,8 @@ namespace _UTIL_
     {
         public override bool isUp => target > _value;
 
+        private bool IsTargetHigher => Mathf.Abs(target) > Mathf.Abs(_value);
+
         //----------------------------------------------------------------------------------------------------------
 
         public SmoothFloat(in float init = default) : base(init) { }
@@ -57,9 +59,9 @@ namespace _UTIL_
 
         public bool SmoothDamp(in float damp, in float deltaTime) => Update(Util_smooths.NO_SMOOTH ? target : Mathf.SmoothDamp(_value, target, ref velocity, damp, Mathf.Infinity, deltaTime));
 
-        public bool SmoothDamp(in float up, in float down, in float deltaTime) => Update(Util_smooths.NO_SMOOTH ? target : Mathf.SmoothDamp(_value, target, ref velocity, target > _value ? up : down, Mathf.Infinity, deltaTime));
+        public bool SmoothDamp(in float up, in float down, in float deltaTime) => Update(Util_smooths.NO_SMOOTH ? target : Mathf.SmoothDamp(_value, target, ref velocity, IsTargetHigher ? up : down, Mathf.Infinity, deltaTime));
 
-        public bool SmoothDamp(in float up, in float down, in float limit, in float deltaTime) => Update(Util_smooths.NO_SMOOTH ? target : Mathf.SmoothDamp(_value, target, ref velocity, target > _value ? up : down, limit, deltaTime));
+        public bool SmoothDamp(in float up, in float down, in float limit, in float deltaTime) => Update(Util_smooths.NO_SMOOTH ? target : Mathf.SmoothDamp(_value, target, ref velocity, IsTargetHigher ? up : down, limit, deltaTime));
 
         public bool SmoothDampAngle(in float damp, in float deltaTime, in float maxSpeed = Mathf.Infinity) => Update(Util_smooths.NO_SMOOTH ? target : Mathf.SmoothDampAngle(_value, target, ref velocity, damp, maxSpeed, deltaTime));
     }
