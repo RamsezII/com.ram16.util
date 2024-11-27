@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public static partial class Util
 {
@@ -103,9 +104,45 @@ public static partial class Util
             return ForceFind(tfm, splits[1..]);
     }
 
+    public static bool TryFindByName(this Transform root, in string name, out Transform transform, in StringComparison stringComparison = StringComparison.Ordinal)
+    {
+        foreach (Transform t in root.GetComponentsInChildren<Transform>(true))
+            if (t.name.Equals(name, stringComparison))
+            {
+                transform = t;
+                return true;
+            }
+        transform = null;
+        return false;
+    }
+
+    public static Transform FindByName(this Transform root, in string name, in StringComparison stringComparison = StringComparison.Ordinal)
+    {
+        foreach (Transform t in root.GetComponentsInChildren<Transform>(true))
+            if (t.name.Equals(name, stringComparison))
+                return t;
+        return null;
+    }
+
+    public static void RemoveChildren(this Transform root)
+    {
+        for (int i = 0; i < root.childCount; ++i)
+            UnityEngine.Object.Destroy(root.GetChild(i).gameObject);
+    }
+
+    public static void RemoveChildrenImmediate(this Transform root)
+    {
+        for (int i = 0; i < root.childCount; ++i)
+        {
+            Transform transform = root.GetChild(i);
+            Debug.Log($"Destroying {transform.name} from {root.name} ({transform.GetPath(true)})");
+            UnityEngine.Object.DestroyImmediate(transform.gameObject);
+        }
+    }
+
     public static void DestroyAllByType<ComponentType>(this GameObject gameObject) where ComponentType : Component
     {
         foreach (ComponentType component in gameObject.GetComponentsInChildren<ComponentType>(true))
-            Object.Destroy(component.gameObject);
+            UnityEngine.Object.Destroy(component.gameObject);
     }
 }
