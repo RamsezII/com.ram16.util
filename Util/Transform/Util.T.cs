@@ -145,4 +145,15 @@ public static partial class Util
         foreach (ComponentType component in gameObject.GetComponentsInChildren<ComponentType>(true))
             UnityEngine.Object.Destroy(component.gameObject);
     }
+
+    public static Transform CreateParent(this Transform transform, in string name)
+    {
+        Transform parent = new GameObject(name).transform;
+        parent.SetParent(transform.parent, false);
+        parent.localPosition = transform.localPosition;
+        parent.localRotation = transform.localRotation;
+        parent.localScale = transform.localScale;
+        transform.SetParent(parent, false);
+        return parent;
+    }
 }
