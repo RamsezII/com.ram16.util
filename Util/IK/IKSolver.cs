@@ -55,7 +55,7 @@ namespace _UTIL_
             Solve(pos_a, ab, bc, at, hint, target, slerp);
         }
 
-        public void Solve(in Vector3 pos_a, in float ab, in float bc, in float at, in Vector3 hint, in Vector3 target, in float lerp)
+        void Solve(in Vector3 pos_a, in float ab, in float bc, in float at, in Vector3 hint, in Vector3 target, in float lerp)
         {
             Util.SolveIK(at, ab, bc, out float angleA, out _, out float angleC);
 
