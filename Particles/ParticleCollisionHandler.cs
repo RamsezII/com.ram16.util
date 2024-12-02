@@ -6,6 +6,9 @@ namespace _UTIL_
 {
     public class ParticleCollisionHandler : MonoBehaviour
     {
+#if UNITY_EDITOR
+        [SerializeField] int _count;
+#endif
         public new ParticleSystem particleSystem;
         public Action<GameObject, ParticleCollisionEvent> onParticleCollision;
         readonly List<ParticleCollisionEvent> collisionEvents = new();
@@ -25,6 +28,9 @@ namespace _UTIL_
 
         private void OnParticleCollision(GameObject other)
         {
+#if UNITY_EDITOR
+            ++_count;
+#endif
             if (onParticleCollision == null)
                 Debug.LogWarning($"{this}({transform.GetPath(true)}).{nameof(onParticleCollision)}({onParticleCollision.GetType().FullName}) not set", this);
             else
