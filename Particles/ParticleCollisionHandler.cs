@@ -15,6 +15,10 @@ namespace _UTIL_
         private void Awake()
         {
             particleSystem = GetComponentInChildren<ParticleSystem>(true);
+
+            // Exemple de configuration des données de collision
+            ParticleSystem.CollisionModule collision = particleSystem.collision;
+            collision.sendCollisionMessages = true;
         }
 
         //--------------------------------------------------------------------------------------------------------------

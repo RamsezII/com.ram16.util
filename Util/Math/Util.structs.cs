@@ -149,5 +149,7 @@ namespace _UTIL_
             Vector3.LerpUnclamped(a.pos, b.pos, slerp),
             Vector3.SlerpUnclamped(a.dir, b.dir, slerp)
             );
+
+        public void DrawRay(in Color color, in float duration = 0) => Debug.DrawRay(pos, dir, color, duration);
     }
 }
