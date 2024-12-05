@@ -28,60 +28,76 @@ namespace _UTIL_
 
         public bool PullChanged()
         {
-            if (changed)
-            {
-                changed = false;
-                return true;
-            }
-            else
-                return false;
+            lock (this)
+                if (changed)
+                {
+                    changed = false;
+                    return true;
+                }
+                else
+                    return false;
         }
 
         public void AddListener(in Action<T> action)
         {
-            onChange -= action;
-            onChange += action;
-            action(Value);
+            lock (this)
+            {
+                onChange -= action;
+                onChange += action;
+                action(Value);
+            }
+        }
+
+        public void RemoveListener(in Action<T> action)
+        {
+            lock (this)
+                onChange -= action;
         }
 
         public void AddProcessor(in Func<T, T> processor)
         {
-            this.processor += processor;
-            T value = processor(_value);
-            Update(value);
+            lock (this)
+            {
+                this.processor += processor;
+                Update(_value);
+            }
         }
 
         public virtual bool Update(T value)
         {
-            if (processor != null)
-                value = processor(value);
-
             lock (this)
             {
-                changed = !Util.Equals2(value, _value);
-                onUpdate?.Invoke(value);
                 old = _value;
+
+                if (processor != null)
+                    value = processor(value);
+
+                changed = !Util.Equals2(value, _value);
                 _value = value;
+
+                onUpdate?.Invoke(value);
+                if (changed)
+                    onChange?.Invoke(value);
+
+                return changed;
             }
-
-            if (changed)
-                onChange?.Invoke(value);
-
-            return changed;
         }
 
         public virtual void ForceUpdate() => ForceUpdate(Value);
         public virtual void ForceUpdate(T value)
         {
-            changed = true;
+            lock (this)
+            {
+                changed = true;
+                old = _value;
 
-            if (processor != null)
-                value = processor(value);
+                if (processor != null)
+                    value = processor(value);
 
-            onChange?.Invoke(value);
-            onUpdate?.Invoke(value);
-            old = _value;
-            _value = value;
+                onUpdate?.Invoke(value);
+                onChange?.Invoke(value);
+                _value = value;
+            }
         }
     }
 }
