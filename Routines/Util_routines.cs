@@ -31,4 +31,11 @@ public static partial class Util
         }
         action();
     }
+
+    public static IEnumerator EWaitForCondition(this Func<bool> condition, Action action)
+    {
+        while (!condition())
+            yield return null;
+        action();
+    }
 }
