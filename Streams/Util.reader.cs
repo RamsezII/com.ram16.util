@@ -45,6 +45,8 @@ public static partial class Util
 
     public static Quaternion ReadQ_3u8(this BinaryReader reader) => Quaternion.Euler(360f / byte.MaxValue * new Vector3(reader.ReadByte(), reader.ReadByte(), reader.ReadByte())).normalized;
 
+    public static Quaternion ReadQ_3f16(this BinaryReader reader) => Quaternion.Euler(new Vector3(reader.Read_f16(), reader.Read_f16(), reader.Read_f16())).normalized;
+
     public static Quaternion ReadQ_4f16(this BinaryReader reader) => new Quaternion(reader.Read_f16(), reader.Read_f16(), reader.Read_f16(), reader.Read_f16()).normalized;
 
     public static Quaternion ReadQ_4f32(this BinaryReader reader) => new Quaternion(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()).normalized;
