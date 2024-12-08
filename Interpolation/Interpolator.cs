@@ -21,42 +21,64 @@ namespace _UTIL_
             tlast = tb = time;
         }
 
-        public T Interp(in float time, in float lerpMultiplier = 1)
+        public T Interp(in float time)
         {
             tlast = time;
 
-            float lerp = lerpMultiplier * Mathf.InverseLerp(ta, tb, time);
+            float lerp = ta >= tb ? 1 : Mathf.InverseLerp(ta, tb, time);
             if (lerp >= 1)
-                return b;
+                return last = b;
 
             return last = Lerp(lerp);
         }
 
         protected abstract T Lerp(in float lerp);
+
+        public T InterpAround(in float time, in Vector3 pivot)
+        {
+            tlast = time;
+
+            float lerp = Mathf.InverseLerp(ta, tb, time);
+            if (lerp >= 1)
+                return last = b;
+
+            return last = SlerpAround(lerp, pivot);
+        }
+
+        protected abstract T SlerpAround(in float lerp, in Vector3 pivot);
     }
 
     [Serializable]
-    public class InterpolatorV3_lerp : Interpolator<Vector3>
+    public class PosDirInterpolator3D : Interpolator<PosDir3D>
+    {
+        protected override PosDir3D Lerp(in float lerp) => PosDir3D.Slerp(a, b, lerp);
+        protected override PosDir3D SlerpAround(in float lerp, in Vector3 pivot)
+        {
+            Vector3 position = pivot + Vector3.Slerp(a.position - pivot, b.position - pivot, lerp);
+            Vector3 direction = Vector3.Slerp(a.direction, b.direction, lerp);
+            return (position, direction);
+        }
+    }
+
+    [Serializable]
+    public class InterpolatorV3 : Interpolator<Vector3>
     {
         protected override Vector3 Lerp(in float lerp) => Vector3.Lerp(a, b, lerp);
-    }
-
-    [Serializable]
-    public class InterpolatorV3_slerp : Interpolator<Vector3>
-    {
-        protected override Vector3 Lerp(in float lerp) => Vector3.Slerp(a, b, lerp);
+        protected override Vector3 SlerpAround(in float lerp, in Vector3 pivot) => pivot + Vector3.Slerp(a - pivot, b - pivot, lerp);
     }
 
     [Serializable]
     public class InterpolatorQuaternion : Interpolator<Quaternion>
     {
         protected override Quaternion Lerp(in float lerp) => Quaternion.Slerp(a, b, lerp);
+        protected override Quaternion SlerpAround(in float lerp, in Vector3 pivot) => throw new NotImplementedException();
     }
 
     [Serializable]
     public class InterpolatorPosRot : Interpolator<PosRot>
     {
         protected override PosRot Lerp(in float lerp) => PosRot.Slerp(a, b, lerp);
+        protected override PosRot SlerpAround(in float lerp, in Vector3 pivot) => throw new NotImplementedException();
     }
 
     [Serializable]

@@ -111,45 +111,46 @@ namespace _UTIL_
     }
 
     [Serializable]
-    public struct PosDir
+    public struct PosDir3D
     {
-        public Vector3 pos;
-        public Vector3 dir;
+        public Vector3 position;
+        public Vector3 direction;
+        public readonly Ray GetRay => new(position, direction);
 
         //----------------------------------------------------------------------------------------------------------
 
-        public PosDir(in Vector3 pos, in Vector3 dir)
+        public PosDir3D(in Vector3 position, in Vector3 direction)
         {
-            this.pos = pos;
-            this.dir = dir;
+            this.position = position;
+            this.direction = direction;
         }
 
         //----------------------------------------------------------------------------------------------------------
 
-        public static implicit operator (Vector3 pos, Vector3 dir)(in PosDir value) => (value.pos, value.dir);
+        public static implicit operator (Vector3 pos, Vector3 dir)(in PosDir3D value) => (value.position, value.direction);
 
-        public static implicit operator PosDir(in (Vector3 pos, Vector3 dir) value) => new(value.pos, value.dir);
+        public static implicit operator PosDir3D(in (Vector3 pos, Vector3 dir) value) => new(value.pos, value.dir);
 
         public readonly void Deconstruct(out Vector3 pos, out Vector3 dir)
         {
-            pos = this.pos;
-            dir = this.dir;
+            pos = position;
+            dir = direction;
         }
 
         //----------------------------------------------------------------------------------------------------------
 
-        public readonly Vector3 Distance(in float distance) => pos + dir * distance;
+        public readonly Vector3 Distance(in float distance) => position + direction * distance;
 
-        public static PosDir Slerp(in PosDir a, in PosDir b, in float slerp) => new(
-            Vector3.Lerp(a.pos, b.pos, slerp),
-            Vector3.Slerp(a.dir, b.dir, slerp)
+        public static PosDir3D Slerp(in PosDir3D a, in PosDir3D b, in float slerp) => new(
+            Vector3.Lerp(a.position, b.position, slerp),
+            Vector3.Slerp(a.direction, b.direction, slerp)
             );
 
-        public static PosDir SlerpU(in PosDir a, in PosDir b, in float slerp) => new(
-            Vector3.LerpUnclamped(a.pos, b.pos, slerp),
-            Vector3.SlerpUnclamped(a.dir, b.dir, slerp)
+        public static PosDir3D SlerpU(in PosDir3D a, in PosDir3D b, in float slerp) => new(
+            Vector3.LerpUnclamped(a.position, b.position, slerp),
+            Vector3.SlerpUnclamped(a.direction, b.direction, slerp)
             );
 
-        public void DrawRay(in Color color, in float duration = 0) => Debug.DrawRay(pos, dir, color, duration);
+        public void DrawRay(in Color color, in float duration = 0) => Debug.DrawRay(position, direction, color, duration);
     }
 }
