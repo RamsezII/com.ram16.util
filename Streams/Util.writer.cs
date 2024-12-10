@@ -113,12 +113,7 @@ public static partial class Util
     {
         Vector3 eulers = value.eulerAngles;
         for (int i = 0; i < 3; ++i)
-        {
-            float angle = eulers[i];
-            if (angle > 180)
-                angle -= 360;
-            writer.Write_f16(angle);
-        }
+            writer.Write_f16(eulers[i]);
     }
 
     public static void WriteQ_4f16(this BinaryWriter writer, in Quaternion value)
