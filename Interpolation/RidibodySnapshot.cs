@@ -17,7 +17,7 @@ namespace _UTIL_
         {
             time = Time.time;
             pos = rigidbody.position;
-            vlc = rigidbody.velocity;
+            vlc = rigidbody.linearVelocity;
             avlc = rigidbody.angularVelocity;
             rot = rigidbody.rotation;
         }
