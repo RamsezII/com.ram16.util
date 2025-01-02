@@ -126,7 +126,7 @@ namespace _UTIL_
 
         public override bool Update(Vector3 value)
         {
-            delta = value - this._value;
+            delta = value - _value;
             return base.Update(value);
         }
 
@@ -144,8 +144,30 @@ namespace _UTIL_
                 val = target;
                 velocity = Vector3.zero;
             }
+            else if (Util_smooths.NO_SMOOTH)
+                val = target;
             else
-                val = Util_smooths.NO_SMOOTH ? target : Vector3.SmoothDamp(_value, target, ref velocity, damp, maxSpeed, deltaTime);
+                val = Vector3.SmoothDamp(_value, target, ref velocity, damp, maxSpeed, deltaTime);
+            sqr = val.sqrMagnitude;
+            return Update(val);
+        }
+
+        public bool SmoothDampAngle(in float damp, in float deltaTime, in float maxSpeed = Mathf.Infinity)
+        {
+            Vector3 val;
+            if (damp < .01f)
+            {
+                val = target;
+                velocity = Vector3.zero;
+            }
+            else if (Util_smooths.NO_SMOOTH)
+                val = target;
+            else
+            {
+                val.x = Mathf.SmoothDampAngle(_value.x, target.x, ref velocity.x, damp, maxSpeed, deltaTime);
+                val.y = Mathf.SmoothDampAngle(_value.y, target.y, ref velocity.y, damp, maxSpeed, deltaTime);
+                val.z = Mathf.SmoothDampAngle(_value.z, target.z, ref velocity.z, damp, maxSpeed, deltaTime);
+            }
             sqr = val.sqrMagnitude;
             return Update(val);
         }
