@@ -11,7 +11,6 @@ namespace _UTIL_
     {
         public T velocity;
         public T target, delta;
-        public abstract bool isUp { get; }
 
         //----------------------------------------------------------------------------------------------------------
 
@@ -35,8 +34,6 @@ namespace _UTIL_
     [System.Serializable]
     public class SmoothFloat : Smooth<float>
     {
-        public override bool isUp => target > _value;
-
         private bool IsTargetHigher => Mathf.Abs(target) > Mathf.Abs(_value);
 
         //----------------------------------------------------------------------------------------------------------
@@ -78,10 +75,6 @@ namespace _UTIL_
     [System.Serializable]
     public class SmoothVector2 : SmoothVector<Vector2>
     {
-        public override bool isUp => target.sqrMagnitude > sqr;
-
-        //----------------------------------------------------------------------------------------------------------
-
         public SmoothVector2(in Vector2 init = default) : base(init) { sqr = init.sqrMagnitude; }
 
         //----------------------------------------------------------------------------------------------------------
@@ -116,10 +109,6 @@ namespace _UTIL_
     [System.Serializable]
     public class SmoothVector3 : SmoothVector<Vector3>
     {
-        public override bool isUp => target.sqrMagnitude > sqr;
-
-        //----------------------------------------------------------------------------------------------------------
-
         public SmoothVector3(in Vector3 init = default) : base(init) { sqr = init.sqrMagnitude; }
 
         //----------------------------------------------------------------------------------------------------------

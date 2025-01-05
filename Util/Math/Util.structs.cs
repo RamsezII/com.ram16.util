@@ -54,7 +54,7 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public PosEul(in Transform T) : this(T.localPosition, T.localEulerAngles.SignedEuler()) { }
+        public PosEul(in Transform T) : this(T.localPosition, T.localEulerAngles.SignedEuler_OLD()) { }
         public PosEul(in Vector3 pos, in Vector3 eul)
         {
             this.pos = pos;
@@ -84,7 +84,7 @@ namespace _UTIL_
         public void Slerp(in PosEul b, in float lerp)
         {
             pos = Vector3.Lerp(pos, b.pos, lerp);
-            eul = Quaternion.Slerp(Quaternion.Euler(eul), Quaternion.Euler(b.eul), lerp).eulerAngles.SignedEuler();
+            eul = Quaternion.Slerp(Quaternion.Euler(eul), Quaternion.Euler(b.eul), lerp).eulerAngles.SignedEuler_OLD();
         }
 
         public static PosEul Lerp(in PosEul a, in PosEul b, in float lerp) => new(
