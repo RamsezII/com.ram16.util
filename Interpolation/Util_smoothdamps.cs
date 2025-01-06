@@ -24,18 +24,18 @@ partial class Util
         return Quaternion.Euler(deltaTime * angularVelocity) * current;
     }
 
-    public static void SmoothDamp(this Rigidbody rigidbody, in Quaternion target, in float damp, in float maxSpeed)
+    public static void SmoothDamp(this Rigidbody rigidbody, in Quaternion target, in float damp, in float maxSpeed, in float control)
     {
         Vector3 angularVelocity1 = rigidbody.angularVelocity;
         Vector3 angularVelocity2 = angularVelocity1 * Mathf.Rad2Deg;
         SmoothDamp(rigidbody.rotation, target, ref angularVelocity2, damp, maxSpeed, Time.fixedDeltaTime);
-        rigidbody.AddTorque(angularVelocity2 * Mathf.Deg2Rad - angularVelocity1, ForceMode.VelocityChange);
+        rigidbody.AddTorque(control * (angularVelocity2 * Mathf.Deg2Rad - angularVelocity1), ForceMode.VelocityChange);
     }
 
-    public static void SmoothDamp(this Rigidbody rigidbody, in Vector3 target, in float damp, in float maxSpeed)
+    public static void SmoothDamp(this Rigidbody rigidbody, in Vector3 target, in float damp, in float maxSpeed, in float control)
     {
         Vector3 velocity = rigidbody.linearVelocity;
         Vector3.SmoothDamp(rigidbody.position, target, ref velocity, damp, maxSpeed, Time.fixedDeltaTime);
-        rigidbody.AddForce(velocity - rigidbody.linearVelocity, ForceMode.VelocityChange);
+        rigidbody.AddForce(control * (velocity - rigidbody.linearVelocity), ForceMode.VelocityChange);
     }
 }
