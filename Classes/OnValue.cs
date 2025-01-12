@@ -17,6 +17,16 @@ namespace _UTIL_
 
         //------------------------------------------------------------------------------------------------------------------------------
 
+        public void Reset()
+        {
+            changed = false;
+            _value = default;
+            old = default;
+            onChange = null;
+            processor = null;
+            onUpdate = null;
+        }
+
         public T Value
         {
             get
