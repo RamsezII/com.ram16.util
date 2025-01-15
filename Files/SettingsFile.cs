@@ -9,7 +9,7 @@ namespace _UTIL_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public void Save(in bool log) => Save(FILE_PATH, log);
+        public void Save() => Save(FILE_PATH);
         public static void Load<T>(ref T text, in bool log) where T : SettingsFile, new()
         {
             text = new();
