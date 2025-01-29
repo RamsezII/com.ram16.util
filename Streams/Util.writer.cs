@@ -58,6 +58,14 @@ public static partial class Util
         return length;
     }
 
+    public static void WriteEmptyIfNull(this BinaryWriter writer, in string text)
+    {
+        if (text == null)
+            writer.Write(string.Empty);
+        else
+            writer.Write(text);
+    }
+
     public static void WriteText(this BinaryWriter writer, in string text)
     {
         if (string.IsNullOrWhiteSpace(text))

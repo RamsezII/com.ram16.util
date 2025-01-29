@@ -25,4 +25,5 @@ public static partial class Util
     public static string TipToLog(this string tip) => $"<i><color=#DDDDDD>tip:</color> {tip}</i>";
     public static void LogAsTip(this string tip) => Debug.Log(TipToLog(tip));
     public static string Message(this System.Exception e) => $"{e.GetType()} : \"{e.Message.TrimEnd('\n', '\r', '\t')}\"";
+    public static void Log(this object message, in Colors color, in Object context) => Debug.Log(message.ToString().SetColor(color), context);
 }
