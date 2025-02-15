@@ -13,13 +13,13 @@ public abstract class JSon
     public string ToJson() => JsonUtility.ToJson(this, true);
     protected virtual void OnApply() { }
     protected virtual void OnSave() => OnApply();
-    public void Save(in string filepath, in FileAttributes attributes = FileAttributes.Normal)
+    public void Save(in string filepath, in bool log)
     {
         OnSave();
-        Save(filepath, JsonUtility.ToJson(this, true), attributes);
+        Save(filepath, JsonUtility.ToJson(this, true), log);
     }
 
-    public static void Save(in string filepath, in string text, in FileAttributes attributes)
+    public static void Save(in string filepath, in string text, in bool log)
     {
         filepath.CheckParentDirectory();
 
@@ -27,9 +27,10 @@ public abstract class JSon
             File.SetAttributes(filepath, FileAttributes.Normal);
 
         File.WriteAllText(filepath, text);
-        File.SetAttributes(filepath, attributes);
+        File.SetAttributes(filepath, FileAttributes.Normal);
 
-        Debug.Log($"{typeof(JSon).FullName}.{nameof(Save)}: {filepath}".ToSubLog());
+        if (log)
+            Debug.Log($"{typeof(JSon).FullName}.{nameof(Save)}: {filepath}".ToSubLog());
     }
 
     public virtual void OnRead()
@@ -65,7 +66,7 @@ public abstract class JSon
             if (force)
             {
                 Debug.Log($"Creating new file at path: \"{filepath}\"".ToSubLog());
-                json.Save(filepath);
+                json.Save(filepath, true);
                 json.OnRead();
             }
             else

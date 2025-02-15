@@ -20,7 +20,9 @@ namespace _UTIL_
         {
             handler = GetComponentInParent<ParticleCollisionHandler>();
             handler.onParticleCollision += _OnParticleCollision;
-            Debug.Log($"{this}({transform.GetPath(true)}).{nameof(handler)}({handler.GetType().FullName}) = {handler}", this);
+#if UNITY_EDITOR
+            Debug.Log($"{this}({transform.GetPath(true)}).{nameof(handler)}({handler.GetType().FullName}) = {handler}".ToSubLog(), this);
+#endif
         }
 
         //--------------------------------------------------------------------------------------------------------------
