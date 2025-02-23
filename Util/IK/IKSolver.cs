@@ -54,9 +54,15 @@ namespace _UTIL_
 
         void Solve(in Vector3 pos_a, in float ab, in float bc, float at, in Vector3 hint, in Vector3 target, in float weight)
         {
-            at = Mathf.Clamp(at, ab - bc, ab + bc);
+            at = Mathf.Clamp(at, 1.01f * (ab - bc), .99f * (ab + bc));
 
             Util.SolveIK(at, ab, bc, out float angleA, out _, out float angleC);
+
+            if (float.IsNaN(angleA) || float.IsNaN(angleC))
+            {
+                Debug.LogWarning($"{GetType().FullName} {{ {nameof(angleA)}: {angleA}, {{ {nameof(angleC)}: {angleC} }}");
+                return;
+            }
 
             Quaternion
                 rot = Quaternion.LookRotation(target - pos_a, hint - pos_a),

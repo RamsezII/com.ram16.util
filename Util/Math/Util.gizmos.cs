@@ -20,4 +20,14 @@ public static partial class Util
         Debug.DrawRay(position, rotation * Vector3.up * scale, Color.green, timer);
         Debug.DrawRay(position, rotation * Vector3.forward * scale, Color.blue, timer);
     }
+
+    public static void DrawSphereGizmo(this in Vector3 position, in float radius, in Color color, in bool force = false)
+    {
+        if (!force && position == default)
+            return;
+
+        Gizmos.color = color;
+        Gizmos.DrawSphere(position, .5f * radius);
+        Gizmos.DrawWireSphere(position, radius);
+    }
 }
