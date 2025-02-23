@@ -4,8 +4,8 @@ namespace _UTIL_
 {
     public class IKSolver
     {
-        readonly Transform a, b, c;
-        readonly Quaternion IK2A, IK2B;
+        public readonly Transform a, b, c;
+        readonly Quaternion ik2a, ik2b;
 
         //----------------------------------------------------------------------------------------------------------
 
@@ -15,8 +15,8 @@ namespace _UTIL_
             this.b = b;
             this.c = c;
 
-            IK2A = Quaternion.Inverse(Quaternion.LookRotation(b.position - a.position, initRot * Vector3.up)) * a.rotation;
-            IK2B = Quaternion.Inverse(Quaternion.LookRotation(c.position - b.position, initRot * Vector3.up)) * b.rotation;
+            ik2a = Quaternion.Inverse(Quaternion.LookRotation(b.position - a.position, initRot * Vector3.up)) * a.rotation;
+            ik2b = Quaternion.Inverse(Quaternion.LookRotation(c.position - b.position, initRot * Vector3.up)) * b.rotation;
         }
 
         //----------------------------------------------------------------------------------------------------------
@@ -49,24 +49,35 @@ namespace _UTIL_
                 bc = Vector3.Distance(pos_b, pos_c),
                 at = Vector3.Distance(pos_a, target);
 
-            float safeZone = 1.01f * (ab - bc);
-            if (at < safeZone)
-                at = safeZone;
-
             Solve(pos_a, ab, bc, at, hint, target, weight);
         }
 
-        void Solve(in Vector3 pos_a, in float ab, in float bc, in float at, in Vector3 hint, in Vector3 target, in float weight)
+        void Solve(in Vector3 pos_a, in float ab, in float bc, float at, in Vector3 hint, in Vector3 target, in float weight)
         {
+            at = Mathf.Clamp(at, ab - bc, ab + bc);
+
             Util.SolveIK(at, ab, bc, out float angleA, out _, out float angleC);
 
             Quaternion
                 rot = Quaternion.LookRotation(target - pos_a, hint - pos_a),
-                rota = rot * Quaternion.Euler(-angleA, 0, 0) * IK2A,
-                rotb = Quaternion.Inverse(rota) * rot * Quaternion.Euler(angleC, 0, 0) * IK2B;
+                rota = rot * Quaternion.Euler(-angleA, 0, 0) * ik2a,
+                rotb = Quaternion.Inverse(rota) * rot * Quaternion.Euler(angleC, 0, 0) * ik2b;
 
             Quaternion arot = a.rotation = Quaternion.Slerp(a.rotation, rota, weight);
             b.localRotation = Quaternion.Slerp(b.localRotation, Quaternion.Inverse(b.parent.rotation) * arot * rotb, weight);
         }
+
+        //----------------------------------------------------------------------------------------------------------
+
+#if UNITY_EDITOR
+        public void DrawGizmos(in Color color)
+        {
+            if (a == null || b == null || c == null)
+                return;
+            Gizmos.color = color;
+            Gizmos.DrawLine(a.position, b.position);
+            Gizmos.DrawLine(b.position, c.position);
+        }
+#endif
     }
 }
