@@ -7,9 +7,6 @@ namespace _UTIL_
         readonly Transform a, b, c;
         readonly Quaternion IK2A, IK2B;
 
-        [HideInInspector] public Vector3 pos_a;
-        [HideInInspector] public float ab, bc, at;
-
         //----------------------------------------------------------------------------------------------------------
 
         public IKSolver(in Transform a, in Transform b, in Transform c, in Quaternion initRot)
@@ -24,50 +21,52 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public void Solve_scaled(in Vector3 hint, in Vector3 target, in float slerp)
+        public void Solve_scaled(in Vector3 hint, in Vector3 target, in float weight)
         {
-            pos_a = a.position;
+            Vector3 pos_a = a.position;
 
             Vector3
                 bpos = a.InverseTransformPoint(b.position),
                 cpos = a.InverseTransformPoint(c.position),
                 tpos = a.InverseTransformPoint(target);
 
-            ab = bpos.magnitude;
-            bc = Vector3.Distance(bpos, cpos);
-            at = tpos.magnitude;
+            float ab = bpos.magnitude;
+            float bc = Vector3.Distance(bpos, cpos);
+            float at = tpos.magnitude;
 
-            Solve(pos_a, ab, bc, at, hint, target, slerp);
+            Solve(pos_a, ab, bc, at, hint, target, weight);
         }
-        
-        public void Solve_unscaled(in Vector3 hint, in Vector3 target, in float slerp)
-        {
-            pos_a = a.position;
 
-            Vector3 
+        public void Solve_unscaled(in Vector3 hint, in Vector3 target, in float weight)
+        {
+            Vector3
+                pos_a = a.position,
                 pos_b = b.position,
                 pos_c = c.position;
 
-            ab = Vector3.Distance(pos_a, pos_b);
-            bc = Vector3.Distance(pos_b, pos_c);
-            at = Vector3.Distance(pos_a, target);
+            float
+                ab = Vector3.Distance(pos_a, pos_b),
+                bc = Vector3.Distance(pos_b, pos_c),
+                at = Vector3.Distance(pos_a, target);
 
-            Solve(pos_a, ab, bc, at, hint, target, slerp);
+            float safeZone = 1.01f * (ab - bc);
+            if (at < safeZone)
+                at = safeZone;
+
+            Solve(pos_a, ab, bc, at, hint, target, weight);
         }
 
-        void Solve(in Vector3 pos_a, in float ab, in float bc, in float at, in Vector3 hint, in Vector3 target, in float lerp)
+        void Solve(in Vector3 pos_a, in float ab, in float bc, in float at, in Vector3 hint, in Vector3 target, in float weight)
         {
             Util.SolveIK(at, ab, bc, out float angleA, out _, out float angleC);
 
             Quaternion
-                rotc = c.rotation,
                 rot = Quaternion.LookRotation(target - pos_a, hint - pos_a),
                 rota = rot * Quaternion.Euler(-angleA, 0, 0) * IK2A,
                 rotb = Quaternion.Inverse(rota) * rot * Quaternion.Euler(angleC, 0, 0) * IK2B;
 
-            a.rotation = Quaternion.Slerp(a.rotation, rota, lerp);
-            b.localRotation = Quaternion.Slerp(b.localRotation, rotb, lerp);
-            c.rotation = rotc;
+            Quaternion arot = a.rotation = Quaternion.Slerp(a.rotation, rota, weight);
+            b.localRotation = Quaternion.Slerp(b.localRotation, Quaternion.Inverse(b.parent.rotation) * arot * rotb, weight);
         }
     }
 }
