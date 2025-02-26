@@ -8,17 +8,17 @@ public static partial class Util
         app_path = Directory.GetCurrentDirectory(),
         home_path = Path.Combine(app_path, "Home");
 
-    public static DirectoryInfo HOME_DIR => home_path.GetDir(true);
-    public static DirectoryInfo STREAM_DIR => Application.streamingAssetsPath.GetDir(true);
+    public static DirectoryInfo HOME_DIR => home_path.ForceDir();
+    public static DirectoryInfo STREAM_DIR => Application.streamingAssetsPath.ForceDir();
 
     //----------------------------------------------------------------------------------------------------------
 
     public static long SecondsSinceLastWriteTime(this FileInfo file) => (DateTime.UtcNow - file.LastWriteTimeUtc).Ticks / TimeSpan.TicksPerSecond;
 
-    public static DirectoryInfo GetDir(this string path, in bool force = true)
+    public static DirectoryInfo ForceDir(this string path)
     {
         DirectoryInfo dir = new(path);
-        if (force && !dir.Exists)
+        if (!dir.Exists)
         {
             dir.Create();
             Debug.Log($"Created directory at: \"{dir.FullName}\"".ToSubLog());
