@@ -5,7 +5,7 @@ using UnityEngine;
 public static partial class Util
 {
     public static readonly string
-        app_path = Directory.GetCurrentDirectory(),
+        app_path = Directory.GetParent(Application.dataPath).FullName,
         home_path = Path.Combine(app_path, "Home");
 
     public static DirectoryInfo HOME_DIR => home_path.ForceDir();
