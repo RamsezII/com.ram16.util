@@ -6,11 +6,14 @@ using UnityEngine;
 
 public static partial class Util_net
 {
+    [Obsolete]
     public const ushort TCP_CHUNK = 1024;
 
     //----------------------------------------------------------------------------------------------------------
 
+    [Obsolete]
     public static void TryTCP_paragon(Action onError, Action<TcpClient, BinaryWriter, BinaryReader> onCommunication) => TryTCP(DOMAIN_3VE, PORT_PARAGON, true, onError, onCommunication);
+    [Obsolete]
     public static void TryTCP(in string host, in ushort port, in bool log, in Action onError, in Action<TcpClient, BinaryWriter, BinaryReader> onCommunication)
     {
         string endPoint = $"{{ {host}:{port} }}";

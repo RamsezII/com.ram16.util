@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static partial class Util_net
 {
+    [Obsolete]
     public static bool TryDownloadFile(this BinaryReader reader, in string savePath, in bool log, out FileInfo savedFile, in Action<string> onProgression)
     {
         uint fileSize = reader.ReadUInt32(), remaining = fileSize;
@@ -49,6 +50,7 @@ public static partial class Util_net
         }
     }
 
+    [Obsolete]
     public static void UploadFile(this BinaryWriter writer, in FileInfo file, in bool log, in Action<string> onProgression)
     {
         uint fileSize = (uint)file.Length, remaining = fileSize;
