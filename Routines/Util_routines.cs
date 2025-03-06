@@ -19,23 +19,27 @@ public static partial class Util
         action();
     }
 
-    public static IEnumerator EWaitForSeconds(this float seconds, bool scaled, Action action)
+    public static IEnumerator<float> EWaitForSeconds(this float seconds, bool scaled, Action action)
     {
-        while (seconds > 0)
+        float timer = seconds;
+        while (timer > 0)
         {
             if (scaled)
-                seconds -= Time.deltaTime;
+                timer -= Time.deltaTime;
             else
-                seconds -= Time.unscaledDeltaTime;
-            yield return null;
+                timer -= Time.unscaledDeltaTime;
+            yield return 1 - timer / seconds;
         }
         action();
     }
 
-    public static IEnumerator EWaitForCondition(this Func<bool> condition, Action action)
+    public static IEnumerator<float> EWaitForCondition(this Func<bool> condition, Func<float> progression, Action action)
     {
         while (!condition())
-            yield return null;
+            if (progression == null)
+                yield return 0;
+            else
+                yield return progression();
         action();
     }
 }
