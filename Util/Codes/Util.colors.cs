@@ -27,4 +27,5 @@
     white = 0xffffffff,
     yellow = 0xffff00ff,
     pink = 0xffc0cbff,
+    ivory = 0xfffff0ff,
 }
