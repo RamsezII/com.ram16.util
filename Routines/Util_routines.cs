@@ -30,7 +30,7 @@ public static partial class Util
                 timer -= Time.unscaledDeltaTime;
             yield return 1 - timer / seconds;
         }
-        action();
+        action?.Invoke();
     }
 
     public static IEnumerator<float> EWaitForCondition(this Func<bool> condition, Func<float> progression, Action action)
