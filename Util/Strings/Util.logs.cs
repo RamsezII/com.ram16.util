@@ -20,11 +20,11 @@ public static partial class Util
         if (fileSize < 1024)
             return $"{fileSize}B";
         else if (fileSize < 1024 * 1024)
-            return $"{Math.Round(fileSize / 1024f, 1)}KB";
+            return $"{Math.Round(fileSize / 1024f, 2)}Ko";
         else if (fileSize < 1024 * 1024 * 1024)
-            return $"{Math.Round(fileSize / (1024 * 1024f), 1)}MB";
+            return $"{Math.Round(fileSize / (1024 * 1024f), 2)}Mo";
         else
-            return $"{Math.Round(fileSize / (1024 * 1024 * 1024f), 1)}GB";
+            return $"{Math.Round(fileSize / (1024 * 1024 * 1024f), 2)}Go";
     }
 
     public static string SecondsLog(this in long seconds)

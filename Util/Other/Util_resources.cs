@@ -17,21 +17,27 @@ public static partial class Util
         string name = type.FullName;
         Component resource = (Component)Resources.Load(name, type);
         Component clone;
+        string log;
 
         if (resource != null)
         {
-            Debug.Log($"{nameof(Object.Instantiate)}({name})".ToSubLog());
+            log = $"instantiated \"{name}\"";
             clone = Object.Instantiate(resource, parent);
             clone.name = name;
         }
         else
         {
-            Debug.Log($"new {name}()".ToSubLog());
+            log = $"created \"{name}\"";
             if (parent == null)
                 clone = new GameObject(name).AddComponent(type);
             else
                 clone = parent.ForceFind(name).gameObject.AddComponent(type);
         }
+
+        if (parent != null)
+            log += $" ({clone.transform.GetPath(true)})";
+
+        Debug.Log(log.ToSubLog());
 
         return clone;
     }
