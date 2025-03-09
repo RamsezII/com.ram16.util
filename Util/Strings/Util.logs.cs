@@ -14,8 +14,8 @@ public static partial class Util
     }
 
     public static string TrimMessage(this Exception e) => e.Message.TrimEnd('\n', '\r', '\0');
-    public static string FileSizeLog(this in uint fileSize) => ((long)fileSize).FileSizeLog();
-    public static string FileSizeLog(this in long fileSize)
+    public static string FileSizeLog(this in uint fileSize) => ((long)fileSize).LogDataSize();
+    public static string LogDataSize(this in long fileSize)
     {
         if (fileSize < 1024)
             return $"{fileSize}B";
