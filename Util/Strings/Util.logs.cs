@@ -15,16 +15,18 @@ public static partial class Util
 
     public static string TrimMessage(this Exception e) => e.Message.TrimEnd('\n', '\r', '\0');
     public static string FileSizeLog(this in uint fileSize) => ((long)fileSize).LogDataSize();
-    public static string LogDataSize(this in long fileSize)
+    public static string LogDataSize(this in long data_size)
     {
-        if (fileSize < 1024)
-            return $"{fileSize}B";
-        else if (fileSize < 1024 * 1024)
-            return $"{Math.Round(fileSize / 1024f, 2)}Ko";
-        else if (fileSize < 1024 * 1024 * 1024)
-            return $"{Math.Round(fileSize / (1024 * 1024f), 2)}Mo";
+        if (data_size == 0)
+            return "0";
+        else if (data_size < 1024)
+            return $"{data_size}B";
+        else if (data_size < 1024 * 1024)
+            return $"{Math.Round(data_size / 1024f, 2)}Ko";
+        else if (data_size < 1024 * 1024 * 1024)
+            return $"{Math.Round(data_size / (1024 * 1024f), 2)}Mo";
         else
-            return $"{Math.Round(fileSize / (1024 * 1024 * 1024f), 2)}Go";
+            return $"{Math.Round(data_size / (1024 * 1024 * 1024f), 2)}Go";
     }
 
     public static string SecondsLog(this in long seconds)
