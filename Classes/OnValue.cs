@@ -17,7 +17,7 @@ namespace _UTIL_
 
         //------------------------------------------------------------------------------------------------------------------------------
 
-        public void Reset()
+        public void Reset(in T value = default)
         {
             changed = false;
             _value = default;
@@ -25,6 +25,7 @@ namespace _UTIL_
             onChange = null;
             processor = null;
             onUpdate = null;
+            Update(value);
         }
 
         public T Value
