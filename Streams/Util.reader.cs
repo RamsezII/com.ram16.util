@@ -29,8 +29,6 @@ public static partial class Util
         }
     }
 
-    public static bool ReadBool(this BinaryReader reader) => reader.ReadByte() != 0;
-
     public static float Read_f16(this BinaryReader reader) => Mathf.HalfToFloat(reader.ReadUInt16());
 
     public static Vector3 ReadV3_3f32(this BinaryReader reader) => new(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());

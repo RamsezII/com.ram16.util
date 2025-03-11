@@ -78,8 +78,6 @@ public static partial class Util
         }
     }
 
-    public static void WriteBool(this BinaryWriter writer, in bool value) => writer.Write((byte)(value ? 1 : 0));
-
     public static void Write(this BinaryWriter writer, in IPEndPoint netEnd)
     {
         if (netEnd == null)
