@@ -12,7 +12,7 @@ namespace _UTIL_
 
         public Vector3 ProcessAndUpdate(in AnimMotion newValue)
         {
-            Vector3 velocity = (Vector3.Max(default, newValue.positive - positive) + Vector3.Min(default, newValue.negative - negative)) / Util.DeltaTime;
+            Vector3 velocity = (Vector3.Max(Vector3.zero, newValue.positive - positive) + Vector3.Min(Vector3.zero, newValue.negative - negative)) / Util.DeltaTime;
             positive = newValue.positive;
             negative = newValue.negative;
             return velocity;
