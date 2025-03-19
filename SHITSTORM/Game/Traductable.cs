@@ -68,9 +68,8 @@ namespace _UTIL_
             if (TryGetComponent(out TextMeshProUGUI tmp))
                 yield return tmp;
             else
-                for (int i = 0; i < transform.childCount; i++)
-                    if (transform.GetChild(i).TryGetComponent(out tmp))
-                        yield return tmp;
+                foreach (TextMeshProUGUI child in GetComponentsInChildren<TextMeshProUGUI>())
+                    yield return child;
         }
 
         public static void SetLanguage(in Languages language)
