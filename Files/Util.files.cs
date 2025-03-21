@@ -10,6 +10,7 @@ public static partial class Util
 
     public static bool Equals_path(this string path1, string path2) => Path.GetFullPath(path1).Equals(Path.GetFullPath(path2), StringComparison.OrdinalIgnoreCase);
 
+    public static string ForceDirPath(this string path) => path.ForceDir().FullName;
     public static DirectoryInfo ForceDir(this string path)
     {
         DirectoryInfo dir = new(path);
