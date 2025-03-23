@@ -5,7 +5,7 @@ partial class Util
     /// <summary>
     /// Intersects a ray with a plane. Returns true if there is an intersection, false otherwise.
     /// </summary>
-    public static bool RayPlaneIntersection(this Plane plane, in Ray ray, out Vector3 intersectionPoint)
+    public static bool IntersectionPoint_Ray(this Plane plane, in Ray ray, out Vector3 intersectionPoint)
     {
         if (plane.Raycast(ray, out float distance))
         {
@@ -19,7 +19,7 @@ partial class Util
     /// <summary>
     /// Intersects a segment with a plane. Returns true if there is an intersection within the segment.
     /// </summary>
-    public static bool SegmentPlaneIntersection(this Plane plane, in Vector3 start, in Vector3 end, out Vector3 intersectionPoint)
+    public static bool IntersectionPoint_Segment(this Plane plane, in Vector3 start, in Vector3 end, out Vector3 intersectionPoint)
     {
         Ray ray = new Ray(start, end - start);
         float segmentLength = Vector3.Distance(start, end);
@@ -37,7 +37,7 @@ partial class Util
     /// <summary>
     /// Intersects two planes. Returns true if they intersect as a line (Ray).
     /// </summary>
-    public static bool PlanePlaneIntersection(this Plane p1, in Plane p2, out Ray intersectionLine)
+    public static bool IntersectionLine_TwoPlanes(this Plane p1, in Plane p2, out Ray intersectionLine)
     {
         Vector3 direction = Vector3.Cross(p1.normal, p2.normal);
         float det = direction.sqrMagnitude;
@@ -58,7 +58,7 @@ partial class Util
     /// <summary>
     /// Intersects three planes. Returns true if they all intersect at a common point.
     /// </summary>
-    public static bool ThreePlaneIntersection(this Plane p1, in Plane p2, in Plane p3, out Vector3 intersectionPoint)
+    public static bool IntersectionPoint_ThreePlanes(this Plane p1, in Plane p2, in Plane p3, out Vector3 intersectionPoint)
     {
         Vector3 n1 = p1.normal, n2 = p2.normal, n3 = p3.normal;
         float d1 = -p1.distance, d2 = -p2.distance, d3 = -p3.distance;
