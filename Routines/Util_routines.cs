@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,10 +11,10 @@ public static partial class Util
         onT(eT.Current);
     }
 
-    public static IEnumerator EWaitForFrames(this int frames, Action action)
+    public static IEnumerator<float> EWaitForFrames(this int frames, Action action)
     {
         for (int i = 0; i < frames; i++)
-            yield return null;
+            yield return (float)i / frames;
         action();
     }
 

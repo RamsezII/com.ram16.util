@@ -3,6 +3,11 @@
 namespace _UTIL_
 {
     [Serializable]
+    public class OnValue : OnValue<object>
+    {
+    }
+
+    [Serializable]
     public class OnValue<T>
     {
         public bool changed;
