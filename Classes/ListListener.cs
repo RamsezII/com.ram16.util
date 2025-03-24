@@ -14,6 +14,7 @@ namespace _UTIL_
         public Action<bool> _listeners1;
         public Action<List<T>> _listeners2;
         public bool IsEmpty => _list.Count == 0;
+        public bool IsNotEmpty => _list.Count > 0;
         public bool IsLast(in T element) => _list.Count > 0 && _list[^1].Equals(element);
         public bool IsEmptyOrLast(in T element) => IsEmpty || IsLast(element);
 
