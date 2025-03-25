@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-using UnityEngine;
+﻿using UnityEngine;
 
 partial class Util
 {
@@ -57,4 +56,3 @@ partial class Util
         }
     }
 }
-#endif
