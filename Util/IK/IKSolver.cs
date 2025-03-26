@@ -56,11 +56,9 @@ namespace _UTIL_
         {
             at = Mathf.Clamp(at, 1.01f * (ab - bc), .99f * (ab + bc));
 
-            Util.SolveIK(at, ab, bc, out float angleA, out _, out float angleC);
-
-            if (float.IsNaN(angleA) || float.IsNaN(angleC))
+            if (!Util.SolveIK(at, ab, bc, out float angleA, out _, out float angleC))
             {
-                Debug.LogWarning($"{GetType().FullName} {{ {nameof(angleA)}: {angleA}, {{ {nameof(angleC)}: {angleC} }}");
+                Debug.LogWarning($"{GetType().FullName} (cant IK) {{ {nameof(angleA)}: {angleA}, {{ {nameof(angleC)}: {angleC} }}");
                 return;
             }
 

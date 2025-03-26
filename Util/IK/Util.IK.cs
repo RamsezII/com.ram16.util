@@ -19,15 +19,16 @@ public static partial class Util
             angleB = Mathf.Rad2Deg * Mathf.Acos((ab2 + bc2 - at2) / (2 * ab * bc));
             angleC = 180 - angleA - angleB;
 
-            return true;
+            if (float.IsNaN(angleA) || float.IsNaN(angleB) || float.IsNaN(angleC))
+                Debug.LogWarning($"[ALERT_NaN] {typeof(Util).FullName}.{nameof(SolveIK)} {{ {nameof(angleA)}: {angleA}, {nameof(angleB)}: {angleB}, {{ {nameof(angleC)}: {angleC} }}");
+            else
+                return true;
         }
-        else
-        {
-            angleA = 0;
-            angleB = 180;
-            angleC = 0;
-            return false;
-        }
+
+        angleA = 0;
+        angleB = 180;
+        angleC = 0;
+        return false;
     }
 
     [System.Obsolete("Use SolveIK instead")]
