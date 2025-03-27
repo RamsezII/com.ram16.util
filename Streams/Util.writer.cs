@@ -6,15 +6,9 @@ using UnityEngine;
 
 public static partial class Util
 {
+    public static BinaryWriter NewWriter() => new(new MemoryStream(), Encoding.UTF8);
     public static byte[] GetBuffer(this BinaryWriter writer) => ((MemoryStream)writer.BaseStream).GetBuffer();
     public static byte[] GetBuffer(this BinaryReader reader) => ((MemoryStream)reader.BaseStream).GetBuffer();
-
-    public static byte[] VampireCopy(this BinaryWriter writer)
-    {
-        ushort pos = (ushort)writer.BaseStream.Position;
-        writer.BaseStream.Position = 0;
-        return writer.GetBuffer()[..pos];
-    }
 
     public static bool LengthPrefixedWrite(this BinaryWriter writer, in Action<BinaryWriter> onWriter)
     {
@@ -56,14 +50,6 @@ public static partial class Util
         writer.Write(length);
         writer.BaseStream.Position = endPos;
         return length;
-    }
-
-    public static void WriteEmptyIfNull(this BinaryWriter writer, in string text)
-    {
-        if (text == null)
-            writer.Write(string.Empty);
-        else
-            writer.Write(text);
     }
 
     public static void WriteText(this BinaryWriter writer, in string text)

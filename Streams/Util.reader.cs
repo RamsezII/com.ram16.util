@@ -5,6 +5,8 @@ using UnityEngine;
 
 public static partial class Util
 {
+    public static BinaryReader NewReader(this byte[] buffer) => new(new MemoryStream(buffer), Encoding.UTF8);
+
     public static string ReadText(this BinaryReader reader)
     {
         ushort size = reader.ReadUInt16();

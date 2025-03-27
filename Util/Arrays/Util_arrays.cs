@@ -2,5 +2,5 @@
 
 partial class Util
 {
-    public static byte[] CopyBytes(this BinaryWriter writer) => writer.GetBuffer()[..(int)writer.BaseStream.Position];
+    public static byte[] CopyBuffer(this BinaryWriter writer) => writer.GetBuffer()[..(int)writer.BaseStream.Position];
 }
