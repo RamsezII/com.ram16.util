@@ -3,9 +3,12 @@ using UnityEngine;
 
 public abstract class JSon
 {
+    public const Colors color_paths = Colors.light_yellow;
+
     public const string
         txt = ".txt",
         json = ".json" + txt;
+
     public bool readflag { get; private set; }
 
     //----------------------------------------------------------------------------------------------------------
@@ -16,7 +19,9 @@ public abstract class JSon
     public void Save(in string filepath, in bool log)
     {
         OnSave();
-        Save(filepath, JsonUtility.ToJson(this, true), log);
+        if (log)
+            Debug.Log($"{typeof(JSon).FullName}.{nameof(Save)}<{GetType()}>({filepath.SetColor(color_paths)})".ToSubLog());
+        Save(filepath, JsonUtility.ToJson(this, true), false);
     }
 
     public static void Save(in string filepath, in string text, in bool log)
@@ -30,7 +35,7 @@ public abstract class JSon
         File.SetAttributes(filepath, FileAttributes.Normal);
 
         if (log)
-            Debug.Log($"{typeof(JSon).FullName}.{nameof(Save)}: {filepath}".ToSubLog());
+            Debug.Log($"{typeof(JSon).FullName}.{nameof(Save)}({filepath.SetColor(color_paths)})".ToSubLog());
     }
 
     public virtual void OnRead()
@@ -58,20 +63,19 @@ public abstract class JSon
             json = JsonUtility.FromJson<T>(File.ReadAllText(filepath));
             json.OnRead();
             if (log)
-                Debug.Log($"{typeof(JSon).FullName}.{nameof(Read)}: {filepath}".ToSubLog());
+                Debug.Log($"{typeof(JSon).FullName}.{nameof(Read)}<{typeof(T)}>({filepath.SetColor(color_paths)})".ToSubLog());
             return true;
         }
         else
         {
             if (force)
             {
-                Debug.Log($"Creating new file at path: \"{filepath}\"".ToSubLog());
                 json.Save(filepath, true);
                 json.OnRead();
                 return true;
             }
             else
-                Debug.LogWarning($"can not read or find file at path: \"{filepath}\"");
+                Debug.LogWarning($"can not read or find file at path: {filepath.SetColor(color_paths)}");
             return false;
         }
     }
