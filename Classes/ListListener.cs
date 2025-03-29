@@ -12,7 +12,7 @@ namespace _UTIL_
     {
         public readonly List<T> _list;
         public Action<bool> _listeners1;
-        public Action<List<T>> _listeners2;
+        public Action<List<T>> _listeners2, _oneTimeListeners;
         public bool IsEmpty => _list.Count == 0;
         public bool IsNotEmpty => _list.Count > 0;
         public bool IsLast(in T element) => element != null && _list.Count > 0 && _list[^1].Equals(element);
@@ -49,78 +49,74 @@ namespace _UTIL_
             listener(_list);
         }
 
+        public void AddOneTimeListener(in Action<List<T>> listener)
+        {
+            _oneTimeListeners -= listener;
+            _oneTimeListeners += listener;
+        }
+
         public void ModifyList(in Action<List<T>> onList)
         {
             int count = _list.Count;
+
             onList(_list);
+            _listeners2?.Invoke(_list);
+
             if (count != _list.Count)
-                _listeners2?.Invoke(_list);
+                if (count == 0 || _list.Count == 0)
+                    _listeners1?.Invoke(!IsEmpty);
+
+            _oneTimeListeners?.Invoke(_list);
+            _oneTimeListeners = null;
         }
 
-        public bool ToggleElement(in T element, bool toggle)
+        public bool ToggleElement(T element, bool toggle)
         {
             bool contained = _list.Contains(element);
-
             if (contained)
             {
                 if (!toggle)
-                    RemoveElement(element);
+                    ModifyList(list => list.Remove(element));
             }
             else
             {
                 if (toggle)
-                    AddElement(element);
+                    ModifyList(list => list.Add(element));
             }
-
             return contained;
         }
 
-        public bool ToggleElement(in T element)
+        public bool ToggleElement(T element)
         {
             if (_list.Contains(element))
             {
-                RemoveElement(element);
+                ModifyList(list => list.Remove(element));
                 return false;
             }
-            AddElement(element);
+            ModifyList(list => list.Add(element));
             return true;
         }
 
-        public void AddElement(in T element)
+        public void AddElement(T element)
         {
             bool empty = IsEmpty;
             if (!_list.Contains(element))
-            {
-                _list.Add(element);
-                _listeners2?.Invoke(_list);
-            }
-            if (empty != IsEmpty)
-                _listeners1?.Invoke(!IsEmpty);
+                ModifyList(list => list.Add(element));
         }
 
-        public bool RemoveElement(in T element)
+        public bool RemoveElement(T element)
         {
-            bool res = false;
-            bool empty = IsEmpty;
-            if (_list.Remove(element))
+            if (_list.Contains(element))
             {
-                _listeners2?.Invoke(_list);
-                res = true;
+                ModifyList(list => list.Remove(element));
+                return true;
             }
-            if (empty != IsEmpty)
-                _listeners1?.Invoke(!IsEmpty);
-            return res;
+            return false;
         }
 
-        public void Clear()
+        public void ClearList()
         {
-            bool change = _list.Count > 0;
-            _list.Clear();
-            if (change)
-            {
-                _listeners2?.Invoke(_list);
-                _listeners1?.Invoke(false);
-            }
+            ModifyList(list => list.Clear());
         }
 
         public void Reset()
