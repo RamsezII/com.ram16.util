@@ -100,8 +100,12 @@ namespace _UTIL_
         public void AddElement(T element)
         {
             bool empty = IsEmpty;
-            if (!_list.Contains(element))
-                ModifyList(list => list.Add(element));
+            if (IsNotEmpty)
+                if (element.Equals(_list[^1]))
+                    return;
+                else
+                    _list.Remove(element);
+            ModifyList(list => list.Add(element));
         }
 
         public bool RemoveElement(T element)
