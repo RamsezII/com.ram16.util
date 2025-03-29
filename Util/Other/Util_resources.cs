@@ -3,11 +3,11 @@
 public static partial class Util
 {
     public static T LoadResourceByType<T>() where T : Object => Resources.Load<T>(typeof(T).FullName);
-    public static T InstantiateOrCreateIfAbsent<T>(in FindObjectsInactive findObjectsInactive = FindObjectsInactive.Exclude) where T : MonoBehaviour
+    public static T InstantiateOrCreateIfAbsent<T>(in Transform parent = null, in FindObjectsInactive findObjectsInactive = FindObjectsInactive.Exclude) where T : MonoBehaviour
     {
         T clone = Object.FindAnyObjectByType<T>(findObjectsInactive);
         if (clone == null)
-            return InstantiateOrCreate<T>();
+            return InstantiateOrCreate<T>(parent);
         return clone;
     }
 
