@@ -1,15 +1,8 @@
-﻿using _UTIL_;
-using System;
+﻿using System;
 
 namespace _UTIL_
 {
-    [Serializable]
-    public class ThreadSafe : ThreadSafe<object>
-    {
-    }
-
-    [Serializable]
-    public class ThreadSafe<T>
+    public abstract class ThreadSafe<T>
     {
         public T _value;
 
@@ -33,13 +26,6 @@ namespace _UTIL_
             }
         }
 
-        public bool TryGetValue(out T value)
-        {
-            lock (this)
-                value = _value;
-            return value != null;
-        }
-
         public T PullValue()
         {
             lock (this)
@@ -48,6 +34,31 @@ namespace _UTIL_
                 _value = default;
                 return value;
             }
+        }
+    }
+
+    [Serializable]
+    public class ThreadSafe_struct<T> : ThreadSafe<T> where T : struct
+    {
+        public ThreadSafe_struct(in T value = default) : base(value)
+        {
+        }
+    }
+
+    [Serializable]
+    public class ThreadSafe_class<T> : ThreadSafe<T> where T : class
+    {
+        public ThreadSafe_class(in T value = default) : base(value)
+        {
+        }
+
+        //----------------------------------------------------------------------------------------------------------
+
+        public bool TryGetValue(out T value)
+        {
+            lock (this)
+                value = _value;
+            return value != null;
         }
 
         public bool TryPullValue(out T value)
@@ -59,14 +70,5 @@ namespace _UTIL_
             }
             return value != null;
         }
-    }
-}
-
-public static partial class Util
-{
-    public static bool PullValue(this ThreadSafe<bool> threadSafe)
-    {
-        lock (threadSafe)
-            return threadSafe._value.PullValue();
     }
 }
