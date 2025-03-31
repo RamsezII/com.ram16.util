@@ -5,8 +5,6 @@ using UnityEngine;
 
 public static partial class Util
 {
-    public static IEnumerable<string> Matches1(this IEnumerable<string> completions, string prefix) => completions.Where(completion => completion.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
-
     public static IEnumerable<string> Matches2(this IEnumerable<string> completions, string prefix)
     {
         foreach (string completion in completions)
