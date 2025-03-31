@@ -16,7 +16,18 @@ namespace _UTIL_
     public struct Traductions
     {
         public string english, french;
-        public readonly string Auto => Traductable.language switch
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        public Traductions(in string all)
+        {
+            english = all;
+            french = all;
+        }
+        
+        //--------------------------------------------------------------------------------------------------------------
+
+        public override readonly string ToString() => Traductable.language switch
         {
             Languages.English => english,
             Languages.French => french,
@@ -91,7 +102,7 @@ namespace _UTIL_
 
         void Refresh()
         {
-            string text = traductions.Auto;
+            string text = traductions.ToString();
 
             if (string.IsNullOrWhiteSpace(text))
                 text = traductions.english;
