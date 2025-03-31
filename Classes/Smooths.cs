@@ -18,15 +18,15 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public override void ForceUpdate(T value)
+        public override void ForceUpdate(T value, in bool force)
         {
-            base.ForceUpdate(value);
+            base.ForceUpdate(value, true);
             target = value;
         }
 
         public virtual void Reset(T value)
         {
-            ForceUpdate(value);
+            ForceUpdate(value, true);
             velocity = delta = default;
         }
     }
@@ -48,10 +48,10 @@ namespace _UTIL_
             return base.Update(value);
         }
 
-        public override void ForceUpdate(float value)
+        public override void ForceUpdate(float value, in bool force)
         {
             delta = default;
-            base.ForceUpdate(value);
+            base.ForceUpdate(value, true);
         }
 
         public bool SmoothDamp(in float damp, in float deltaTime) => Update(Util_smooths.NO_SMOOTH ? target : Mathf.SmoothDamp(_value, target, ref velocity, damp, Mathf.Infinity, deltaTime));
@@ -85,10 +85,10 @@ namespace _UTIL_
             return base.Update(value);
         }
 
-        public override void ForceUpdate(Vector2 value)
+        public override void ForceUpdate(Vector2 value, in bool force)
         {
             delta = value - _value;
-            base.ForceUpdate(value);
+            base.ForceUpdate(value, true);
         }
 
         public bool SmoothDamp(in float damp, in float deltaTime, in float maxSpeed = Mathf.Infinity)
@@ -119,10 +119,10 @@ namespace _UTIL_
             return base.Update(value);
         }
 
-        public override void ForceUpdate(Vector3 value)
+        public override void ForceUpdate(Vector3 value, in bool force)
         {
             delta = value - _value;
-            base.ForceUpdate(value);
+            base.ForceUpdate(value, true);
         }
 
         public bool SmoothDamp(in float damp, in float deltaTime, in float maxSpeed = Mathf.Infinity)

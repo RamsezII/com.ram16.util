@@ -99,8 +99,8 @@ namespace _UTIL_
             }
         }
 
-        public virtual void ForceUpdate() => ForceUpdate(Value);
-        public virtual void ForceUpdate(T value)
+        public virtual void ForceUpdate() => ForceUpdate(Value, true);
+        public virtual void ForceUpdate(T value, in bool force)
         {
             lock (this)
             {
