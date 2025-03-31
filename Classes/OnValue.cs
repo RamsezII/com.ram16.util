@@ -42,6 +42,19 @@ namespace _UTIL_
             }
         }
 
+        public T PullValue
+        {
+            get
+            {
+                lock (this)
+                {
+                    T temp = _value;
+                    Update(default);
+                    return temp;
+                }
+            }
+        }
+
         public bool PullChanged()
         {
             lock (this)
@@ -79,7 +92,8 @@ namespace _UTIL_
             }
         }
 
-        public virtual bool Update(T value)
+        public virtual void ForceUpdate() => Update(Value, true);
+        public virtual bool Update(T value, in bool force = false)
         {
             lock (this)
             {
@@ -88,7 +102,7 @@ namespace _UTIL_
                 if (processor != null)
                     value = processor(value);
 
-                changed = !Util.Equals2(value, _value);
+                changed = force || !Util.Equals2(value, _value);
                 _value = value;
 
                 onUpdate?.Invoke(value);
@@ -96,23 +110,6 @@ namespace _UTIL_
                     onChange?.Invoke(value);
 
                 return changed;
-            }
-        }
-
-        public virtual void ForceUpdate() => ForceUpdate(Value, true);
-        public virtual void ForceUpdate(T value, in bool force)
-        {
-            lock (this)
-            {
-                changed = true;
-                old = _value;
-
-                if (processor != null)
-                    value = processor(value);
-
-                onUpdate?.Invoke(value);
-                onChange?.Invoke(value);
-                _value = value;
             }
         }
     }

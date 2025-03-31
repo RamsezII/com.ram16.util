@@ -18,15 +18,11 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public override void ForceUpdate(T value, in bool force)
-        {
-            base.ForceUpdate(value, true);
-            target = value;
-        }
+        public override bool Update(T value, in bool force = false) => base.Update(target = value, true);
 
         public virtual void Reset(T value)
         {
-            ForceUpdate(value, true);
+            Update(value, true);
             velocity = delta = default;
         }
     }
@@ -42,16 +38,13 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public override bool Update(float value)
+        public override bool Update(float value, in bool force = false)
         {
-            delta = value - _value;
-            return base.Update(value);
-        }
-
-        public override void ForceUpdate(float value, in bool force)
-        {
-            delta = default;
-            base.ForceUpdate(value, true);
+            if (force)
+                delta = default;
+            else
+                delta = value - _value;
+            return base.Update(value, true);
         }
 
         public bool SmoothDamp(in float damp, in float deltaTime) => Update(Util_smooths.NO_SMOOTH ? target : Mathf.SmoothDamp(_value, target, ref velocity, damp, Mathf.Infinity, deltaTime));
@@ -79,16 +72,13 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public override bool Update(Vector2 value)
+        public override bool Update(Vector2 value, in bool force = false)
         {
-            delta = value - _value;
+            if (force)
+                delta = default;
+            else
+                delta = value - _value;
             return base.Update(value);
-        }
-
-        public override void ForceUpdate(Vector2 value, in bool force)
-        {
-            delta = value - _value;
-            base.ForceUpdate(value, true);
         }
 
         public bool SmoothDamp(in float damp, in float deltaTime, in float maxSpeed = Mathf.Infinity)
@@ -113,16 +103,13 @@ namespace _UTIL_
 
         //----------------------------------------------------------------------------------------------------------
 
-        public override bool Update(Vector3 value)
+        public override bool Update(Vector3 value, in bool force = false)
         {
-            delta = value - _value;
+            if (force)
+                delta = default;
+            else
+                delta = value - _value;
             return base.Update(value);
-        }
-
-        public override void ForceUpdate(Vector3 value, in bool force)
-        {
-            delta = value - _value;
-            base.ForceUpdate(value, true);
         }
 
         public bool SmoothDamp(in float damp, in float deltaTime, in float maxSpeed = Mathf.Infinity)
