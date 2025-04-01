@@ -27,7 +27,7 @@ public static partial class Util
                 timer -= Time.deltaTime;
             else
                 timer -= Time.unscaledDeltaTime;
-            yield return 1 - timer / seconds;
+            yield return Mathf.Clamp01(1 - timer / seconds);
         }
         action?.Invoke();
     }
