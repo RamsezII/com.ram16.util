@@ -169,6 +169,18 @@ namespace _UTIL_
             }
         }
 
+        public void InsertElementAt(int index, T element)
+        {
+            lock (this)
+                ModifyList(list => list.Insert(index, element));
+        }
+
+        public void RemoveElementAt(int index)
+        {
+            lock (this)
+                ModifyList(list => list.RemoveAt(index));
+        }
+
         public void ClearList()
         {
             ModifyList(list => list.Clear());
