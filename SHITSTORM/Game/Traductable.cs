@@ -24,13 +24,13 @@ namespace _UTIL_
             english = all;
             french = all;
         }
-        
+
         //--------------------------------------------------------------------------------------------------------------
 
         public override readonly string ToString() => Traductable.language switch
         {
-            Languages.English => english,
-            Languages.French => french,
+            Languages.English => string.IsNullOrWhiteSpace(english) ? "[EMPTY]" : english,
+            Languages.French => string.IsNullOrWhiteSpace(french) ? "[VIDE]" : french,
             _ => throw new ArgumentOutOfRangeException(),
         };
     }
