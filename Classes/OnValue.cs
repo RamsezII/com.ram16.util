@@ -42,6 +42,18 @@ namespace _UTIL_
             }
         }
 
+        public bool TryPullValue(out T value)
+        {
+            lock (this)
+            {
+                value = _value;
+                if (Util.Equals2(_value, default))
+                    return false;
+                _value = default;
+                return true;
+            }
+        }
+
         public T PullValue
         {
             get
