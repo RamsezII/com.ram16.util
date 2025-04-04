@@ -8,6 +8,12 @@ public static partial class Util
         return color;
     }
 
+    public static float GetHue(this Color color)
+    {
+        Color.RGBToHSV(color, out float h, out _, out _);
+        return h;
+    }
+
     public static Color ModifyHsv(this Color color, in float hue, float alpha)
     {
         Color.RGBToHSV(color, out _, out float s, out float v);
