@@ -13,7 +13,7 @@ partial class Util
         sb.Clear();
     }
 
-    public static string LinesToText(this IEnumerable<object> objects, in bool removeEmptyEntries)
+    public static string LinesToText(this IEnumerable<object> objects, in bool removeEmptyEntries = false)
     {
         if (objects == null)
             return string.Empty;
