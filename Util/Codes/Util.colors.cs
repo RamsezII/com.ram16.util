@@ -66,6 +66,7 @@
     light_green = 0x90ee90ff,
     light_grey = 0xd3d3d3ff,
     light_magenta = 0xff99ffff,
+    light_orange = 0xffcc99ff,
     light_pink = 0xffb6c1ff,
     light_salmon = 0xffa07aff,
     light_sea_green = 0x20b2aaff,

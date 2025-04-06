@@ -13,6 +13,13 @@ partial class Util
         sb.Clear();
     }
 
+    public static string PullValue(this StringBuilder sb)
+    {
+        string value = sb.ToString();
+        sb.Clear();
+        return value;
+    }
+
     public static string LinesToText(this IEnumerable<object> objects, in bool removeEmptyEntries = false)
     {
         if (objects == null)
