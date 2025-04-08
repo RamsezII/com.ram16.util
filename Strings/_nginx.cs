@@ -1,6 +1,42 @@
 ﻿using _UTIL_;
 using System;
+using System.Globalization;
 using UnityEngine;
+
+namespace _UTIL_
+{
+    [Serializable]
+    public class NGinxIndex
+    {
+        public enum TYPES : byte
+        {
+            UNKOWN,
+            FILE,
+            DIRECTORY,
+            SYMLINK,
+        }
+
+        [Serializable]
+        public class Entry
+        {
+            public string name;
+            [SerializeField] string type, mtime;
+            public int size;
+            public DateTime ToDateTime => DateTime.TryParse(mtime, out DateTime date) ? date : DateTime.MinValue;
+            public DateTime LastWriteTime => DateTime.Parse(mtime, null, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal);
+            public TYPES GetEntryType => Enum.TryParse(type, true, out TYPES entryType) ? entryType : TYPES.UNKOWN;
+        }
+
+        public Entry[] entries;
+    }
+
+    /*
+        [
+        { "name":"ram", "type":"directory", "mtime":"Tue, 08 Apr 2025 00:09:27 GMT" },
+        { "name":"test.txt", "type":"file", "mtime":"Tue, 08 Apr 2025 00:09:55 GMT", "size":117 }
+        ]
+    */
+}
 
 partial class Util
 {
@@ -26,38 +62,4 @@ partial class Util
             return false;
         }
     }
-}
-
-namespace _UTIL_
-{
-    [Serializable]
-    public class NGinxIndex
-    {
-        public enum EntryTypes : byte
-        {
-            unknown,
-            file,
-            directory,
-            symlink,
-        }
-
-        [Serializable]
-        public class Entry
-        {
-            public string name;
-            [SerializeField] string type, mtime;
-            public int size;
-            public DateTime ToDateTime => DateTime.TryParse(mtime, out DateTime date) ? date : DateTime.MinValue;
-            public EntryTypes GetEntryType => Enum.TryParse(type, true, out EntryTypes entryType) ? entryType : EntryTypes.unknown;
-        }
-
-        public Entry[] entries;
-    }
-
-    /*
-        [
-        { "name":"ram", "type":"directory", "mtime":"Tue, 08 Apr 2025 00:09:27 GMT" },
-        { "name":"test.txt", "type":"file", "mtime":"Tue, 08 Apr 2025 00:09:55 GMT", "size":117 }
-        ]
-    */
 }
