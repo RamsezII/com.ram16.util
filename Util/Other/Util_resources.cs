@@ -11,6 +11,23 @@ public static partial class Util
         return clone;
     }
 
+    public static T Instantiate<T>(in Transform parent = null) where T : Component => (T)Instantiate(typeof(T), parent);
+    public static Component Instantiate(in System.Type type, in Transform parent = null)
+    {
+        string name = type.FullName;
+        Component resource = (Component)Resources.Load(name, type);
+
+        Component clone = Object.Instantiate(resource, parent);
+        clone.name = name;
+
+        string log = $"instantiated \"{name}\"";
+        if (parent != null)
+            log += $" ({clone.transform.GetPath(true)})";
+
+        Debug.Log(log.ToSubLog());
+        return clone;
+    }
+
     public static T InstantiateOrCreate<T>(in Transform parent = null) where T : Component => (T)InstantiateOrCreate(typeof(T), parent);
     public static Component InstantiateOrCreate(in System.Type type, in Transform parent = null)
     {
