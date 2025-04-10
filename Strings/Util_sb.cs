@@ -39,7 +39,7 @@ partial class Util
         return sb.TroncatedForLog();
     }
 
-    public static List<string> TextToLines(this string text, in bool removeEmptyEntries)
+    public static List<string> TextToLines(this string text, in bool removeEmptyEntries = false)
     {
         if (string.IsNullOrWhiteSpace(text))
             return new();
