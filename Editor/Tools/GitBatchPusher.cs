@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 namespace _UTIL_e
@@ -15,16 +14,19 @@ namespace _UTIL_e
             string[] dirs = Directory.GetDirectories(rootPath);
             float countf = dirs.Length;
 
-            foreach (string dir in dirs)
+            for (int i = 0; i < dirs.Length; i++)
             {
+                yield return i / countf;
+
+                string dir = dirs[i];
                 string gitDir = Path.Combine(dir, ".git");
                 if (!Directory.Exists(gitDir))
                     continue;
 
                 string folderName = Path.GetFileName(dir);
-                Debug.Log($"Pushing {folderName}...");
+                Debug.Log($"\n-- {folderName} --");
                 if (RunGitCommands(dir, commitMessage))
-                    yield return ++pushed / countf;
+                    ++pushed;
 
                 Debug.Log("\n\n//--------------------------------------------------------------------------------------------------------------\n\n");
             }
@@ -47,6 +49,8 @@ namespace _UTIL_e
                 Debug.Log($"-- {folderName} --");
                 if (RunGitCommands(dir, commitMessage))
                     ++pushed;
+
+                Debug.Log("\n\n//--------------------------------------------------------------------------------------------------------------\n\n");
             }
 
             Debug.Log($"{typeof(GitBatchPusher)} pushed {pushed} repo(s) ");
