@@ -39,8 +39,10 @@ namespace _UTIL_e
             string rootPath = Application.dataPath; // racine du projet Unity
             int pushed = 0;
 
-            foreach (string dir in Directory.GetDirectories(rootPath))
+            string[] dirs = Directory.GetDirectories(rootPath);
+            for (int i = 0; i < dirs.Length; i++)
             {
+                string dir = dirs[i];
                 string gitDir = Path.Combine(dir, ".git");
                 if (!Directory.Exists(gitDir))
                     continue;
@@ -50,7 +52,7 @@ namespace _UTIL_e
                 if (RunGitCommands(dir, commitMessage))
                     ++pushed;
 
-                Debug.Log("\n\n//--------------------------------------------------------------------------------------------------------------\n\n");
+                Debug.Log("\n//--------------------------------------------------------------------------------------------------------------\n");
             }
 
             Debug.Log($"{typeof(GitBatchPusher)} pushed {pushed} repo(s) ");
@@ -88,8 +90,8 @@ namespace _UTIL_e
             string error = p.StandardError.ReadToEnd();
             p.WaitForExit();
 
-            if (!string.IsNullOrWhiteSpace(output)) Debug.Log(output.Trim('\n', '\r'));
-            if (!string.IsNullOrWhiteSpace(error)) Debug.LogWarning(error.Trim('\n', '\r'));
+            if (!string.IsNullOrWhiteSpace(output)) Debug.Log(output);
+            if (!string.IsNullOrWhiteSpace(error)) Debug.LogWarning(error);
 
             if (p.ExitCode != 0)
                 throw new Exception($"Git command failed : {args}");
