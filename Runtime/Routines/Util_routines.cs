@@ -32,13 +32,19 @@ public static partial class Util
         action?.Invoke();
     }
 
+    public static IEnumerator<float> EWhile(this Func<bool> get_bool, Func<float> get_progress, Action on_while_done)
+    {
+        while (get_bool())
+            if (get_progress == null)
+                yield return get_progress?.Invoke() ?? 0;
+        on_while_done();
+    }
+
     public static IEnumerator<float> EWaitForCondition(this Func<bool> condition, Func<float> progression, Action action)
     {
         while (!condition())
             if (progression == null)
-                yield return 0;
-            else
-                yield return progression();
+                yield return progression?.Invoke() ?? 0;
         action();
     }
 }
