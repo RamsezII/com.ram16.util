@@ -1,13 +1,10 @@
 {
     "name": "com.ram16.util",
-    "version": "1.0.0",
+    "version": "7.7.7",
     "displayName": "_UTIL_",
     "description": "Utilitaires et helpers for Unity.",
     "author": {
         "name": "RamsezII",
         "url": "https://github.com/RamsezII"
-    },
-    "dependencies": {
-        "com.unity.nuget.newtonsoft-json": "3.0.2"
     }
 }
