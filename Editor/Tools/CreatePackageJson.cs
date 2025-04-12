@@ -36,13 +36,16 @@ namespace _UTIL_e
     ""version"": ""7.7.7"",
     ""displayName"": ""ram16.<namespace>"",
     ""description"": ""Fragile and immense, seed and tree — seed as central Heart."",
-    ""dependencies"": {}
+    ""author"": {
+        ""name"": ""<author>"",
+        ""url"": ""https://github.com/<author>""
+    }
 }";
 
             File.WriteAllText(packageJsonPath, template);
             AssetDatabase.Refresh();
 
-            Debug.Log("package.json créé dans :\n" + selectedPath);
+            Debug.Log(packageJsonPath + " créé");
         }
     }
 }
