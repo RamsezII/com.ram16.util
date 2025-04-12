@@ -26,7 +26,7 @@ namespace _UTIL_e
                 if (RunGitCommands(dir, commitMessage))
                     yield return ++pushed / countf;
 
-                Debug.Log("\n\n//--------------------------------------------------------------------------------------------------------------\n\n\n\n");
+                Debug.Log("\n\n//--------------------------------------------------------------------------------------------------------------\n\n");
             }
 
             Debug.Log($"{typeof(GitBatchPusher)} pushed {pushed} repo(s) ");
