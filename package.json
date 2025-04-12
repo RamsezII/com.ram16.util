@@ -6,5 +6,8 @@
     "author": {
         "name": "RamsezII",
         "url": "https://github.com/RamsezII"
+    },
+    "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.0.2"
     }
 }
