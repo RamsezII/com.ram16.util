@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using System.IO;
+using UnityEngine;
 
 namespace _UTIL_e
 {
@@ -41,7 +42,7 @@ namespace _UTIL_e
             File.WriteAllText(packageJsonPath, template);
             AssetDatabase.Refresh();
 
-            EditorUtility.DisplayDialog("package.json créé", "Le fichier a été créé dans :\n" + selectedPath, "Ok");
+            Debug.Log("package.json créé dans :\n" + selectedPath);
         }
     }
 }
