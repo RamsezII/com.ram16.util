@@ -27,7 +27,7 @@ namespace _UTIL_e
                     yield return ++pushed / countf;
             }
 
-            EditorUtility.DisplayDialog("Git Batch Push", $"{pushed} repo(s) pushed.", "OK");
+            Debug.Log($"{typeof(GitBatchPusher)} pushed {pushed} repo(s) ");
         }
 
         public static void PushAllGitRepos(in string commitMessage)
