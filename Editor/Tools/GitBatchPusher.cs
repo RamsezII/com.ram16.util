@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,6 +7,28 @@ namespace _UTIL_e
 {
     public static class GitBatchPusher
     {
+        public static IEnumerator<float> EPushAllGitRepos(string commitMessage)
+        {
+            string rootPath = Application.dataPath; // racine du projet Unity
+            int pushed = 0;
+            string[] dirs = Directory.GetDirectories(rootPath);
+            float countf = dirs.Length;
+
+            foreach (string dir in dirs)
+            {
+                string gitDir = Path.Combine(dir, ".git");
+                if (!Directory.Exists(gitDir))
+                    continue;
+
+                string folderName = Path.GetFileName(dir);
+                Debug.Log($"📦 Pushing {folderName}...");
+                if (RunGitCommands(dir, commitMessage))
+                    yield return ++pushed / countf;
+            }
+
+            EditorUtility.DisplayDialog("Git Batch Push", $"✅ {pushed} repo(s) pushed.", "OK");
+        }
+
         public static void PushAllGitRepos(in string commitMessage)
         {
             string rootPath = Application.dataPath; // racine du projet Unity
@@ -37,7 +60,7 @@ namespace _UTIL_e
             }
             catch (System.Exception e)
             {
-                Debug.LogError($"❌ Git failed for {path} : {e.Message}");
+                Debug.LogWarning($"❌ Git failed for {path} : {e.Message}");
                 return false;
             }
         }
