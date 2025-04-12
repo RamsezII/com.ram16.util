@@ -9,9 +9,8 @@ namespace _UTIL_e
     {
         public static IEnumerator<float> EPushAllGitRepos(string commitMessage)
         {
-            string rootPath = Application.dataPath; // racine du projet Unity
+            string[] dirs = Directory.GetDirectories(Application.dataPath);
             int pushed = 0;
-            string[] dirs = Directory.GetDirectories(rootPath);
             float countf = dirs.Length;
 
             for (int i = 0; i < dirs.Length; i++)
@@ -31,31 +30,15 @@ namespace _UTIL_e
                 Debug.Log("\n\n//--------------------------------------------------------------------------------------------------------------\n\n");
             }
 
+            RunGitCommands(Directory.GetParent(Application.dataPath).FullName, commitMessage);
+
             Debug.Log($"{typeof(GitBatchPusher)} pushed {pushed} repo(s) ");
         }
 
         public static void PushAllGitRepos(in string commitMessage)
         {
-            string rootPath = Application.dataPath; // racine du projet Unity
-            int pushed = 0;
-
-            string[] dirs = Directory.GetDirectories(rootPath);
-            for (int i = 0; i < dirs.Length; i++)
-            {
-                string dir = dirs[i];
-                string gitDir = Path.Combine(dir, ".git");
-                if (!Directory.Exists(gitDir))
-                    continue;
-
-                string folderName = Path.GetFileName(dir);
-                Debug.Log($"-- {folderName} --\n");
-                if (RunGitCommands(dir, commitMessage))
-                    ++pushed;
-
-                Debug.Log("\n//--------------------------------------------------------------------------------------------------------------\n");
-            }
-
-            Debug.Log($"{typeof(GitBatchPusher)} pushed {pushed} repo(s) ");
+            var routine = EPushAllGitRepos(commitMessage);
+            while (routine.MoveNext()) ;
         }
 
         static bool RunGitCommands(string path, string message)
