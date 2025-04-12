@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -21,12 +22,12 @@ namespace _UTIL_e
                     continue;
 
                 string folderName = Path.GetFileName(dir);
-                Debug.Log($"📦 Pushing {folderName}...");
+                Debug.Log($"Pushing {folderName}...");
                 if (RunGitCommands(dir, commitMessage))
                     yield return ++pushed / countf;
             }
 
-            EditorUtility.DisplayDialog("Git Batch Push", $"✅ {pushed} repo(s) pushed.", "OK");
+            EditorUtility.DisplayDialog("Git Batch Push", $"{pushed} repo(s) pushed.", "OK");
         }
 
         public static void PushAllGitRepos(in string commitMessage)
@@ -41,12 +42,12 @@ namespace _UTIL_e
                     continue;
 
                 string folderName = Path.GetFileName(dir);
-                Debug.Log($"📦 Pushing {folderName}...");
+                Debug.Log($"Pushing {folderName}...");
                 if (RunGitCommands(dir, commitMessage))
                     ++pushed;
             }
 
-            EditorUtility.DisplayDialog("Git Batch Push", $"✅ {pushed} repo(s) pushed.", "OK");
+            EditorUtility.DisplayDialog("Git Batch Push", $"{pushed} repo(s) pushed.", "OK");
         }
 
         static bool RunGitCommands(string path, string message)
@@ -58,9 +59,9 @@ namespace _UTIL_e
                 RunGit("push", path);
                 return true;
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
-                Debug.LogWarning($"❌ Git failed for {path} : {e.Message}");
+                Debug.LogWarning($"Git failed for {path} : {e.Message}");
                 return false;
             }
         }
@@ -85,7 +86,7 @@ namespace _UTIL_e
             if (!string.IsNullOrWhiteSpace(error)) Debug.LogWarning(error);
 
             if (p.ExitCode != 0)
-                throw new System.Exception($"Git command failed : {args}");
+                throw new Exception($"Git command failed : {args}");
         }
     }
 }
