@@ -25,12 +25,12 @@ namespace _UTIL_e
                 if (RunGitCommands(dir, commitMessage))
                     ++pushed;
 
-                Debug.Log("\n\n//--------------------------------------------------------------------------------------------------------------\n\n");
+                Debug.Log("\n\n--------------------------------------------------------------------------------------------------------------\n\n");
             }
 
             RunGitCommands(Directory.GetParent(Application.dataPath).FullName, commitMessage);
 
-            Debug.Log($"{typeof(GitBatchPusher)} pushed {pushed} repo(s) ");
+            Debug.Log($"\n\n{typeof(GitBatchPusher)} pushed {pushed} repo(s)\n");
         }
 
         public static void PushAllGitRepos(in string commitMessage)
@@ -43,7 +43,7 @@ namespace _UTIL_e
         {
             try
             {
-                Debug.Log($"\n-----  {Path.GetFileName(path)}  -----");
+                Debug.Log($"\n-----  {Path.GetFileName(path)}  -----\n");
                 RunGit("add .", path);
                 RunGit($"commit -m \"{message}\"", path);
                 RunGit("push", path);
