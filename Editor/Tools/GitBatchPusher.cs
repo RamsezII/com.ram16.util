@@ -25,6 +25,8 @@ namespace _UTIL_e
                 Debug.Log($"Pushing {folderName}...");
                 if (RunGitCommands(dir, commitMessage))
                     yield return ++pushed / countf;
+
+                Debug.Log("\n\n//--------------------------------------------------------------------------------------------------------------\n\n");
             }
 
             Debug.Log($"{typeof(GitBatchPusher)} pushed {pushed} repo(s) ");
