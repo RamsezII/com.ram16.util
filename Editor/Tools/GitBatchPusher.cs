@@ -26,7 +26,7 @@ namespace _UTIL_e
                 if (RunGitCommands(dir, commitMessage))
                     yield return ++pushed / countf;
 
-                Debug.Log("\n\n//--------------------------------------------------------------------------------------------------------------\n\n");
+                Debug.Log("\n\n//--------------------------------------------------------------------------------------------------------------\n\n\n\n");
             }
 
             Debug.Log($"{typeof(GitBatchPusher)} pushed {pushed} repo(s) ");
@@ -44,12 +44,12 @@ namespace _UTIL_e
                     continue;
 
                 string folderName = Path.GetFileName(dir);
-                Debug.Log($"Pushing {folderName}...");
+                Debug.Log($"-- {folderName} --");
                 if (RunGitCommands(dir, commitMessage))
                     ++pushed;
             }
 
-            EditorUtility.DisplayDialog("Git Batch Push", $"{pushed} repo(s) pushed.", "OK");
+            Debug.Log($"{typeof(GitBatchPusher)} pushed {pushed} repo(s) ");
         }
 
         static bool RunGitCommands(string path, string message)
