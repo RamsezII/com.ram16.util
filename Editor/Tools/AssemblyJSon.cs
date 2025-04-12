@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _EDITOR_
+namespace _UTIL_e
 {
     [Serializable]
     internal class AsmDef

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text;
 
-namespace _EDITOR_
+namespace _UTIL_e
 {
     internal static class PackageJsonUpdater
     {
