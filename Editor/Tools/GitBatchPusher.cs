@@ -24,7 +24,7 @@ namespace _UTIL_e
                     continue;
 
                 string folderName = Path.GetFileName(dir);
-                Debug.Log($"\n-- {folderName} --");
+                Debug.Log($"\n-- {folderName} --\n");
                 if (RunGitCommands(dir, commitMessage))
                     ++pushed;
 
@@ -46,7 +46,7 @@ namespace _UTIL_e
                     continue;
 
                 string folderName = Path.GetFileName(dir);
-                Debug.Log($"-- {folderName} --");
+                Debug.Log($"-- {folderName} --\n");
                 if (RunGitCommands(dir, commitMessage))
                     ++pushed;
 
@@ -88,8 +88,8 @@ namespace _UTIL_e
             string error = p.StandardError.ReadToEnd();
             p.WaitForExit();
 
-            if (!string.IsNullOrWhiteSpace(output)) Debug.Log(output);
-            if (!string.IsNullOrWhiteSpace(error)) Debug.LogWarning(error);
+            if (!string.IsNullOrWhiteSpace(output)) Debug.Log(output.Trim('\n', '\r'));
+            if (!string.IsNullOrWhiteSpace(error)) Debug.LogWarning(error.Trim('\n', '\r'));
 
             if (p.ExitCode != 0)
                 throw new Exception($"Git command failed : {args}");
