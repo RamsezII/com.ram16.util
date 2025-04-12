@@ -1,8 +1,8 @@
 {
     "name": "com.ram16.util",
     "version": "1.0.0",
-    "displayName": "Util",
-    "description": "Utilitaires et helpers pour Unity.",
+    "displayName": "_UTIL_",
+    "description": "Utilitaires et helpers for Unity.",
     "author": {
         "name": "RamsezII",
         "url": "https://github.com/RamsezII"
