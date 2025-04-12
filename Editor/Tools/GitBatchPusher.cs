@@ -22,8 +22,6 @@ namespace _UTIL_e
                 if (!Directory.Exists(gitDir))
                     continue;
 
-                string folderName = Path.GetFileName(dir);
-                Debug.Log($"\n-- {folderName} --\n");
                 if (RunGitCommands(dir, commitMessage))
                     ++pushed;
 
@@ -45,6 +43,7 @@ namespace _UTIL_e
         {
             try
             {
+                Debug.Log($"\n-----  {Path.GetFileName(path)}  -----");
                 RunGit("add .", path);
                 RunGit($"commit -m \"{message}\"", path);
                 RunGit("push", path);
