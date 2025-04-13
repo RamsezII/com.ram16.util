@@ -2,7 +2,6 @@
 
 public static partial class Util
 {
-    public static string ReplaceIfEmpty(this string text, in string replace) => string.IsNullOrEmpty(text) ? replace : text;
     public static string ReplaceIfNullOrWhiteSpace(this string text, in string replace) => string.IsNullOrWhiteSpace(text) ? replace : text;
 
     public static string Join(this IEnumerable<string> strings, in string separator, in string prefix = null, in string suffix = null) => prefix + string.Join(separator, strings) + suffix;
