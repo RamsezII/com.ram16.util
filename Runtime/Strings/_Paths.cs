@@ -1,44 +1,7 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 
 partial class Util
 {
-    public static string AutoPath(this string path, in string working_dir)
-    {
-        bool rooted = Path.IsPathRooted(path);
-        string full_path = path;
-
-        if (!rooted)
-        {
-            full_path = Path.GetFullPath(Path.Combine(working_dir, full_path));
-
-            if (full_path.StartsWith(working_dir))
-                full_path = Path.GetRelativePath(working_dir, full_path);
-        }
-
-        full_path = full_path.Replace("\\", "/");
-
-        return full_path;
-    }
-
-    public static string SafeRootedPath(this string path, in string working_dir)
-    {
-        try
-        {
-            bool rooted = Path.IsPathRooted(path);
-            string full_path = path;
-
-            if (!rooted)
-                full_path = Path.GetFullPath(Path.Combine(working_dir, full_path));
-
-            return full_path.Replace("\\", "/");
-        }
-        catch
-        {
-            return path;
-        }
-    }
-
     public static bool IsProperlyQuoted(this string input)
     {
         if (string.IsNullOrEmpty(input) || input.Length < 2)
