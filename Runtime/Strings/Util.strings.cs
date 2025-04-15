@@ -2,6 +2,13 @@
 
 public static partial class Util
 {
+    public static string PullValue(ref string value)
+    {
+        string temp = value;
+        value = temp;
+        return temp;
+    }
+
     public static string ReplaceIfNullOrWhiteSpace(this string text, in string replace) => string.IsNullOrWhiteSpace(text) ? replace : text;
 
     public static string Join(this IEnumerable<string> strings, in string separator, in string prefix = null, in string suffix = null) => prefix + string.Join(separator, strings) + suffix;
