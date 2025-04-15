@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _CORE_
+namespace _UTIL_
 {
     public class CameraShader : MonoBehaviour
     {
