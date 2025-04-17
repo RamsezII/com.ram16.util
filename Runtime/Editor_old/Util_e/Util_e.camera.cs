@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-static partial class Util_e
+static partial class Util_e_OLD
 {
     [MenuItem("CONTEXT/" + nameof(Camera) + "/" + nameof(_EDITOR_) + "/" + nameof(ForceRender))]
     static void ForceRender(MenuCommand command) => ((Camera)command.context).Render();

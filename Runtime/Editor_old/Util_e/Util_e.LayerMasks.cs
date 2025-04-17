@@ -3,7 +3,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-static partial class Util_e
+static partial class Util_e_OLD
 {
     [MenuItem("CONTEXT/" + nameof(Transform) + "/" + nameof(_UTIL_) + "/" + nameof(LogLayerMasks))]
     static void LogLayerMasks(MenuCommand _)

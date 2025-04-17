@@ -1,7 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEngine;
 
-partial class Util_e
+partial class Util_e_OLD
 {
     public static void DrawCOG(this Rigidbody rigidbody) => DrawCOG(rigidbody, Color.red);
     public static void DrawCOG(this Rigidbody rigidbody, Color color)

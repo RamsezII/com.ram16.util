@@ -4,7 +4,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-public static partial class Util_e
+public static partial class Util_e_OLD
 {
     [MenuItem("Assets/" + nameof(_EDITOR_) + "/" + nameof(LogTextB))]
     static void LogTextB()

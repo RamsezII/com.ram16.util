@@ -15,11 +15,11 @@ namespace _EDITOR_
             RectTransform rT = (RectTransform)target;
             Transform T = rT;
 
-            if (GUILayout.Button(nameof(Util_e.FillParent)))
+            if (GUILayout.Button(nameof(Util_e_OLD.FillParent)))
                 rT.FillParent();
             if (GUILayout.Button(nameof(Util.GetPath)))
                 Debug.Log(rT.GetPath(true));
-            if (GUILayout.Button(nameof(Util_e.LogTypes)))
+            if (GUILayout.Button(nameof(Util_e_OLD.LogTypes)))
                 rT.LogTypes();
         }
     }

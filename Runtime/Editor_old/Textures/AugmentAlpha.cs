@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-partial class Util_e
+partial class Util_e_OLD
 {
-    [MenuItem("Assets/" + nameof(Util_e) + "/" + nameof(AugmentAlpha))]
+    [MenuItem("Assets/" + nameof(Util_e_OLD) + "/" + nameof(AugmentAlpha))]
     static void AugmentAlpha()
     {
         // Récupère les textures sélectionnées

@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 
-partial class Util_e
+partial class Util_e_OLD
 {
     [MenuItem("Assets/" + nameof(_EDITOR_) + "/" + nameof(LogAudioMixerParameters))]
     static void LogAudioMixerParameters() => LogExposedParameters((AudioMixer)Selection.activeObject);

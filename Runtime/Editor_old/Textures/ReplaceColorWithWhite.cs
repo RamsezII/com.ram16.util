@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-partial class Util_e
+partial class Util_e_OLD
 {
-    [MenuItem("Assets/" + nameof(Util_e) + "/" + nameof(ReplaceColorWithWhite))]
+    [MenuItem("Assets/" + nameof(Util_e_OLD) + "/" + nameof(ReplaceColorWithWhite))]
     static void ReplaceColorWithWhite()
     {
         // Récupère les textures sélectionnées

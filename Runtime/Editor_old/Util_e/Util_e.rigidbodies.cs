@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-partial class Util_e
+partial class Util_e_OLD
 {
     [MenuItem("CONTEXT/" + nameof(Rigidbody) + "/" + nameof(_EDITOR_) + "/" + nameof(ResetRigidbody))]
     static void ResetRigidbody(MenuCommand menuCommand)

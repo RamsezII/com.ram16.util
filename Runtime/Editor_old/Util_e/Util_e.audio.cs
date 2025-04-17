@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public static partial class Util_e
+public static partial class Util_e_OLD
 {
     [MenuItem("CONTEXT/" + nameof(AudioSource) + "/" + nameof(_EDITOR_) + "/" + nameof(PlayAudio))]
     static void PlayAudio(MenuCommand menuCommand) => ((AudioSource)menuCommand.context).Play();

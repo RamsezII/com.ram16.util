@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
-partial class Util_e
+partial class Util_e_OLD
 {
     [MenuItem("Assets/" + nameof(_EDITOR_) + "/" + nameof(CountScriptsAndLinesByNamespace))]
     static void CountScriptsAndLinesByNamespace()

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-static partial class Util_e
+static partial class Util_e_OLD
 {
     [MenuItem("CONTEXT/" + nameof(EventSystem) + "/" + nameof(LogSelected))]
     static void LogSelected(MenuCommand command)

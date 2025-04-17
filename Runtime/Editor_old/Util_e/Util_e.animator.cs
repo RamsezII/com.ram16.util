@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-public static partial class Util_e
+public static partial class Util_e_OLD
 {
     [MenuItem("CONTEXT/" + nameof(Animator) + "/" + nameof(_EDITOR_) + "." + nameof(LogHumanScale))]
     static void LogHumanScale(MenuCommand command) => Debug.Log(((Animator)command.context).humanScale);

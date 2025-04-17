@@ -19,7 +19,6 @@ public static partial class Util
     public static Transform GetRootBone(this Animator animator)
     {
         Transform root = animator.GetBoneTransform(HumanBodyBones.Hips);
-
         if (root != animator.transform)
             do { root = root.parent; }
             while (root != animator.transform);

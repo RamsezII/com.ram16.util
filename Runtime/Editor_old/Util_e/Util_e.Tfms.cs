@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-static partial class Util_e
+static partial class Util_e_OLD
 {
     [MenuItem("CONTEXT/" + nameof(Transform) + "/" + nameof(_EDITOR_) + "/" + nameof(UnparentTransform))]
     static void UnparentTransform(MenuCommand command) => ((Transform)command.context).SetParent(null, true);

@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-static partial class Util_e
+static partial class Util_e_OLD
 {
     [MenuItem("CONTEXT/" + nameof(Transform) + "/" + nameof(_EDITOR_) + "/" + nameof(GetGameObjectPath))]
     static void GetGameObjectPath(MenuCommand command) => Debug.Log(AssetDatabase.GetAssetPath(((Transform)command.context).gameObject));

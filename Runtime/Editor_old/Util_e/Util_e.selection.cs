@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-partial class Util_e
+partial class Util_e_OLD
 {
     public static string GetSelectedFolderPath()
     {

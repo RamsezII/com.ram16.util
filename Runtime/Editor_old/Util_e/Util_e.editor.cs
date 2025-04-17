@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public static partial class Util_e
+public static partial class Util_e_OLD
 {
     static byte _id;
 

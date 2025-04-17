@@ -1,7 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEngine;
 
-partial class Util_e
+partial class Util_e_OLD
 {
     [UnityEditor.MenuItem("Assets/" + nameof(_EDITOR_) + "/" + nameof(CleanupEditorMemory))]
     static void CleanupEditorMemory()

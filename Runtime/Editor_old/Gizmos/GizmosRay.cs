@@ -25,9 +25,9 @@ namespace _EDITOR_
 }
 
 #if UNITY_EDITOR
-partial class Util_e
+partial class Util_e_OLD
 {
-    [UnityEditor.MenuItem("CONTEXT/" + nameof(Transform) + "/" + nameof(Util_e) + "." + nameof(AddGizmosRay))]
+    [UnityEditor.MenuItem("CONTEXT/" + nameof(Transform) + "/" + nameof(Util_e_OLD) + "." + nameof(AddGizmosRay))]
     static void AddGizmosRay(UnityEditor.MenuCommand command) => ((Transform)command.context).gameObject.AddComponent<GizmosRay>();
 }
 #endif

@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-partial class Util_e
+partial class Util_e_OLD
 {
     [MenuItem("CONTEXT/" + nameof(Component) + "/" + nameof(_EDITOR_) + "/" + nameof(LogType))]
     static void LogType(MenuCommand command) => Debug.Log(command.context.GetType().FullName, command.context);

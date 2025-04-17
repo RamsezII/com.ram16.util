@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public static partial class Util_e
+public static partial class Util_e_OLD
 {
     static RectTransform GetRect(this MenuCommand command) => (RectTransform)command.context;
 
