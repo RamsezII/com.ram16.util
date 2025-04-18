@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ partial class Util
 
     //--------------------------------------------------------------------------------------------------------------
 
-    public static void RunExternalCommand(in string work_dir, in string command)
+    public static void RunExternalCommand(in string work_dir, in string command, in Action<string> on_stdout = null, in Action<string> on_err = null)
     {
         using var process = new System.Diagnostics.Process();
         process.StartInfo.FileName = IsWindows() ? "powershell" : "/bin/bash";
@@ -34,8 +35,15 @@ partial class Util
         if (error.EndsWith('\n'))
             error = error[..^1];
 
-        Debug.Log(output);
+        if (on_stdout == null)
+            Debug.Log(output);
+        else
+            on_stdout(output);
+
         if (!string.IsNullOrWhiteSpace(error))
-            Debug.LogWarning(error);
+            if (on_err == null)
+                Debug.LogWarning(error);
+            else
+                on_err(error);
     }
 }
