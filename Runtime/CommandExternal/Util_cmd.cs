@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-partial class Util_e
+partial class Util
 {
     public static readonly bool is_windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
     public static readonly bool is_linux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
