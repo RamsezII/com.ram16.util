@@ -13,7 +13,7 @@ partial class Util
     public static void RunExternalCommand(in string work_dir, in string command)
     {
         using var process = new System.Diagnostics.Process();
-        process.StartInfo.FileName = IsWindows() ? "cmd.exe" : "/bin/bash";
+        process.StartInfo.FileName = IsWindows() ? "powershell" : "/bin/bash";
         process.StartInfo.Arguments = IsWindows() ? $"/C {command}" : $"-c \"{command}\"";
         process.StartInfo.RedirectStandardOutput = true;
         process.StartInfo.RedirectStandardError = true;
