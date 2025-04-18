@@ -22,15 +22,41 @@ namespace _UTIL_e
                 if (!Directory.Exists(gitDir))
                     continue;
 
-                if (RunGitCommands(dir, commitMessage))
+                if (RunGitPushCommands(dir, commitMessage))
                     ++pushed;
 
                 Debug.Log("\n\n--------------------------------------------------------------------------------------------------------------\n\n");
             }
 
-            RunGitCommands(Directory.GetParent(Application.dataPath).FullName, commitMessage);
+            RunGitPushCommands(Directory.GetParent(Application.dataPath).FullName, commitMessage);
 
             Debug.Log($"\n\n{typeof(GitBatchPusher)} pushed {pushed} repo(s)\n");
+        }
+        
+        public static IEnumerator<float> EPullAllGitRepos()
+        {
+            string[] dirs = Directory.GetDirectories(Application.dataPath);
+            int pulled = 0;
+            float countf = dirs.Length;
+
+            for (int i = 0; i < dirs.Length; i++)
+            {
+                yield return i / countf;
+
+                string dir = dirs[i];
+                string gitDir = Path.Combine(dir, ".git");
+                if (!Directory.Exists(gitDir))
+                    continue;
+
+                if (RunGitPullCommands(dir))
+                    ++pulled;
+
+                Debug.Log("\n\n--------------------------------------------------------------------------------------------------------------\n\n");
+            }
+
+            RunGitPullCommands(Directory.GetParent(Application.dataPath).FullName);
+
+            Debug.Log($"\n\n{typeof(GitBatchPusher)} pulled {pulled} repo(s)\n");
         }
 
         public static void PushAllGitRepos(in string commitMessage)
@@ -38,8 +64,14 @@ namespace _UTIL_e
             var routine = EPushAllGitRepos(commitMessage);
             while (routine.MoveNext()) ;
         }
+        
+        public static void PullAllGitRepos()
+        {
+            var routine = EPullAllGitRepos();
+            while (routine.MoveNext()) ;
+        }
 
-        static bool RunGitCommands(string path, string message)
+        static bool RunGitPushCommands(string path, string message)
         {
             try
             {
@@ -47,6 +79,21 @@ namespace _UTIL_e
                 RunGit("add .", path);
                 RunGit($"commit -m \"{message}\"", path);
                 RunGit("push", path);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"Git failed for {path} : {e.Message}");
+                return false;
+            }
+        }
+        
+        static bool RunGitPullCommands(string path)
+        {
+            try
+            {
+                Debug.Log($"\n-----  {Path.GetFileName(path)}  -----\n");
+                RunGit("pull", path);
                 return true;
             }
             catch (Exception e)
