@@ -11,11 +11,19 @@ partial class Util
 
     //--------------------------------------------------------------------------------------------------------------
 
-    public static void RunExternalCommand(in string work_dir, in string command, in Action<string> on_stdout = null, in Action<string> on_err = null)
+    public static void RunExternalCommand(in string work_dir, in string command_line, Action<string> on_stdout = null, Action<string> on_err = null)
     {
+        static void LogStdout(string stdout) => Debug.Log(stdout);
+        static void LogErr(string error) => Debug.LogWarning(error);
+
+        on_stdout ??= LogStdout;
+        on_err ??= LogErr;
+
+        Debug.Log($"[CMD_start] {work_dir}$ {command_line}");
+
         using var process = new System.Diagnostics.Process();
         process.StartInfo.FileName = IsWindows() ? "powershell" : "/bin/bash";
-        process.StartInfo.Arguments = IsWindows() ? $"/C {command}" : $"-c \"{command}\"";
+        process.StartInfo.Arguments = IsWindows() ? $"/C {command_line}" : $"-c \"{command_line}\"";
         process.StartInfo.RedirectStandardOutput = true;
         process.StartInfo.RedirectStandardError = true;
         process.StartInfo.UseShellExecute = false;
@@ -24,26 +32,23 @@ partial class Util
 
         process.Start();
 
-        string output = process.StandardOutput.ReadToEnd();
-        string error = process.StandardError.ReadToEnd();
+        string stdout = process.StandardOutput.ReadToEnd();
+        string err = process.StandardError.ReadToEnd();
 
         process.WaitForExit();
 
-        if (output.EndsWith('\n'))
-            output = output[..^1];
+        if (!string.IsNullOrWhiteSpace(stdout))
+        {
+            TrimNewline(ref stdout);
+            on_stdout(stdout);
+        }
 
-        if (error.EndsWith('\n'))
-            error = error[..^1];
+        if (!string.IsNullOrWhiteSpace(err))
+        {
+            TrimNewline(ref err);
+            on_err(err);
+        }
 
-        if (on_stdout == null)
-            Debug.Log(output);
-        else
-            on_stdout(output);
-
-        if (!string.IsNullOrWhiteSpace(error))
-            if (on_err == null)
-                Debug.LogWarning(error);
-            else
-                on_err(error);
+        Debug.Log("[CMD_end]\n");
     }
 }

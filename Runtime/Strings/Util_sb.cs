@@ -1,18 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
 partial class Util
 {
-    public static string TrimmedForLog(this StringBuilder sb) => sb == null || sb.Length == 0 ? string.Empty : sb.ToString().TrimEnd('\n', '\r');
     public static string TroncatedForLog(this StringBuilder sb) => sb == null || sb.Length == 0 ? string.Empty : sb.ToString()[..^1];
-    public static void Log(this StringBuilder sb, in Object o = null) => Debug.Log(TroncatedForLog(sb), o);
-    public static void LogAndClear(this StringBuilder sb, in Object o = null)
-    {
-        Log(sb, o);
-        sb.Clear();
-    }
+    public static void Log(this StringBuilder sb, in UnityEngine.Object o = null) => Debug.Log(TroncatedForLog(sb), o);
 
     public static string PullValue(this StringBuilder sb)
     {
@@ -21,29 +16,38 @@ partial class Util
         return value;
     }
 
-    public static string LinesToText(this IEnumerable<object> objects, in bool removeEmptyEntries = false)
-    {
-        if (objects == null)
-            return string.Empty;
-        StringBuilder sb = new();
-        foreach (object o in objects)
-        {
-            string line = o switch
-            {
-                string str => str,
-                _ => o.ToString()
-            };
-            if (!removeEmptyEntries || !string.IsNullOrWhiteSpace(line))
-                sb.AppendLine(line);
-        }
-
-        return sb.TroncatedForLog();
-    }
-
-    public static List<string> TextToLines(this string text, in bool removeEmptyEntries = false)
+    public static string[] TextToLines(this string text)
     {
         if (string.IsNullOrWhiteSpace(text))
-            return new();
-        return text.Split(new[] { '\n', '\r' }, removeEmptyEntries ? System.StringSplitOptions.RemoveEmptyEntries : System.StringSplitOptions.None).ToList();
+            return new string[0];
+        return text.Split(new[] { "\r\n", "\r", "\n", }, StringSplitOptions.RemoveEmptyEntries);
     }
+
+    public static object[] ExtractDataArray(this object data)
+    {
+        return data switch
+        {
+            string str => str.TextToLines(),
+            object[] array => array,
+            IEnumerable<object> o => o.ToArray(),
+            _ => new[] { data, },
+        };
+    }
+
+    public static IEnumerable<object> IterateThroughData(this object data)
+    {
+        return data switch
+        {
+            string str => str.TextToLines(),
+            IEnumerable<object> o => o,
+            _ => new[] { data, },
+        };
+    }
+
+    public static IEnumerable<string> IterateThroughData_str(this object data) => data switch
+    {
+        string str => str.TextToLines(),
+        IEnumerable<object> o => o.Select(x => x.ToString()),
+        _ => new[] { data.ToString(), },
+    };
 }
