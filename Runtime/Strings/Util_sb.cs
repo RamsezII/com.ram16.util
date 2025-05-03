@@ -47,7 +47,7 @@ partial class Util
     public static IEnumerable<string> IterateThroughData_str(this object data) => data switch
     {
         string str => str.TextToLines(),
-        IEnumerable<object> o => o.Select(x => x.ToString()),
-        _ => new[] { data.ToString(), },
+        IEnumerable<object> o => o.Select(x => x?.ToString()),
+        _ => new[] { data?.ToString(), },
     };
 }
