@@ -39,8 +39,8 @@ public static partial class Util
                 yield return get_progress?.Invoke() ?? 0;
         on_while_done();
     }
-
-    public static IEnumerator<float> EWaitForCondition(this Func<bool> condition, Func<float> progression, Action action)
+    
+    public static IEnumerator<float> EWaitUntil(this Func<bool> condition, Func<float> progression, Action action)
     {
         while (!condition())
             if (progression == null)
