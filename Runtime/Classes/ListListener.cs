@@ -11,8 +11,8 @@ namespace _UTIL_
     public class ListListener<T>
     {
         public readonly List<T> _list;
-        public Action<bool> _listeners1;
-        public Action<List<T>> _listeners2, _oneTimeListeners;
+        public readonly EventPropagator<bool> _listeners1 = new();
+        public readonly EventPropagator<List<T>> _listeners2 = new(), _oneTimeListeners = new();
 
         //------------------------------------------------------------------------------------------------------------------------------
 
@@ -61,33 +61,22 @@ namespace _UTIL_
                 return IsEmpty || element != null && IsLast(element);
         }
 
-        public void AddListener1(in Action<bool> listener)
+        public void AddListener1(in object user, in Action<bool> action)
         {
             lock (this)
-            {
-                _listeners1 -= listener;
-                _listeners1 += listener;
-                listener(!IsEmpty);
-            }
+                _listeners1.AddListener(IsNotEmpty, user, action);
         }
 
-        public void AddListener2(in Action<List<T>> listener)
+        public void AddListener2(in object user, in Action<List<T>> action)
         {
             lock (this)
-            {
-                _listeners2 -= listener;
-                _listeners2 += listener;
-                listener(_list);
-            }
+                _listeners2.AddListener(_list, user, action);
         }
 
-        public void AddOneTimeListener(in Action<List<T>> listener)
+        public void AddOneTimeListener(in Action<List<T>> action)
         {
             lock (this)
-            {
-                _oneTimeListeners -= listener;
-                _oneTimeListeners += listener;
-            }
+                _oneTimeListeners.AddListener(_list, null, action);
         }
 
         public void ModifyList(in Action<List<T>> onList)
@@ -98,14 +87,14 @@ namespace _UTIL_
 
                 onList(_list);
 
-                _listeners2?.Invoke(_list);
+                _listeners2.NotifyListeners(_list);
 
                 if (count != _list.Count)
                     if (count == 0 || _list.Count == 0)
-                        _listeners1?.Invoke(!IsEmpty);
+                        _listeners1.NotifyListeners(IsNotEmpty);
 
-                _oneTimeListeners?.Invoke(_list);
-                _oneTimeListeners = null;
+                _oneTimeListeners.NotifyListeners(_list);
+                _oneTimeListeners._listeners.Clear();
             }
         }
 
@@ -190,9 +179,9 @@ namespace _UTIL_
         {
             lock (this)
             {
-                _listeners1 = null;
-                _listeners2 = null;
-                _oneTimeListeners = null;
+                _listeners1.Dispose();
+                _listeners2.Dispose();
+                _oneTimeListeners.Dispose();
                 _list.Clear();
             }
         }

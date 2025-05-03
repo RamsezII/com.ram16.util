@@ -18,7 +18,8 @@ namespace _UTIL_
 
         public void AddListener(in Action action, in object user)
         {
-            listeners.Add((action, user));
+            listeners.Add((action, user ?? new object()));
+            action();
         }
 
         public void RemoveListener_action(in Action action)
@@ -74,43 +75,44 @@ namespace _UTIL_
             public bool Disposed { get; }
         }
 
-        readonly List<(Action<T> action, object user)> listeners = new();
-        bool disposed;
+        public readonly List<(Action<T> action, object user)> _listeners = new();
+        public bool _disposed;
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public void AddListener(in Action<T> action, in object user)
+        public void AddListener(in T current_value, in object user, in Action<T> action)
         {
-            listeners.Add((action, user));
+            _listeners.Add((action, user ?? new object()));
+            action(current_value);
         }
 
         public void RemoveListener_action(in Action<T> action)
         {
-            for (int i = 0; i < listeners.Count; i++)
-                if (listeners[i].action == action)
+            for (int i = 0; i < _listeners.Count; i++)
+                if (_listeners[i].action == action)
                 {
-                    listeners.RemoveAt(i);
+                    _listeners.RemoveAt(i);
                     break;
                 }
         }
 
         public void RemoveListener_user(in object user)
         {
-            for (int i = 0; i < listeners.Count; i++)
-                if (listeners[i].user == user)
+            for (int i = 0; i < _listeners.Count; i++)
+                if (_listeners[i].user == user)
                 {
-                    listeners.RemoveAt(i);
+                    _listeners.RemoveAt(i);
                     break;
                 }
         }
 
         public void NotifyListeners(in T value)
         {
-            for (int i = 0; i < listeners.Count; ++i)
+            for (int i = 0; i < _listeners.Count; ++i)
             {
-                (Action<T> action, object user) = listeners[i];
+                (Action<T> action, object user) = _listeners[i];
                 if (user == null || user is IUser iuser && iuser.Disposed)
-                    listeners.RemoveAt(i--);
+                    _listeners.RemoveAt(i--);
                 else if (action == null)
                     Debug.LogWarning($"null action in {GetType().FullName}");
                 else
@@ -122,11 +124,11 @@ namespace _UTIL_
 
         public void Dispose()
         {
-            if (disposed)
+            if (_disposed)
                 return;
-            disposed = true;
+            _disposed = true;
 
-            listeners.Clear();
+            _listeners.Clear();
         }
     }
 }
