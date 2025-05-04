@@ -20,12 +20,18 @@ namespace _UTIL_
         public bool changed;
         public T _value, old;
         public Action<T> onChange;
+        public readonly EventPropagator<T> listeners;
         public Func<T, T> processor;
         [Obsolete] public Action<T> onUpdate;
 
         //------------------------------------------------------------------------------------------------------------------------------
 
-        public OnValue(in T init = default) => _value = old = init;
+        public OnValue(in T init = default, in bool use_propagator = false)
+        {
+            _value = old = init;
+            if (use_propagator)
+                listeners = new();
+        }
 
         //------------------------------------------------------------------------------------------------------------------------------
 
@@ -35,6 +41,7 @@ namespace _UTIL_
             _value = default;
             old = default;
             onChange = null;
+            listeners?._listeners.Clear();
             processor = null;
             onUpdate = null;
             Update(value);
@@ -126,7 +133,10 @@ namespace _UTIL_
 
                 onUpdate?.Invoke(value);
                 if (changed)
+                {
                     onChange?.Invoke(value);
+                    listeners?.NotifyListeners(value);
+                }
 
                 return changed;
             }
