@@ -20,17 +20,15 @@ namespace _UTIL_
         public bool changed;
         public T _value, old;
         public Action<T> onChange;
-        public readonly EventPropagator<T> listeners;
+        public EventPropagator<T> _propagator;
         public Func<T, T> processor;
         [Obsolete] public Action<T> onUpdate;
 
         //------------------------------------------------------------------------------------------------------------------------------
 
-        public OnValue(in T init = default, in bool use_propagator = false)
+        public OnValue(in T init = default)
         {
             _value = old = init;
-            if (use_propagator)
-                listeners = new();
         }
 
         //------------------------------------------------------------------------------------------------------------------------------
@@ -41,7 +39,7 @@ namespace _UTIL_
             _value = default;
             old = default;
             onChange = null;
-            listeners?._listeners.Clear();
+            _propagator?._listeners.Clear();
             processor = null;
             onUpdate = null;
             Update(value);
@@ -103,6 +101,12 @@ namespace _UTIL_
             }
         }
 
+        public void AddListener(in object user, in Action<T> action)
+        {
+            lock (this)
+                (_propagator ??= new()).AddListener(Value, user, action);
+        }
+
         public void RemoveListener(in Action<T> action)
         {
             lock (this)
@@ -128,14 +132,14 @@ namespace _UTIL_
                 if (processor != null)
                     value = processor(value);
 
-                changed = force || !Util.Equals2(value, _value);
+                changed = !Util.Equals2(value, _value);
                 _value = value;
 
                 onUpdate?.Invoke(value);
-                if (changed)
+                if (force || changed)
                 {
                     onChange?.Invoke(value);
-                    listeners?.NotifyListeners(value);
+                    _propagator?.NotifyListeners(value);
                 }
 
                 return changed;

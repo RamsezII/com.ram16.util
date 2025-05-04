@@ -82,6 +82,13 @@ namespace _UTIL_
 
         public void AddListener(in T current_value, in object user, in Action<T> action)
         {
+            for (int i = 0; i < _listeners.Count; ++i)
+            {
+                var pair = _listeners[i];
+                if (pair.user == user || pair.action == action)
+                    _listeners.RemoveAt(i--);
+            }
+
             _listeners.Add((action, user ?? new object()));
             action(current_value);
         }
