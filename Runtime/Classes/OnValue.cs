@@ -39,7 +39,7 @@ namespace _UTIL_
             _value = default;
             old = default;
             onChange = null;
-            _propagator?._listeners.Clear();
+            _propagator?.ClearListeners();
             processor = null;
             onUpdate = null;
             Update(value);

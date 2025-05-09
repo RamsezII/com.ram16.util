@@ -31,10 +31,18 @@ namespace _UTIL_
 
         //------------------------------------------------------------------------------------------------------------------------------
 
+        void RemoveNulls()
+        {
+            for (int i = 0; i < _list.Count; i++)
+                if (_list[i] == null || _list[i] is UnityEngine.Object ue && ue == null)
+                    ModifyList(list => list.RemoveAt(i--));
+        }
+
         public bool IsEmpty
         {
             get
             {
+                RemoveNulls();
                 lock (this)
                     return _list.Count == 0;
             }
@@ -44,6 +52,7 @@ namespace _UTIL_
         {
             get
             {
+                RemoveNulls();
                 lock (this)
                     return _list.Count > 0;
             }
@@ -51,30 +60,35 @@ namespace _UTIL_
 
         public bool IsLast(in T element)
         {
+            RemoveNulls();
             lock (this)
                 return element != null && _list.Count > 0 && _list[^1].Equals(element);
         }
 
         public bool IsEmptyOrLast(in T element)
         {
+            RemoveNulls();
             lock (this)
                 return IsEmpty || element != null && IsLast(element);
         }
 
         public void AddListener1(in object user, in Action<bool> action)
         {
+            RemoveNulls();
             lock (this)
                 _listeners1.AddListener(IsNotEmpty, user, action);
         }
 
         public void AddListener2(in object user, in Action<List<T>> action)
         {
+            RemoveNulls();
             lock (this)
                 _listeners2.AddListener(_list, user, action);
         }
 
         public void AddOneTimeListener(in object user, in Action<List<T>> action)
         {
+            RemoveNulls();
             lock (this)
                 _oneTimeListeners.AddListener(_list, user, action);
         }
@@ -86,6 +100,7 @@ namespace _UTIL_
                 int count = _list.Count;
 
                 onList(_list);
+                RemoveNulls();
 
                 _listeners2.NotifyListeners(_list);
 

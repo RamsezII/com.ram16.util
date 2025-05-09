@@ -27,23 +27,35 @@ namespace _UTIL_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public override readonly string ToString() => Traductable.language switch
+        public override readonly string ToString() => Automatic;        
+        public readonly string Automatic => Traductable.language.Value switch
         {
-            Languages.English => string.IsNullOrWhiteSpace(english) ? "[EMPTY]" : english,
             Languages.French => string.IsNullOrWhiteSpace(french) ? "[VIDE]" : french,
-            _ => throw new ArgumentOutOfRangeException(),
+            _ => string.IsNullOrWhiteSpace(english) ? "[EMPTY]" : english,
         };
     }
 
     public class Traductable : MonoBehaviour
     {
         static readonly HashSet<Traductable> instances = new();
-        public static Languages language;
+        public static readonly OnValue<Languages> language = new();
 
         [SerializeField] bool autoSize;
         [SerializeField] Traductions traductions;
         [Obsolete, SerializeField] string english, francais;
-        Action<Traductable> onChange;
+
+        //----------------------------------------------------------------------------------------------------------
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        static void OnBeforeSceneLoad()
+        {
+            language.Reset(Languages.English);
+            language.AddListener(langage =>
+            {
+                foreach (Traductable self in instances)
+                    self.Refresh();
+            });
+        }
 
         //----------------------------------------------------------------------------------------------------------
 
@@ -83,22 +95,7 @@ namespace _UTIL_
                     yield return child;
         }
 
-        public static void SetLanguage(in Languages language)
-        {
-            Traductable.language = language;
-            foreach (Traductable self in instances)
-                self.Refresh();
-        }
-
         //----------------------------------------------------------------------------------------------------------
-
-        public void AddListener(in Action<Traductable> action)
-        {
-            onChange += action;
-            action(this);
-        }
-
-        public void RemoveListener(in Action<Traductable> action) => onChange -= action;
 
         void Refresh()
         {
@@ -113,8 +110,6 @@ namespace _UTIL_
                 if (autoSize)
                     tmp.AutoSize();
             }
-
-            onChange?.Invoke(this);
         }
 
         public void SetTrads(in Traductions traductions)
