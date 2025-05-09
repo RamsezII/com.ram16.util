@@ -80,8 +80,11 @@ namespace _UTIL_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public void AddListener(in T current_value, in object user, in Action<T> action)
+        public void AddListener<U>(in T current_value, in U user, in Action<T> action) where U : class
         {
+            if (user != null && user.ToString() == "null")
+                throw new ArgumentNullException(nameof(user), "user cannot be 'null'");
+
             for (int i = 0; i < _listeners.Count; ++i)
             {
                 var pair = _listeners[i];
@@ -118,7 +121,7 @@ namespace _UTIL_
             for (int i = 0; i < _listeners.Count; ++i)
             {
                 (Action<T> action, object user) = _listeners[i];
-                if (user == null || user is IUser iuser && iuser.Disposed)
+                if (user == null || user is IUser iuser && iuser.Disposed || user is UnityEngine.Object uo && uo == null)
                     _listeners.RemoveAt(i--);
                 else if (action == null)
                     Debug.LogWarning($"null action in {GetType().FullName}");

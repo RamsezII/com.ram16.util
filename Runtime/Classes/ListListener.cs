@@ -73,10 +73,10 @@ namespace _UTIL_
                 _listeners2.AddListener(_list, user, action);
         }
 
-        public void AddOneTimeListener(in Action<List<T>> action)
+        public void AddOneTimeListener(in object user, in Action<List<T>> action)
         {
             lock (this)
-                _oneTimeListeners.AddListener(_list, null, action);
+                _oneTimeListeners.AddListener(_list, user, action);
         }
 
         public void ModifyList(in Action<List<T>> onList)
