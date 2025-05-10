@@ -110,7 +110,10 @@ namespace _UTIL_
         public void RemoveListener(in Action<T> action)
         {
             lock (this)
+            {
                 onChange -= action;
+                _propagator?.RemoveListener_action(action);
+            }
         }
 
         public void AddProcessor(in Func<T, T> processor)
