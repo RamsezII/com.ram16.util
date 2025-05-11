@@ -14,7 +14,7 @@ namespace _EDITOR_
         [ContextMenu(nameof(CaptureScreenshot))]
         void CaptureScreenshot()
         {
-            string path = savefolder.ForceDir().FullName;
+            string path = savefolder.GetDir(true).FullName;
             string filepath = Path.Combine(path, $"screenshot__{DateTime.Now:yyyy_MM_dd_hhhmmmsss}.png");
             Debug.Log($"Saving screenshot as {filepath}...");
             ScreenCapture.CaptureScreenshot(filepath, 1);
