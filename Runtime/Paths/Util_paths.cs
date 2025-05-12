@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using _UTIL_;
 
 namespace _UTIL_
@@ -22,4 +23,9 @@ partial class Util
 {
     public static bool HasFlags_any(this FS_TYPES mask, FS_TYPES flags) => (mask & flags) != 0;
     public static string ToLinuxPath(this string path) => path.Replace('\\', '/');
+    public static bool MatchesPattern(this string value, in string pattern)
+    {
+        string regex = "^" + Regex.Escape(pattern).Replace("\\*", ".*").Replace("\\?", ".") + "$";
+        return Regex.IsMatch(value, regex, RegexOptions.IgnoreCase);
+    }
 }
