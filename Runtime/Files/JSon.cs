@@ -9,13 +9,9 @@ public abstract class JSon
         txt = ".txt",
         json = ".json" + txt;
 
-    public bool readflag { get; private set; }
-
     //----------------------------------------------------------------------------------------------------------
 
-    public string ToJson() => JsonUtility.ToJson(this, true);
-    protected virtual void OnApply() { }
-    protected virtual void OnSave() => OnApply();
+    protected virtual void OnSave() { }
     public void Save(in string filepath, in bool log)
     {
         OnSave();
@@ -38,11 +34,8 @@ public abstract class JSon
             Debug.Log($"{typeof(JSon).FullName}.{nameof(Save)}({filepath.SetColor(color_paths)})".ToSubLog());
     }
 
-    public virtual void OnRead()
-    {
-        readflag = true;
-        OnApply();
-    }
+    public virtual void OnRead() => OnApply();
+    protected virtual void OnApply() { }
 
     public virtual void WriteBytes(in BinaryWriter writer)
     {
@@ -56,8 +49,9 @@ public abstract class JSon
 
     //----------------------------------------------------------------------------------------------------------
 
-    public static bool Read<T>(ref T json, in string filepath, in bool force, in bool log) where T : JSon
+    public static bool Read<T>(ref T json, in string filepath, in bool force, in bool log) where T : JSon, new()
     {
+        json ??= new T();
         if (File.Exists(filepath))
         {
             json = JsonUtility.FromJson<T>(File.ReadAllText(filepath));
