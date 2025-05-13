@@ -13,7 +13,7 @@ public static partial class Util
         return log.ToString();
     }
 
-    public static string TrimMessage(this Exception e) => e.Message.TrimEnd('\n', '\r', '\0');
+    public static string TrimmedMessage(this Exception e) => e.Message.TrimEnd('\n', '\r', '\0');
     public static string FileSizeLog(this in uint fileSize) => ((long)fileSize).LogDataSize();
     public static string LogDataSize(this in long data_size)
     {

@@ -56,7 +56,7 @@ partial class Util
         }
         catch (Exception e)
         {
-            error = $"Failed to parse index: {e.TrimMessage()}";
+            error = $"Failed to parse index: {e.TrimmedMessage()}";
             Debug.LogException(e);
             index = null;
             return false;
