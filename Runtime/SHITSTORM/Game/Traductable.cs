@@ -41,7 +41,7 @@ namespace _UTIL_
         public static readonly OnValue<Languages> language = new();
 
         [SerializeField] bool autoSize;
-        [SerializeField] Traductions traductions;
+        public Traductions traductions;
         [Obsolete, SerializeField] string english, francais;
 
         //----------------------------------------------------------------------------------------------------------
