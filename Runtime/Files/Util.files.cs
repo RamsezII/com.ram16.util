@@ -22,6 +22,4 @@ public static partial class Util
     }
 
     public static string TypeToPath(this Type type) => type.FullName.Replace('.', Path.PathSeparator);
-    public static string TypeToFile(this Type type) => type.FullName + JSon.json;
-    public static string TypeToExtension(this Type type) => "." + TypeToFile(type);
 }
