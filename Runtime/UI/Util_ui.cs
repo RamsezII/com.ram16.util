@@ -32,6 +32,15 @@ partial class Util
         return max - min;
     }
 
+    public static string GetValueName(this Toggle toggle)
+    {
+        string name = toggle.name;
+        int index = name.IndexOf(':');
+        if (index == -1)
+            return name;
+        return name[(index + 2)..];
+    }
+
     public static bool TryAutosizeLayoutgroup(this Transform transform)
     {
         Debug.LogWarning($"{nameof(TryAutosizeLayoutgroup)} UNTESTED");
