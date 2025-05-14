@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 partial class Util
 {
@@ -29,5 +30,31 @@ partial class Util
     {
         (Vector2 min, Vector2 max) = rT.GetWorldCorners();
         return max - min;
+    }
+
+    public static bool TryAutosizeLayoutgroup(this Transform transform)
+    {
+        Debug.LogWarning($"{nameof(TryAutosizeLayoutgroup)} UNTESTED");
+
+        if (!transform.TryGetComponent(out LayoutGroup lgroup))
+            return false;
+
+        RectTransform rt = (RectTransform)transform;
+
+        switch (lgroup)
+        {
+            case HorizontalLayoutGroup hlgroup:
+                rt.sizeDelta = new Vector2(hlgroup.preferredWidth, rt.sizeDelta.y);
+                break;
+
+            case VerticalLayoutGroup vlgroup:
+                rt.sizeDelta = new Vector2(rt.sizeDelta.x, vlgroup.preferredHeight);
+                break;
+
+            default:
+                return false;
+        }
+
+        return true;
     }
 }

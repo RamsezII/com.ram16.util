@@ -2,6 +2,12 @@
 
 public static partial class Util
 {
+    public static Rect GetScreenRect_alloc(this RectTransform rectTransform)
+    {
+        Vector3[] corners = new Vector3[4];
+        return GetScreenRect(rectTransform, ref corners);
+    }
+
     public static Rect GetScreenRect(this RectTransform rectTransform, ref Vector3[] corners)
     {
         rectTransform.GetWorldCorners(corners);
@@ -13,11 +19,5 @@ public static partial class Util
         rect.y = Screen.height - rect.y - rect.height;
 
         return rect;
-    }
-
-    public static Rect GetScreenRect_alloc(this RectTransform rectTransform)
-    {
-        Vector3[] corners = new Vector3[4];
-        return GetScreenRect(rectTransform, ref corners);
     }
 }
