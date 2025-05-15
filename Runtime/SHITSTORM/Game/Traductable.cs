@@ -16,6 +16,7 @@ namespace _UTIL_
     public struct Traductions
     {
         public string english, french;
+        public readonly bool IsDefault => string.IsNullOrEmpty(english) && string.IsNullOrEmpty(french);
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -27,7 +28,7 @@ namespace _UTIL_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        public override readonly string ToString() => Automatic;        
+        public override readonly string ToString() => Automatic;
         public readonly string Automatic => Traductable.language.Value switch
         {
             Languages.French => string.IsNullOrWhiteSpace(french) ? "[VIDE]" : french,
