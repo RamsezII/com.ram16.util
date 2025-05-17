@@ -41,9 +41,7 @@ namespace _UTIL_
         static readonly HashSet<Traductable> instances = new();
         public static readonly OnValue<Languages> language = new();
 
-        [SerializeField] bool autoSize;
         public Traductions traductions;
-        [Obsolete, SerializeField] string english, francais;
 
         //----------------------------------------------------------------------------------------------------------
 
@@ -72,9 +70,6 @@ namespace _UTIL_
 
         private void Awake()
         {
-            if (!string.IsNullOrWhiteSpace(francais) || !string.IsNullOrEmpty(english))
-                traductions = new Traductions { english = english, french = francais };
-
             instances.Add(this);
             Refresh();
         }
@@ -106,11 +101,7 @@ namespace _UTIL_
                 text = traductions.english;
 
             foreach (TextMeshProUGUI tmp in AllTmps())
-            {
                 tmp.text = text;
-                if (autoSize)
-                    tmp.AutoSize();
-            }
         }
 
         public void SetTrads(in Traductions traductions)

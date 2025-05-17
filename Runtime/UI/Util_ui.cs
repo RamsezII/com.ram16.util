@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -17,6 +18,17 @@ partial class Util
         return EventSystem.current.currentSelectedGameObject == go;
     }
 
+    public static bool RaycastAllUnderMouse(in List<RaycastResult> results)
+    {
+        PointerEventData pointer_data = new(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+        results.Clear();
+        EventSystem.current.RaycastAll(pointer_data, results);
+        return results.Count > 0;
+    }
+
     public static (Vector2 min, Vector2 max) GetWorldCorners(this RectTransform rT)
     {
         lock (rt_corners)
@@ -32,7 +44,7 @@ partial class Util
         return max - min;
     }
 
-    public static string GetValueName(this Toggle toggle)
+    public static string Get_ItemName_From_DropdownToggle(this Toggle toggle)
     {
         string name = toggle.name;
         int index = name.IndexOf(':');
