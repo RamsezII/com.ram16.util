@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEngine;
 
 public abstract class JSon
@@ -9,7 +10,13 @@ public abstract class JSon
         txt = ".txt",
         json = ".json" + txt;
 
+    public virtual string GetFileName() => GetType().FullName + json;
+    public string GetExtension() => "." + GetFileName();
+
     //----------------------------------------------------------------------------------------------------------
+
+    public static string GetJSonName(in Type type) => type.FullName + json;
+    public static string GetJSonExtension(in Type type) => "." + GetJSonName(type);
 
     protected virtual void OnSave() { }
     public void Save(in string filepath, in bool log)
