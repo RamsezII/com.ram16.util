@@ -1,5 +1,4 @@
 ﻿#if UNITY_EDITOR
-using _UTIL_;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -32,9 +31,6 @@ static partial class Util_e_OLD
         Vector2 size = tmp.textBounds.size;
         ((RectTransform)tmp.rectTransform.parent).sizeDelta = size;
     }
-
-    [MenuItem("CONTEXT/" + nameof(TextMeshProUGUI) + "/" + nameof(AddTraductable))]
-    static void AddTraductable(MenuCommand command) => ((TextMeshProUGUI)command.context).gameObject.AddComponent<Traductable>();
 
     [MenuItem("CONTEXT/" + nameof(RectTransform) + "/" + nameof(CullAllTransparentMeshes))]
     static void CullAllTransparentMeshes(MenuCommand command)

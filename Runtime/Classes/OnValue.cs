@@ -42,7 +42,7 @@ namespace _UTIL_
             _propagator?.ClearListeners();
             processor = null;
             onUpdate = null;
-            Update(value);
+            Update(value, true);
         }
 
         public T Value
