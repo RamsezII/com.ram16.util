@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,31 +24,28 @@ partial class Util
         return text.Split(new[] { "\r\n", "\r", "\n", }, StringSplitOptions.RemoveEmptyEntries);
     }
 
-    public static object[] ExtractDataArray(this object data)
+    public static object[] ExtractDataArray(this object data) => data switch
     {
-        return data switch
-        {
-            string str => str.TextToLines(),
-            object[] array => array,
-            IEnumerable<object> o => o.ToArray(),
-            _ => new[] { data, },
-        };
-    }
+        string str => str.TextToLines(),
+        object[] array => array,
+        IEnumerable<object> o => o.ToArray(),
+        IEnumerable o => o.Cast<object>().ToArray(),
+        _ => new[] { data, },
+    };
 
-    public static IEnumerable<object> IterateThroughData(this object data)
+    public static IEnumerable<object> IterateThroughData(this object data) => data switch
     {
-        return data switch
-        {
-            string str => str.TextToLines(),
-            IEnumerable<object> o => o,
-            _ => new[] { data, },
-        };
-    }
+        string str => str.TextToLines(),
+        IEnumerable<object> o => o,
+        IEnumerable o => o.Cast<object>(),
+        _ => new[] { data, },
+    };
 
     public static IEnumerable<string> IterateThroughData_str(this object data) => data switch
     {
         string str => str.TextToLines(),
         IEnumerable<object> o => o.Select(x => x?.ToString()),
+        IEnumerable o => o.Cast<object>().Select(x => x?.ToString()),
         _ => new[] { data?.ToString(), },
     };
 }
