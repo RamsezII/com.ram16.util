@@ -28,24 +28,21 @@ partial class Util
     {
         string str => str.TextToLines(),
         object[] array => array,
-        IEnumerable<object> o => o.ToArray(),
-        IEnumerable o => o.Cast<object>().ToArray(),
+        IEnumerable objects => objects.Cast<object>().ToArray(),
         _ => new[] { data, },
     };
 
     public static IEnumerable<object> IterateThroughData(this object data) => data switch
     {
         string str => str.TextToLines(),
-        IEnumerable<object> o => o,
-        IEnumerable o => o.Cast<object>(),
+        IEnumerable objects => objects.Cast<object>(),
         _ => new[] { data, },
     };
 
     public static IEnumerable<string> IterateThroughData_str(this object data) => data switch
     {
         string str => str.TextToLines(),
-        IEnumerable<object> o => o.Select(x => x?.ToString()),
-        IEnumerable o => o.Cast<object>().Select(x => x?.ToString()),
+        IEnumerable objects => objects.Cast<object>().Select(x => x?.ToString()),
         _ => new[] { data?.ToString(), },
     };
 }
