@@ -28,7 +28,7 @@ partial class Util
         return true;
     }
 
-    public static bool TryReadFloat(this string line, out float value, out string newline)
+    public static bool TryParseFloat(this string line, out float value, out string newline)
     {
         try
         {
@@ -38,7 +38,7 @@ partial class Util
         }
         catch (System.Exception e)
         {
-            Debug.LogWarning($"{typeof(Util).FullName}.{nameof(TryReadFloat)}: \"{e.Message}\"");
+            Debug.LogWarning($"{typeof(Util).FullName}.{nameof(TryParseFloat)}: \"{e.Message}\"");
         }
 
         value = 0;
