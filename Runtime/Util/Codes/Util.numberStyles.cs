@@ -30,7 +30,7 @@ public static partial class Util
     public static float ToFloat(this string read) => float.Parse(read, float_mask, CultureInfo.InvariantCulture);
     public static string FloatToString(this in float value) => value.ToString(CultureInfo.InvariantCulture);
 
-    public static bool TryParse(this string read, out float value)
+    public static bool TryParseFloat(this string read, out float value)
     {
         try
         {
