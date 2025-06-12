@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static partial class Util
 {
@@ -37,6 +38,32 @@ public static partial class Util
         char[] chars = text.ToCharArray();
         Array.Reverse(chars);
         return new string(chars);
+    }
+
+    public static bool TryIndexOf_min(this string text, out int index, in bool ignore_case = true, params char[] chars)
+    {
+        index = int.MaxValue;
+        var ordinal = ignore_case.ToOrdinal();
+
+        for (int i = 0; i < chars.Length; i++)
+        {
+            int find = text.IndexOf(chars[i], ordinal);
+            if (find >= 0)
+                index = Mathf.Min(index, find);
+        }
+
+        return index >= 0;
+    }
+
+    public static bool TryIndexOf_max(this string text, out int index, in bool ignore_case = true, params char[] chars)
+    {
+        index = -1;
+        var ordinal = ignore_case.ToOrdinal();
+
+        for (int i = 0; i < chars.Length; i++)
+            index = Mathf.Max(index, text.IndexOf(chars[i], ordinal));
+
+        return index >= 0;
     }
 
     public static StringComparison ToOrdinal(this bool ignore_case) => ignore_case ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
