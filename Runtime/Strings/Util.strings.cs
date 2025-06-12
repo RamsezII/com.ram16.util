@@ -38,4 +38,6 @@ public static partial class Util
         Array.Reverse(chars);
         return new string(chars);
     }
+
+    public static StringComparison ToOrdinal(this bool ignore_case) => ignore_case ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 }
