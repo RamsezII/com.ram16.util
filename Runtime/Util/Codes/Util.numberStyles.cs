@@ -27,14 +27,14 @@ public enum NumberStyles2 : ushort
 public static partial class Util
 {
     public const NumberStyles float_mask = (NumberStyles)NumberStyles2._all_;
-    public static float ToFloat(this string read) => float.Parse(read, float_mask, CultureInfo.InvariantCulture);
+    public static float ParseFloat(this string read) => float.Parse(read, float_mask, CultureInfo.InvariantCulture);
     public static string FloatToString(this in float value) => value.ToString(CultureInfo.InvariantCulture);
 
     public static bool TryParseFloat(this string read, out float value)
     {
         try
         {
-            value = ToFloat(read);
+            value = ParseFloat(read);
             return true;
         }
         catch
