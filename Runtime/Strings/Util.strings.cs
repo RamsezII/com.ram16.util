@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public static partial class Util
 {
@@ -29,5 +30,12 @@ public static partial class Util
     {
         string attr = Util_richtext.rtextAttr[(int)attribute];
         return $"<{attr}={value}>{text}</{attr}>";
+    }
+
+    public static string Mirror(this string text)
+    {
+        char[] chars = text.ToCharArray();
+        Array.Reverse(chars);
+        return new string(chars);
     }
 }
