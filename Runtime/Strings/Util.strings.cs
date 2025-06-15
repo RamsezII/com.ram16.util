@@ -42,17 +42,18 @@ public static partial class Util
 
     public static bool TryIndexOf_min(this string text, out int index, in bool ignore_case = true, params char[] chars)
     {
-        index = int.MaxValue;
+        index = text.Length;
         var ordinal = ignore_case.ToOrdinal();
 
         for (int i = 0; i < chars.Length; i++)
         {
-            int find = text.IndexOf(chars[i], ordinal);
+            char c = chars[i];
+            int find = text.IndexOf(c, ordinal);
             if (find >= 0)
                 index = Mathf.Min(index, find);
         }
 
-        return index >= 0;
+        return index < text.Length;
     }
 
     public static bool TryIndexOf_max(this string text, out int index, in bool ignore_case = true, params char[] chars)
